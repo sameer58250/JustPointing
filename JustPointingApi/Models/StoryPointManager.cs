@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace JustPointing.Models
 {
-    public class UserStoryPoint
+    public class StoryPointManager
     {
-        public Dictionary<string,double> StoryPoints { get; set; }
+        public Dictionary<string,string> StoryPoints { get; set; }
 
-        public void AddStoryPoint(string socketId, double point)
+        public void AddStoryPoint(string socketId, string point)
         {
-            double existingPoint;
+            string existingPoint;
             if(StoryPoints.TryGetValue(socketId, out existingPoint))
             {
                 StoryPoints[socketId] = point;
@@ -21,15 +21,15 @@ namespace JustPointing.Models
                 StoryPoints.Add(socketId, point);
             }
         }
-        public double RemoveStoryPoint(string socketId)
+        public string RemoveStoryPoint(string socketId)
         {
-            double existingPoint;
+            string existingPoint;
             StoryPoints.Remove(socketId, out existingPoint);
             return existingPoint;
         }
-        public double GetStoryPoint(string socketId)
+        public string GetStoryPoint(string socketId)
         {
-            double existingPoint = 0;
+            string existingPoint = "0";
             StoryPoints.TryGetValue(socketId, out existingPoint);
             return existingPoint;
         }

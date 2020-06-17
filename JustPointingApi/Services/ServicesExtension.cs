@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using JustPointingApi.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace JustPointing.Services
     {
         public static IServiceCollection RegisterService(this IServiceCollection services)
         {
-            services.AddTransient<HomeService>();
+            services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IPointingService, PointingService>();
             return services;
         }
     }

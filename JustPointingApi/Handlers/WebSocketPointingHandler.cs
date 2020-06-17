@@ -12,27 +12,30 @@ namespace JustPointing.Handlers
 {
     public class WebSocketPointingHandler : SocketHandler
     {
-        public UserStoryPoint StoryPoint;
-        public WebSocketPointingHandler(ConnectionManager connections, 
-            TeamsDataManager dataManager,
-            UserStoryPoint storyPoint) : base(connections, dataManager)
-        { 
+        private  StoryPointManager StoryPoint;
+        private TeamsDataManager _dataManager;
+
+        public WebSocketPointingHandler(ConnectionManager connections, TeamsDataManager dataManager, StoryPointManager storyPoint) : base(connections)
+        {
             StoryPoint = storyPoint;
+            _dataManager = dataManager;
         }
 
-        public override async Task OnConnected(WebSocket socket)
+        public override async Task OnConnected(WebSocket socket, string teamId, string name)
         {
-            await base.OnConnected(socket);
+            await base.OnConnected(socket, teamId, name);
+            var socketId = Connections.GetSocketId(socket);
+            await SendMessageToTeam(_addToTeam(socketId, teamId, name));
         }
         public override async Task OnDisconnected(WebSocket socket)
         {
-            await base.OnDisconnected(socket);
             string socketId = Connections.GetSocketId(socket);
-            var team = DataManager.GetTeamFromSocketId(socketId);
+            await base.OnDisconnected(socket);
+            var team = _dataManager.GetTeamFromSocketId(socketId);
             team.RemoveUser(socketId);
             if (!team.GetAllUsers().Any())
             {
-                DataManager.RemoveTeam(team.TeamId);
+                _dataManager.RemoveTeam(team.TeamId);
             }
             await SendMessageToTeam(team);
             StoryPoint.RemoveStoryPoint(socketId);
@@ -40,8 +43,38 @@ namespace JustPointing.Handlers
 
         public override async Task Receive(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
         {
-            var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-            await SendMessageToTeam(JsonConvert.DeserializeObject<AgileTeam>(message));
+            try
+            {
+                var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                var team = JsonConvert.DeserializeObject<AgileTeam>(message);
+                await SendMessageToTeam(team);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("failed to receive websocket message", ex);
+            }
+        }
+
+        private AgileTeam _addToTeam(string socketId, string teamId, string name)
+        {
+            try
+            {
+                var team = _dataManager.GetTeam(teamId);
+                var user = new UserData(socketId, name);
+                if (team == null)
+                {
+                    user.IsAdmin = true;
+                    team = new AgileTeam(true);
+                    team.TeamId = teamId;
+                }
+                team.AddUser(user);
+                _dataManager.AddTeam(teamId, team);
+                return team;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to add to the team", ex);
+            }
         }
     }
 }

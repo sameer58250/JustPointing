@@ -12,7 +12,7 @@ namespace JustPointing.Models
         {
             services
                 .AddSingleton<TeamsDataManager>()
-                .AddSingleton<UserStoryPoint>();
+                .AddSingleton<StoryPointManager>();
             return services;
         }
     }

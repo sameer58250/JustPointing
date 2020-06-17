@@ -13,13 +13,11 @@ namespace JustPointing.WebSocketManager
     public abstract class SocketHandler
     {
         public ConnectionManager Connections;
-        public TeamsDataManager DataManager;
-        public SocketHandler(ConnectionManager connections, TeamsDataManager dataManager)
+        public SocketHandler(ConnectionManager connections)
         {
             Connections = connections;
-            DataManager = dataManager;
         }
-        public virtual async Task OnConnected(WebSocket socket)
+        public virtual async Task OnConnected(WebSocket socket, string teamId, string name)
         {
             await Task.Run(() => Connections.AddSocketConnection(socket));
         }
@@ -33,9 +31,14 @@ namespace JustPointing.WebSocketManager
             {
                 return;
             }
+            try { 
             var msg = JsonConvert.SerializeObject(team);
             await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(msg), 0, msg.Length), 
                 WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            catch(WebSocketException ex)
+            {
+            }
         }
         public async Task SendMessage(string id, AgileTeam team)
         {
@@ -50,9 +53,12 @@ namespace JustPointing.WebSocketManager
         }
         public async Task SendMessageToTeam(AgileTeam team)
         {
-            foreach(var user in team.users)
+            if (team != null)
             {
-                await SendMessage(user.SocketId, team);
+                foreach (var user in team.Users)
+                {
+                    await SendMessage(user.SocketId, team);
+                }
             }
         }
         public abstract Task Receive(WebSocket socket, WebSocketReceiveResult result, byte[] buffer);

@@ -21,6 +21,14 @@ namespace JustPointing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.IsEssential = true;
+                options.Cookie.HttpOnly = true;
+            });
             services.RegisterWebSocketManager();
             services.RegisterDataObject();
             services.RegisterService();
@@ -38,6 +46,7 @@ namespace JustPointing
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

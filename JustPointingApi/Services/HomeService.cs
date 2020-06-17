@@ -1,4 +1,5 @@
 ﻿using JustPointing.Models;
+using JustPointingApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,24 +7,31 @@ using System.Threading.Tasks;
 
 namespace JustPointing.Services
 {
-    public class HomeService
+    public class HomeService : IHomeService
     {
-        public TeamsDataManager DataManager;
+        private readonly TeamsDataManager _dataManager;
+        private const int _minSessionId = 10000;
         public HomeService(TeamsDataManager dataManager)
         {
-            DataManager = dataManager;
+            _dataManager = dataManager;
         }
-        public async Task<string> CreateSession()
+        public async Task<string> CreateSession(string sessionId)
         {
-            string sessionId = _createSessionId();
-            var team = new AgileTeam(true) { TeamId = sessionId };
-            await Task.Run(() => DataManager.AddTeam(sessionId, team));
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                sessionId = _createSessionId();
+                var team = new AgileTeam(true) { TeamId = sessionId };
+                await Task.Run(() => _dataManager.AddTeam(sessionId, team));
+            }
+            else if (_dataManager.GetTeam(sessionId) == null)
+            {
+                throw new Exception("Session does not exists.");
+            }
             return sessionId;
         }
         private string _createSessionId()
         {
-            var random = new Random();
-            return random.Next(10000, 99999).ToString();
+            return (_dataManager.AllTeams.Count + _minSessionId + 1).ToString();
         }
     }
 }

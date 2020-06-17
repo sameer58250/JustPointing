@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,21 +8,14 @@ namespace JustPointing.Models
 {
     public class TeamsDataManager
     {
-        public Dictionary<string, AgileTeam> AllTeams { get; set; }
+        public ConcurrentDictionary<string, AgileTeam> AllTeams { get; set; }
         public TeamsDataManager()
         {
-            AllTeams = new Dictionary<string, AgileTeam>();
+            AllTeams = new ConcurrentDictionary<string, AgileTeam>();
         }
         public void AddTeam(string teamId, AgileTeam team)
         {
-            if(AllTeams.ContainsKey(teamId))
-            {
-                AllTeams[teamId] = team;
-            }
-            else
-            {
-                AllTeams.Add(teamId, team);
-            }
+            AllTeams.AddOrUpdate(teamId, team, (key, value) => { return team; });
         }
         public AgileTeam RemoveTeam(string teamId)
         {
@@ -40,7 +34,7 @@ namespace JustPointing.Models
             AgileTeam team = null;
             foreach(var t in AllTeams)
             {
-                var user = t.Value.users.FirstOrDefault(x => x.SocketId == socketId);
+                var user = t.Value.Users.FirstOrDefault(x => x.SocketId == socketId);
                 if(user != null)
                 {
                     team = t.Value;
