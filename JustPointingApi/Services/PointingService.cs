@@ -1,4 +1,5 @@
-﻿using JustPointing.Models;
+﻿using JustPointing.Handlers;
+using JustPointing.Models;
 using JustPointing.WebSocketManager;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace JustPointingApi.Services
         private readonly SocketHandler _socketHandler;
         private readonly TeamsDataManager _dataManager;
         private readonly StoryPointManager _storyPoints;
-        public PointingService(SocketHandler socketHandler, TeamsDataManager dataManager, StoryPointManager storyPoints)
+        public PointingService(WebSocketPointingHandler socketHandler, TeamsDataManager dataManager, StoryPointManager storyPoints)
         {
             _socketHandler = socketHandler;
             _dataManager = dataManager;

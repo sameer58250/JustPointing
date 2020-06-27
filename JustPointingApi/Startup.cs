@@ -52,7 +52,7 @@ namespace JustPointing
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("JustPointing API");
                 });
                 endpoints.MapControllers();
             });
