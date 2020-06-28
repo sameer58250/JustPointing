@@ -16,10 +16,21 @@ namespace JustPointing
 {
     public class Startup
     {
+        private readonly string _myCorsPolicy = "MyCorsPolicy";
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _myCorsPolicy,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3002/")
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader();
+                    });
+            });
             services.AddControllers();
             services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
@@ -46,6 +57,7 @@ namespace JustPointing
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(_myCorsPolicy);
             app.UseSession();
 
             app.UseEndpoints(endpoints =>
