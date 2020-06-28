@@ -11,13 +11,21 @@ body{
 }
 button{
     height: 36px;
-    background-color: lightpink;
+    background-color: cadetblue;
     outline: none;
     border: 1px solid grey;
     padding: 5px;
     margin: 13px;
+    border-radius: 3px;
 }
 button:hover{
     cursor: pointer;
-    background-color: orange;
+    background-color: green;
+}
+input[type = "text"]{
+    height: 26px;
+    width: 200px;
+    margin-left: 13px;
+    border-radius: 3px;
+    padding: 1px 5px 1px 5px;
 }

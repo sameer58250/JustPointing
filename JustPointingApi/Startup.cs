@@ -26,7 +26,7 @@ namespace JustPointing
                 options.AddPolicy(name: _myCorsPolicy,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3002/")
+                        builder.WithOrigins("http://localhost:3000/")
                         .AllowAnyOrigin()
                         .AllowAnyHeader();
                     });

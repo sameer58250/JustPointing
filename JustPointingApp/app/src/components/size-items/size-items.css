@@ -1,0 +1,25 @@
+.size-items{
+    text-align: center;
+}
+.size-item-tabs{
+    margin: 13px;
+}
+.size-item-tabs > a{
+    background: grey;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 2px;
+    text-decoration: unset;
+    font-size: larger;
+    color: white;
+    width: 100px;
+    display: inline-block;
+    border-radius: 3px;
+    height: 26px;
+}
+a:hover{
+    background-color: #594e4e;
+}
+a.is-active{
+    background-color: #594e4e;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Home } from '../components/home/home';
+import Home from '../components/home/home';
 import SizeItems from '../components/size-items/size-items';
 
 const JustRoute = props =>{

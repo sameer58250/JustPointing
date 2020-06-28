@@ -9,6 +9,11 @@ namespace JustPointing.Models
     {
         public Dictionary<string,string> StoryPoints { get; set; }
 
+        public StoryPointManager()
+        {
+            StoryPoints = new Dictionary<string, string>();
+        }
+
         public void AddStoryPoint(string socketId, string point)
         {
             string existingPoint;
