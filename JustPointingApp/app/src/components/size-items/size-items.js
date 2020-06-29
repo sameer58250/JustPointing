@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './size-items.css';
 import { NavLink, Route } from 'react-router-dom';
 import * as SessionManager from '../../containers/session-manager/session-manager';
 import { connect } from 'react-redux';
-import * as actions from '../../store/session/session-actions';
+import * as sessionActions from '../../store/session/session-actions';
 import { useHistory } from 'react-router-dom';
 import WebSocketManager from '../../containers/web-socket-manager/web-socket-manager';
+import * as webSocketActions from '../../store/web-socket/web-socket-actions';
+import ItemSizeList from '../item-size-list/item-size-list';
 
 const SizeItems = props => {
+
+    const webSocketmanager = new WebSocketManager();
 
     const History = useHistory();
 
@@ -18,24 +22,34 @@ const SizeItems = props => {
         })
         .catch(error => {
             History.replace('/');
-            props.failure("Session is not found. Please try with different session Id.");
+            props.failure("URL is not found. Please try with different URL.");
         })
     },[]);
+
+    const[isNameInput, setIsNameInput] = useState("");
+
+    const nameInputChange = (event) => {
+        setIsNameInput(event.currentTarget.value);
+    }
+
+    function onmessage(message){
+        props.webSocketMessageReceived(JSON.parse(message.data));
+    }
 
     const joinTeamSizing = () => {
         var nameInputEle = document.getElementById("name-input");
         var name = nameInputEle.value;
-        const webSocketmanager = new WebSocketManager(props.sessionId, name);
+        webSocketmanager.startWebSocket(props.sessionId, name, onmessage);
     }
 
     return (
         <div className = "size-items">
-            Name:<input type = "text" id = "name-input"></input><button onClick = {joinTeamSizing}>Join Team</button>
+            Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input><button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
             <div>   
                 <div className = "size-item-tabs">
                     <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
                     <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
-                    <Route exact path = {props.match.path + '/Size'} render = {() => <div>Size</div>}/>
+                    <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {[1,2,3,4]}></ItemSizeList>}/>
                     <Route exact path = {props.match.path + '/Settings'} render = {() => <div>Settings</div>}/>
                 </div>
             </div>
@@ -54,8 +68,9 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        success: (id) => dispatch(actions.create_session_success(id)),
-        failure: (errorText) => dispatch(actions.create_session_failure(errorText))
+        success: (id) => dispatch(sessionActions.create_session_success(id)),
+        failure: (errorText) => dispatch(sessionActions.create_session_failure(errorText)),
+        webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData))
     }
 }
 

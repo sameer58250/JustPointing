@@ -7,7 +7,8 @@ import { createStore } from 'redux';
 import * as serviceWorker from './serviceWorker';
 
 
-let store = createStore(AppReducer);
+let store = createStore(AppReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <React.StrictMode>

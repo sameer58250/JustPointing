@@ -1,19 +1,23 @@
-import React from 'react';
 import Config from '../../config/config';
 
-export default class WebSocketManager {
+class WebSocketManager {
 
     pointingWebSocket;
 
-    teamsData = {};
-
-    constructor(teamId, name){
+    startWebSocket = (teamId, name, onMessageCallback) => {
         const webSocketUrl = Config.REACT_APP_WEB_SOCKET_URL;
         var url = webSocketUrl + "?teamId=" + teamId + "&name=" + name;
-        this.pointingWebSocket = new WebSocket(url);
-        this.pointingWebSocket.onmessage = message => {
-            this.teamsData = message.data;
-            console.log(this.teamsData);
+        if(this.pointingWebSocket){
+            this.pointingWebSocket.onmessage = onMessageCallback;
+            return;
         }
-    }
+        this.pointingWebSocket = new WebSocket(url);
+        this.pointingWebSocket.onopen = event => {
+            console.log(event);
+            console.log(this.pointingWebSocket);
+        }
+        this.pointingWebSocket.onmessage = onMessageCallback;
+    };
 }
+
+export default WebSocketManager;

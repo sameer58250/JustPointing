@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './home.css';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -31,11 +31,19 @@ const Home = props => {
         })
     }
 
+    
+
+    const[sessionIdInput, setSessionIdInput] = useState("");
+
+    const sessionIdInputChange = (event) => {
+        setSessionIdInput(event.currentTarget.value);
+    }
+
     return (
         <div className = "home">
             <button onClick = {startSession}>Start Session</button>
-            <label>Session ID:</label><input type = "text" id = "session-id-input"></input>
-            <button onClick = {joinSession}> Join Session</button>
+            <label>Session ID:</label><input type = "text" id = "session-id-input" onChange = {sessionIdInputChange}></input>
+            <button onClick = {joinSession}  disabled = {!sessionIdInput}> Join Session</button>
             <AppError errorText = {props.error}></AppError>
         </div>
     )
