@@ -1,11 +1,13 @@
-.item-size {
-    width: 50%;
-    left: 25%;
-    right: 25%;
-    position: absolute;
+.item-size-list {
+    width: 100%;
+    border-top: .5px solid grey;
 }
 
-.item-size button{
-    min-width: 40px;
+.item-size-list button{
+    min-width: 36px;
     margin: 5px;
+}
+
+.item-size-list button:hover{
+    background-color: #569f6b !important;
 }

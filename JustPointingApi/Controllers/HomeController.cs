@@ -20,6 +20,7 @@ namespace JustPointing.Controllers
         }
 
         [Route("StartSession/{sessionId?}")]
+        [HttpGet]
         public async Task<ActionResult<string>> StartSession(string sessionId)
         {
             try
@@ -31,12 +32,6 @@ namespace JustPointing.Controllers
             {
                 return NotFound(ex.Message);
             }
-        }
-
-        [Route("GetWebSocketId")]
-        public async Task<string> GetWebSocketId([FromBody] WebSocket webSocket)
-        {
-            return await Task.FromResult("dfsdfdsfd");
         }
     }
 }

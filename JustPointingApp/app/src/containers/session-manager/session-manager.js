@@ -4,9 +4,21 @@ import axios from 'axios';
 
 export const StartSession = sessionId => {
 
-    const BaseApiUrl = Config.REACT_APP_BASE_API_URL;
-
-    var url = BaseApiUrl + '/Home/StartSession' + (sessionId ? '/' + sessionId : '');
+    var url = BaseApiUrl() + '/Home/StartSession' + (sessionId ? '/' + sessionId : '');
 
     return axios.get(url);
+}
+
+export const CastVote = (socketId, voteValue) => {
+
+    var url = BaseApiUrl()
+        + "/Pointing/CastVote?socketId="
+        + socketId + "&vote="
+        + voteValue;
+
+    return axios.post(url);
+}
+
+function BaseApiUrl(){
+    return Config.REACT_APP_BASE_API_URL;
 }

@@ -25,6 +25,11 @@ export const WebSocketReducer = (state = initialState, action) => {
                 ...state,
                 webSocketId: action.payload
             };
+        case ACTION_TYPES.UPDATE_USER_STORY_POINT:
+            return {
+                ...state,
+                users: action.payload
+            }
         default:
             return state;
     }

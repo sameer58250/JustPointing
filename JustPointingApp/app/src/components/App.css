@@ -29,3 +29,22 @@ input[type = "text"]{
     border-radius: 3px;
     padding: 1px 5px 1px 5px;
 }
+.app-table{
+    display: table;
+}
+.app-table-row{
+    display: table-row;
+}
+.app-table-header{
+    display: table-row;
+    font-weight: bolder;
+    background: #b9b0b0;
+    height: 36px;
+    padding: 0.5px;
+}
+.app-table-cell{
+    display: table-cell;
+    padding: 5px;
+    vertical-align: middle;
+    text-align: center;
+}

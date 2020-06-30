@@ -1,8 +1,13 @@
 .size-items{
-    text-align: center;
+    text-align: left;
+    width: 52%;
+    left: 24%;
+    position: absolute;
 }
 .size-item-tabs{
-    margin: 13px;
+    margin: 13px 0 13px 0;
+    border: 0.5px solid grey;
+    width: fit-content;
 }
 .size-item-tabs > a{
     background: grey;

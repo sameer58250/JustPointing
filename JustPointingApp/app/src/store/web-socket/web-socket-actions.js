@@ -21,9 +21,9 @@ export const updateValidStoryPoints = (sizeList) => {
     };
 }
 
-export const updateIfUserPointed = (ifUserPointed) => {
+export const updateIfUserPointed = (users) => {
     return {
         type: ACTION_TYPES.UPDATE_USER_STORY_POINT,
-        payload: ifUserPointed
+        payload: users
     };
 }

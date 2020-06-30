@@ -32,6 +32,8 @@ const SizeItems = props => {
         setIsNameInput(event.currentTarget.value);
     }
 
+    const[isJoinClicked, setJoinClicked] = useState(false);
+
     function onmessage(message){
         var data = JSON.parse(message.data);
         if(data.SocketId){
@@ -46,19 +48,27 @@ const SizeItems = props => {
         var nameInputEle = document.getElementById("name-input");
         var name = nameInputEle.value;
         webSocketmanager.startWebSocket(props.sessionId, name, onmessage);
+        setJoinClicked(true);
+        History.replace('/' + props.sessionId + '/size');
     }
 
     return (
         <div className = "size-items">
-            Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input><button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
-            <div>   
-                <div className = "size-item-tabs">
-                    <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
-                    <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
-                    <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {props.storyPoints}></ItemSizeList>}/>
-                    <Route exact path = {props.match.path + '/Settings'} render = {() => <div>Settings</div>}/>
+            {isJoinClicked
+                ? 
+                <div>   
+                    <div className = "size-item-tabs">
+                        <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
+                        <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
+                        <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {props.storyPoints}></ItemSizeList>}/>
+                        <Route exact path = {props.match.path + '/Settings'} render = {() => <div>Settings</div>}/>
+                    </div>
                 </div>
-            </div>
+                : 
+                <div>
+                    Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input><button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
+                </div>
+            }
         </div>
     )
 }

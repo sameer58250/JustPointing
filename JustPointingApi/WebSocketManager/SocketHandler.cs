@@ -41,8 +41,15 @@ namespace JustPointing.WebSocketManager
         }
         public async Task SendMessage(string id, AgileTeam team)
         {
-            var msg = JsonConvert.SerializeObject(team);
-            await SendMessage(Connections.GetSocket(id), msg);
+            try
+            {
+                var msg = JsonConvert.SerializeObject(team);
+                await SendMessage(Connections.GetSocket(id), msg);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public async Task SendMessageToAll(AgileTeam team)
         {
