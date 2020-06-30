@@ -35,7 +35,7 @@ const SizeItems = props => {
     function onmessage(message){
         var data = JSON.parse(message.data);
         if(data.SocketId){
-            props.webSocketIdReceived(data);
+            props.webSocketIdReceived(data.SocketId);
         }
         else{
             props.webSocketMessageReceived(data);
