@@ -1,0 +1,11 @@
+.item-size {
+    width: 50%;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+}
+
+.item-size button{
+    min-width: 40px;
+    margin: 5px;
+}

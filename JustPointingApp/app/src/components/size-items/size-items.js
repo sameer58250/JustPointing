@@ -33,7 +33,13 @@ const SizeItems = props => {
     }
 
     function onmessage(message){
-        props.webSocketMessageReceived(JSON.parse(message.data));
+        var data = JSON.parse(message.data);
+        if(data.SocketId){
+            props.webSocketIdReceived(data);
+        }
+        else{
+            props.webSocketMessageReceived(data);
+        }
     }
 
     const joinTeamSizing = () => {
@@ -49,7 +55,7 @@ const SizeItems = props => {
                 <div className = "size-item-tabs">
                     <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
                     <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
-                    <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {[1,2,3,4]}></ItemSizeList>}/>
+                    <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {props.storyPoints}></ItemSizeList>}/>
                     <Route exact path = {props.match.path + '/Settings'} render = {() => <div>Settings</div>}/>
                 </div>
             </div>
@@ -62,7 +68,8 @@ const SizeItems = props => {
 function mapStateToProps(state){
     return {
         error: state.SessionReducer.sessionError,
-        sessionId: state.SessionReducer.sessionId
+        sessionId: state.SessionReducer.sessionId,
+        storyPoints: state.WebSocketReducer.storyPoints
     }
 }
 
@@ -70,7 +77,8 @@ function mapDispatchToProps(dispatch){
     return {
         success: (id) => dispatch(sessionActions.create_session_success(id)),
         failure: (errorText) => dispatch(sessionActions.create_session_failure(errorText)),
-        webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData))
+        webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData)),
+        webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId))
     }
 }
 

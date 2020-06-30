@@ -25,6 +25,8 @@ namespace JustPointing.Handlers
         {
             await base.OnConnected(socket, teamId, name);
             var socketId = Connections.GetSocketId(socket);
+            var obj = new { SocketId = socketId };
+            await SendMessage(socket, JsonConvert.SerializeObject(obj));
             await SendMessageToTeam(_addToTeam(socketId, teamId, name));
         }
         public override async Task OnDisconnected(WebSocket socket)

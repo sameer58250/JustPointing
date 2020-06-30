@@ -32,7 +32,11 @@ namespace JustPointing.WebSocketManager
         }
         public void AddSocketConnection(WebSocket socket)
         {
-            _connections.TryAdd(_generateSocketId(), socket);
+            string guid = _generateSocketId();
+            while(!_connections.TryAdd(guid, socket))
+            {
+                guid = _generateSocketId();
+            }
         }
         private string _generateSocketId()
         {

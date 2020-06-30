@@ -1,7 +1,12 @@
 import * as ACTION_TYPES from './web-socket-action-types';
 
 export const initialState = {
-    teamsData: {}
+    storyPoints: [],
+    users: [],
+    teamId: "",
+    isShowEnabled: false,
+    storyDescription: "",
+    webSocketId: ""
 }
 
 export const WebSocketReducer = (state = initialState, action) => {
@@ -9,7 +14,16 @@ export const WebSocketReducer = (state = initialState, action) => {
         case ACTION_TYPES.WEB_SOCKET_MESSAGE_RECEIVED:
             return {
                 ...state,
-                teamsData: action.payload
+                storyPoints: action.payload.ValidStoryPoints,
+                users: action.payload.Users,
+                teamId: action.payload.TeamId,
+                isShowEnabled: action.payload.IsShowEnabled,
+                storyDescription: action.payload.StoryDescription
+            };
+        case ACTION_TYPES.WEB_SOCKET_ID_RECEIVED:
+            return {
+                ...state,
+                webSocketId: action.payload
             };
         default:
             return state;

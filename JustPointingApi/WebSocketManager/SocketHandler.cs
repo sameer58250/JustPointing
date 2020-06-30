@@ -25,14 +25,13 @@ namespace JustPointing.WebSocketManager
         {
             await Connections.RemoveSocketByIdAsync(Connections.GetSocketId(socket));
         }
-        public async Task SendMessage(WebSocket socket, AgileTeam team)
+        public async Task SendMessage(WebSocket socket, string msg)
         {
             if (socket.State != WebSocketState.Open)
             {
                 return;
             }
             try { 
-            var msg = JsonConvert.SerializeObject(team);
             await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(msg), 0, msg.Length), 
                 WebSocketMessageType.Text, true, CancellationToken.None);
             }
@@ -42,13 +41,15 @@ namespace JustPointing.WebSocketManager
         }
         public async Task SendMessage(string id, AgileTeam team)
         {
-            await SendMessage(Connections.GetSocket(id), team);
+            var msg = JsonConvert.SerializeObject(team);
+            await SendMessage(Connections.GetSocket(id), msg);
         }
         public async Task SendMessageToAll(AgileTeam team)
         {
-            foreach(var con in Connections.GetAllConnections())
+            var msg = JsonConvert.SerializeObject(team);
+            foreach (var con in Connections.GetAllConnections())
             {
-                await SendMessage(con.Value, team);
+                await SendMessage(con.Value, msg);
             }
         }
         public async Task SendMessageToTeam(AgileTeam team)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace JustPointing.Controllers
@@ -30,6 +31,12 @@ namespace JustPointing.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [Route("GetWebSocketId")]
+        public async Task<string> GetWebSocketId([FromBody] WebSocket webSocket)
+        {
+            return await Task.FromResult("dfsdfdsfd");
         }
     }
 }

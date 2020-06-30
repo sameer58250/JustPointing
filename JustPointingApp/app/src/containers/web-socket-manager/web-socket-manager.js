@@ -1,4 +1,5 @@
 import Config from '../../config/config';
+import axios from 'axios';
 
 class WebSocketManager {
 
@@ -13,7 +14,6 @@ class WebSocketManager {
         }
         this.pointingWebSocket = new WebSocket(url);
         this.pointingWebSocket.onopen = event => {
-            console.log(event);
             console.log(this.pointingWebSocket);
         }
         this.pointingWebSocket.onmessage = onMessageCallback;
