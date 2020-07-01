@@ -12,5 +12,7 @@ namespace JustPointingApi.Services
         Task ShowVotes(string teamId);
 
         Task CastVote(string socketId, string vote);
+
+        Task SetAdmin(string socketId);
     }
 }

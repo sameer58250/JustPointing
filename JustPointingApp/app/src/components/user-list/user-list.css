@@ -2,8 +2,10 @@
     width: 100%;
     border-top: 0.5px solid grey;
 }
-.show-button{
+.clear-button,.show-button{
     margin: 0 13px 0 13px;
+    height: 27px;
+    background-color: #f5ecec;
 }
 .app-table-cell button:hover{
     background-color: #569f6b;

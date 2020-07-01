@@ -13,6 +13,7 @@ const Home = props => {
         .then(response => {
             History.replace('/' + response.data);
             props.success(response.data);
+            props.sessionStarted();
         })
         .catch(error => {
             props.failure("Failed to create session. Please try again.");
@@ -58,7 +59,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return {
         success: (id) => dispatch(actions.create_session_success(id)),
-        failure: (errorText) => dispatch(actions.create_session_failure(errorText))
+        failure: (errorText) => dispatch(actions.create_session_failure(errorText)),
+        sessionStarted: () => dispatch(actions.session_started())
     }
 }
 

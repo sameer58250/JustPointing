@@ -38,9 +38,22 @@ const SizeItems = props => {
         var data = JSON.parse(message.data);
         if(data.SocketId){
             props.webSocketIdReceived(data.SocketId);
+            setAdmin(data.SocketId);
         }
         else{
             props.webSocketMessageReceived(data);
+        }
+    }
+
+    function setAdmin(socketId){
+        if(props.isAdmin){
+            SessionManager.SetAdmin(socketId)
+            .then(res => {
+
+            })
+            .catch(err => {
+                console.log(err);
+            })
         }
     }
 
@@ -56,7 +69,11 @@ const SizeItems = props => {
         <div className = "size-items">
             {isJoinClicked
                 ? 
-                <div>   
+                <div>
+                    <div className = "item-description">
+                        <label htmlFor = "item-description">Item Description:</label>
+                        <textarea id = "item-description" name = "item-description" placeholder = "Please enter item description"></textarea>
+                    </div>   
                     <div className = "size-item-tabs">
                         <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
                         <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
@@ -79,6 +96,7 @@ function mapStateToProps(state){
     return {
         error: state.SessionReducer.sessionError,
         sessionId: state.SessionReducer.sessionId,
+        isAdmin: state.SessionReducer.isAdmin,
         storyPoints: state.WebSocketReducer.storyPoints
     }
 }

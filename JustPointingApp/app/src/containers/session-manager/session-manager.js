@@ -19,6 +19,27 @@ export const CastVote = (socketId, voteValue) => {
     return axios.post(url);
 }
 
+export const ShowVotes = (sessionId) => {
+    var url = BaseApiUrl()
+        + "/Pointing/ShowVotes?teamId="
+        + sessionId;
+    return axios.post(url);
+}
+
+export const ClearVotes = (sessionId) => {
+    var url = BaseApiUrl()
+    + "/Pointing/ClearVotes?teamId="
+    + sessionId;
+return axios.post(url);
+}
+
+export const SetAdmin = (socketId) => {
+    var url = BaseApiUrl()
+    + "/Pointing/SetAdmin?socketId="
+    + socketId;
+    return axios.post(url);
+}
+
 function BaseApiUrl(){
     return Config.REACT_APP_BASE_API_URL;
 }

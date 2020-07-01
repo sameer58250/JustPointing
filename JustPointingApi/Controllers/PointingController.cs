@@ -37,5 +37,12 @@ namespace JustPointingApi.Controllers
         {
             await _pointingService.ShowVotes(teamId);
         }
+
+        [Route("SetAdmin")]
+        [HttpPost]
+        public async Task SetAdmin(string socketId)
+        {
+            await _pointingService.SetAdmin(socketId);
+        }
     }
 }

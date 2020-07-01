@@ -29,7 +29,17 @@ export const WebSocketReducer = (state = initialState, action) => {
             return {
                 ...state,
                 users: action.payload
-            }
+            };
+        case ACTION_TYPES.SHOW_VOTES:
+            return {
+                ...state,
+                isShowEnabled: true
+            };
+        case ACTION_TYPES.CLEAR_VOTES:
+            return {
+                ...state,
+                users: action.payload
+            };
         default:
             return state;
     }

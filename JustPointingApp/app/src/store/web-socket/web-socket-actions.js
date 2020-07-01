@@ -27,3 +27,16 @@ export const updateIfUserPointed = (users) => {
         payload: users
     };
 }
+
+export const showVotes = () => {
+    return {
+        type: ACTION_TYPES.SHOW_VOTES
+    };
+}
+
+export const clearVotes = (users) => {
+    return {
+        type: ACTION_TYPES.CLEAR_VOTES,
+        payload: users
+    };
+}

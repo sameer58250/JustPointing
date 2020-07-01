@@ -54,5 +54,13 @@ namespace JustPointingApi.Services
             }
             await _socketHandler.SendMessageToTeam(team);
         }
+
+        public async Task SetAdmin(string socketId)
+        {
+            var team = _dataManager.GetTeamFromSocketId(socketId);
+            var user = team.GetUser(socketId);
+            user.IsAdmin = true;
+            await _socketHandler.SendMessageToTeam(team);
+        }
     }
 }

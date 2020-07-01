@@ -5,9 +5,10 @@
     position: absolute;
 }
 .size-item-tabs{
+    padding: 5px;
     margin: 13px 0 13px 0;
     border: 0.5px solid grey;
-    width: fit-content;
+    width: 100%;
 }
 .size-item-tabs > a{
     background: grey;
@@ -27,4 +28,16 @@ a:hover{
 }
 a.is-active{
     background-color: #594e4e;
+}
+.item-description{
+    margin-top: 13px;
+}
+.item-description > textarea{
+    width: 100%;
+    display: block;
+    height: 60px;
+    padding: 5px;
+}
+.item-description > label{
+    font-weight: bold;
 }

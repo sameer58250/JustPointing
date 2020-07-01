@@ -13,3 +13,9 @@ export const create_session_failure = (errorText) => {
         payload: errorText
     }
 }
+
+export const session_started = () => {
+    return {
+        type: ACTION_TYPES.SESSION_STARTED
+    }
+}

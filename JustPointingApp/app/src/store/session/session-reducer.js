@@ -2,7 +2,8 @@ import * as ACTION_TYPES from './session-action-types';
 
 export const initialState = {
     sessionId: null,
-    sessionError: ""
+    sessionError: "",
+    isAdmin: false
 }
 
 export const SessionReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ export const SessionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sessionError: action.payload
+            };
+        case ACTION_TYPES.SESSION_STARTED:
+            return {
+                ...state,
+                isAdmin: true
             };
         default:
             return state;

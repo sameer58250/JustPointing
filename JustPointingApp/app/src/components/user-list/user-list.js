@@ -8,7 +8,10 @@ const UserList = props => {
             <div className = "app-table-header">
                 <div className = "app-table-cell">Name</div>
                 <div className = "app-table-cell">HasVoted</div>
-                <div className = "app-table-cell"><button className = "show-button">Show vote</button></div>
+                <div className = "app-table-cell">
+                    <button className = "show-button" onClick = {props.showVotes}>Show votes</button>
+                    <button className = "clear-button" onClick = {props.clearVotes}>Reset votes</button>
+                </div>
             </div>
             {props.users.map(user => {
                 return (
