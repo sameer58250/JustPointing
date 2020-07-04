@@ -46,21 +46,40 @@ namespace JustPointingApi.Services
         public async Task CastVote(string socketId, string vote)
         {
             var team = _dataManager.GetTeamFromSocketId(socketId);
-            var user = team.GetUser(socketId);
-            user.HasPointed = true;
-            _storyPoints.AddStoryPoint(socketId, vote);
-            if (team.IsShowEnabled)
+            if (team != null)
             {
-                user.StoryPoint = vote;
+                var user = team.GetUser(socketId);
+                if (user != null)
+                {
+                    user.HasPointed = true;
+                    _storyPoints.AddStoryPoint(socketId, vote);
+                    if (team.IsShowEnabled)
+                    {
+                        user.StoryPoint = vote;
+                    }
+                }
+                await _socketHandler.SendMessageToTeam(team);
             }
-            await _socketHandler.SendMessageToTeam(team);
         }
 
         public async Task SetItemDescription(string teamId, string storyDescription)
         {
             var team = _dataManager.GetTeam(teamId);
-            team.StoryDescription = storyDescription;
-            await _socketHandler.SendMessageToTeam(team);
+            if (team != null)
+            {
+                team.StoryDescription = storyDescription;
+                await _socketHandler.SendMessageToTeam(team);
+            }
+        }
+
+        public async Task UpdateValidStoryPoints(string teamId, List<string> sizeList)
+        {
+            var team = _dataManager.GetTeam(teamId);
+            if (team != null)
+            {
+                team.UpdateValidStoryPoints(sizeList);
+                await _socketHandler.SendMessageToTeam(team);
+            }
         }
     }
 }

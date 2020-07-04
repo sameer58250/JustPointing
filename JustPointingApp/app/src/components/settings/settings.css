@@ -1,0 +1,37 @@
+.settings{
+    border: 0.5px solid grey;
+    padding: 5px;
+    width: 100%;
+}
+.valid-item-size{
+    display: inline-block;
+    width: 50%;
+}
+.valid-item-size > label{
+    display: block;
+    font-weight: bolder;
+    margin: 6.5px;
+}
+.item-size-btn{
+    margin: 3px;
+    height: 32px;
+    background-color: #Ad2424;
+    min-width: 36px;
+}
+.item-size-input{
+    width: 85px !important;
+}
+#add-point-input{
+    margin-bottom: 13px;
+}
+
+.sizing-controls{
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+.sizing-controls > label{
+    display: block;
+    font-weight: bolder;
+    margin: 6.5px;
+}

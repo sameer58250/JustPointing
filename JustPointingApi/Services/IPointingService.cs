@@ -15,5 +15,7 @@ namespace JustPointingApi.Services
         Task CastVote(string socketId, string vote);
 
         Task SetItemDescription(string teamId, string storyDescription);
+
+        Task UpdateValidStoryPoints(string teamId, List<string> sizeList);
     }
 }

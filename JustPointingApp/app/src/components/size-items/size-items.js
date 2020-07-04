@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import WebSocketManager from '../../containers/web-socket-manager/web-socket-manager';
 import * as webSocketActions from '../../store/web-socket/web-socket-actions';
 import ItemSizeList from '../item-size-list/item-size-list';
+import Settings from '../settings/settings';
 import AppError from '../error/error';
 import { initialState } from '../../store/web-socket/web-socket-reducer';
 
@@ -103,11 +104,13 @@ const SizeItems = props => {
                             name = "item-description" placeholder = "Please enter item description" onBlur = {setDescription}
                         />
                     </div>   
-                    <div className = "size-item-tabs">
-                        <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
-                        <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
-                        <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList StoryPoints = {props.storyPoints}></ItemSizeList>}/>
-                        <Route exact path = {props.match.path + '/Settings'} render = {() => <div>Settings</div>}/>
+                    <div>
+                        <div className = "size-item-tabs">
+                            <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
+                            <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
+                        </div>
+                        <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList></ItemSizeList>}/>
+                        <Route exact path = {props.match.path + '/Settings'} render = {() => <Settings/>}/>
                     </div>
                 </div>
                 : 

@@ -56,6 +56,16 @@ export const RemoveUser = (socketId) => {
     return axios.post(url);
 }
 
+export const UpdateValidStoryPoints = (sessionId, sizeList) => {
+    var url = BaseApiUrl()
+        + "/Pointing/UpdateValidStoryPoints?teamId="
+        + sessionId;
+    var data = {
+        sizeList: sizeList
+    };
+    return axios.post(url, sizeList);
+}
+
 function BaseApiUrl(){
     return Config.REACT_APP_BASE_API_URL;
 }

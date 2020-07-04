@@ -72,10 +72,10 @@ const ItemSizeList = props => {
     }
 
     return (
-        <div>
-            <div className = "item-size-list">
-                { props.storyPoints.map(point => {
-                    return (<button onClick = {vote} key = {point}>{point}</button>)
+        <div className = "item-size-list">
+            <div>
+                { props.storyPoints.map((point, index) => {
+                    return (<button onClick = {vote} key = {index}>{point}</button>)
                 })}
             </div>
             <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled} showVotes = {showVotes} clearVotes = {clearVotes} removeUser = {removeUser}/>

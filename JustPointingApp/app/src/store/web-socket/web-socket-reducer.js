@@ -66,6 +66,11 @@ export const WebSocketReducer = (state = initialState, action) => {
                 ...state,
                 error: action.payload
             };
+        case ACTION_TYPES.UPDATE_VALID_STORY_POINTS:
+            return {
+                ...state,
+                ValidStoryPoints: action.payload
+            }
         default:
             return state;
     }

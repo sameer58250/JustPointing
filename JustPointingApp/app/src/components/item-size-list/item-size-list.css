@@ -1,6 +1,7 @@
-.item-size-list {
+.item-size-list{
     width: 100%;
-    border-top: .5px solid grey;
+    border: .5px solid grey;
+    padding: 5px;
 }
 
 .item-size-list button{

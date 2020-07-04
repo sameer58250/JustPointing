@@ -64,5 +64,9 @@ namespace JustPointing.Models
             }
             return point;
         }
+        public void UpdateValidStoryPoints(List<string> sizeList)
+        {
+            ValidStoryPoints = sizeList;
+        }
     }
 }

@@ -44,5 +44,12 @@ namespace JustPointingApi.Controllers
         {
             await _pointingService.SetItemDescription(teamId, itemDescription);
         }
+
+        [Route("UpdateValidStoryPoints")]
+        [HttpPost]
+        public async Task UpdateValidStoryPoints([FromQuery]string teamId, [FromBody]List<string> sizeList)
+        {
+            await _pointingService.UpdateValidStoryPoints(teamId, sizeList);
+        }
     }
 }
