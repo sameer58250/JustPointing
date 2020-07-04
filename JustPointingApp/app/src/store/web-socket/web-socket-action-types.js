@@ -9,3 +9,9 @@ export const UPDATE_USER_STORY_POINT = "UPDATE_USER_STORY_POINT";
 export const SHOW_VOTES = "SHOW_VOTES";
 
 export const CLEAR_VOTES = "CLEAR_VOTES";
+
+export const SET_ITEM_DESCRIPTION = "SET_ITEM_DESCRIPTION";
+
+export const REMOVE_USER = "REMOVE_USER";
+
+export const FAILURE = "FAILURE";

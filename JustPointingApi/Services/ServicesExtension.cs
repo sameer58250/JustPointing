@@ -13,6 +13,7 @@ namespace JustPointing.Services
         {
             services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IPointingService, PointingService>();
+            services.AddTransient<IUserService, UserService>();
             return services;
         }
     }

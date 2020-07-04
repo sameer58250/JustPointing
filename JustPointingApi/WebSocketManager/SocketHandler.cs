@@ -25,6 +25,10 @@ namespace JustPointing.WebSocketManager
         {
             await Connections.RemoveSocketByIdAsync(Connections.GetSocketId(socket));
         }
+        public async Task RemoveSocket(string socketId)
+        {
+            await Connections.RemoveSocketByIdAsync(socketId);
+        }
         public async Task SendMessage(WebSocket socket, string msg)
         {
             if (socket.State != WebSocketState.Open)

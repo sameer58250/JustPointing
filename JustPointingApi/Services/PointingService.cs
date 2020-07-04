@@ -28,6 +28,7 @@ namespace JustPointingApi.Services
                 user.HasPointed = false;
                 _storyPoints.RemoveStoryPoint(user.SocketId);
             }
+            team.IsShowEnabled = false;
             await _socketHandler.SendMessageToTeam(team);
         }
 
@@ -55,11 +56,10 @@ namespace JustPointingApi.Services
             await _socketHandler.SendMessageToTeam(team);
         }
 
-        public async Task SetAdmin(string socketId)
+        public async Task SetItemDescription(string teamId, string storyDescription)
         {
-            var team = _dataManager.GetTeamFromSocketId(socketId);
-            var user = team.GetUser(socketId);
-            user.IsAdmin = true;
+            var team = _dataManager.GetTeam(teamId);
+            team.StoryDescription = storyDescription;
             await _socketHandler.SendMessageToTeam(team);
         }
     }

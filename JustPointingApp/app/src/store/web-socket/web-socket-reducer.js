@@ -1,12 +1,14 @@
 import * as ACTION_TYPES from './web-socket-action-types';
 
 export const initialState = {
-    storyPoints: [],
-    users: [],
-    teamId: "",
-    isShowEnabled: false,
-    storyDescription: "",
-    webSocketId: ""
+    ValidStoryPoints: [],
+    Users: [],
+    TeamId: "",
+    IsShowEnabled: false,
+    StoryDescription: "",
+    PreStoryDescription: "",
+    WebSocketId: "",
+    error: ""
 }
 
 export const WebSocketReducer = (state = initialState, action) => {
@@ -14,31 +16,55 @@ export const WebSocketReducer = (state = initialState, action) => {
         case ACTION_TYPES.WEB_SOCKET_MESSAGE_RECEIVED:
             return {
                 ...state,
-                storyPoints: action.payload.ValidStoryPoints,
-                users: action.payload.Users,
-                teamId: action.payload.TeamId,
-                isShowEnabled: action.payload.IsShowEnabled,
-                storyDescription: action.payload.StoryDescription
+                PreStoryDescription: state.StoryDescription,
+                ValidStoryPoints: action.payload.ValidStoryPoints,
+                Users: action.payload.Users,
+                TeamId: action.payload.TeamId,
+                IsShowEnabled: action.payload.IsShowEnabled,
+                StoryDescription: action.payload.StoryDescription,
+                error: ""
             };
         case ACTION_TYPES.WEB_SOCKET_ID_RECEIVED:
             return {
                 ...state,
-                webSocketId: action.payload
+                WebSocketId: action.payload,
+                error: ""
             };
         case ACTION_TYPES.UPDATE_USER_STORY_POINT:
             return {
                 ...state,
-                users: action.payload
+                Users: action.payload,
+                error: ""
             };
         case ACTION_TYPES.SHOW_VOTES:
             return {
                 ...state,
-                isShowEnabled: true
+                IsShowEnabled: true,
+                error: ""
             };
         case ACTION_TYPES.CLEAR_VOTES:
             return {
                 ...state,
-                users: action.payload
+                Users: action.payload,
+                IsShowEnabled: false,
+                error: ""
+            };
+        case ACTION_TYPES.SET_ITEM_DESCRIPTION:
+            return {
+                ...state,
+                StoryDescription: action.payload,
+                error: ""
+            };
+        case ACTION_TYPES.REMOVE_USER:
+            return {
+                ...state,
+                Users: action.payload,
+                error: ""
+            };
+        case ACTION_TYPES.FAILURE:
+            return {
+                ...state,
+                error: action.payload
             };
         default:
             return state;

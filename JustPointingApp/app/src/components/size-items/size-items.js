@@ -8,6 +8,8 @@ import { useHistory } from 'react-router-dom';
 import WebSocketManager from '../../containers/web-socket-manager/web-socket-manager';
 import * as webSocketActions from '../../store/web-socket/web-socket-actions';
 import ItemSizeList from '../item-size-list/item-size-list';
+import AppError from '../error/error';
+import { initialState } from '../../store/web-socket/web-socket-reducer';
 
 const SizeItems = props => {
 
@@ -18,11 +20,12 @@ const SizeItems = props => {
     useEffect(() => {
         SessionManager.StartSession(props.match.params.id)
         .then(response => {
-            props.success(response.data);
+            props.sessionSuccess(response.data);
         })
-        .catch(error => {
+        .catch(err => {
+            console.log(err);
             History.replace('/');
-            props.failure("URL is not found. Please try with different URL.");
+            props.sessionFailure("URL is not found. Please try with different URL.");
         })
     },[]);
 
@@ -45,6 +48,12 @@ const SizeItems = props => {
         }
     }
 
+    function onclose(msg){
+        props.sessionFailure("You have been disconnencted.")
+        History.replace('/');
+        props.webSocketMessageReceived(initialState);
+    }
+
     function setAdmin(socketId){
         if(props.isAdmin){
             SessionManager.SetAdmin(socketId)
@@ -60,9 +69,27 @@ const SizeItems = props => {
     const joinTeamSizing = () => {
         var nameInputEle = document.getElementById("name-input");
         var name = nameInputEle.value;
-        webSocketmanager.startWebSocket(props.sessionId, name, onmessage);
+        webSocketmanager.startWebSocket(props.sessionId, name, onmessage, onclose);
         setJoinClicked(true);
         History.replace('/' + props.sessionId + '/size');
+    }
+
+    const setDescription = (event) => {
+        var description = event.currentTarget.value;
+        if(description != props.PreStoryDescription){
+            SessionManager.SetItemDescription(props.sessionId, description)
+            .then(res => {
+                props.setItemDescription(description);
+            })
+            .catch(err => {
+                props.setItemDescription(props.preStoryDescription);
+                console.log(err);
+            })
+        }
+    }
+
+    const onDescriptionChange = (event) => {
+        props.setItemDescription(event.currentTarget.value);
     }
 
     return (
@@ -72,7 +99,9 @@ const SizeItems = props => {
                 <div>
                     <div className = "item-description">
                         <label htmlFor = "item-description">Item Description:</label>
-                        <textarea id = "item-description" name = "item-description" placeholder = "Please enter item description"></textarea>
+                        <textarea id = "item-description" value = {props.storyDescription ? props.storyDescription : ""} onChange = {onDescriptionChange}
+                            name = "item-description" placeholder = "Please enter item description" onBlur = {setDescription}
+                        />
                     </div>   
                     <div className = "size-item-tabs">
                         <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
@@ -83,9 +112,11 @@ const SizeItems = props => {
                 </div>
                 : 
                 <div>
-                    Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input><button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
+                    Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input>
+                    <button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
                 </div>
             }
+            <AppError errorText = {props.error}></AppError>
         </div>
     )
 }
@@ -94,19 +125,22 @@ const SizeItems = props => {
 
 function mapStateToProps(state){
     return {
-        error: state.SessionReducer.sessionError,
+        error: state.WebSocketReducer.error,
         sessionId: state.SessionReducer.sessionId,
         isAdmin: state.SessionReducer.isAdmin,
-        storyPoints: state.WebSocketReducer.storyPoints
+        storyPoints: state.WebSocketReducer.ValidStoryPoints,
+        storyDescription: state.WebSocketReducer.StoryDescription,
+        PreStoryDescription: state.WebSocketReducer.PreStoryDescription
     }
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        success: (id) => dispatch(sessionActions.create_session_success(id)),
-        failure: (errorText) => dispatch(sessionActions.create_session_failure(errorText)),
+        sessionSuccess: (id) => dispatch(sessionActions.create_session_success(id)),
+        sessionFailure: (errorText) => dispatch(sessionActions.create_session_failure(errorText)),
         webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData)),
-        webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId))
+        webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId)),
+        setItemDescription: (description) => dispatch(webSocketActions.setItemDescription(description))
     }
 }
 

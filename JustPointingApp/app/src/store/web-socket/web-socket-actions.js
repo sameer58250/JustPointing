@@ -40,3 +40,24 @@ export const clearVotes = (users) => {
         payload: users
     };
 }
+
+export const setItemDescription = (description) => {
+    return {
+        type: ACTION_TYPES.SET_ITEM_DESCRIPTION,
+        payload: description
+    };
+}
+
+export const removeUser = (userList) => {
+    return {
+        type: ACTION_TYPES.REMOVE_USER,
+        payload: userList
+    };
+}
+
+export const error = (errorText) => {
+    return {
+        type: ACTION_TYPES.FAILURE,
+        payload: errorText
+    };
+}

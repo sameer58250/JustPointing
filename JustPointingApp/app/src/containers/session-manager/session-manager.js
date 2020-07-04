@@ -28,15 +28,31 @@ export const ShowVotes = (sessionId) => {
 
 export const ClearVotes = (sessionId) => {
     var url = BaseApiUrl()
-    + "/Pointing/ClearVotes?teamId="
-    + sessionId;
+        + "/Pointing/ClearVotes?teamId="
+        + sessionId;
 return axios.post(url);
+}
+
+export const SetItemDescription = (sessionId, itemDescription) => {
+    var url = BaseApiUrl()
+        + "/Pointing/SetItemDescription?teamId="
+        + sessionId
+        + "&itemDescription="
+        + itemDescription;
+    return axios.post(url);
 }
 
 export const SetAdmin = (socketId) => {
     var url = BaseApiUrl()
-    + "/Pointing/SetAdmin?socketId="
-    + socketId;
+        + "/User/SetAdmin?socketId="
+        + socketId;
+    return axios.post(url);
+}
+
+export const RemoveUser = (socketId) => {
+    var url = BaseApiUrl()
+        + "/User/RemoveUser?socketId="
+        + socketId;
     return axios.post(url);
 }
 

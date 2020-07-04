@@ -22,6 +22,9 @@ button:hover:enabled{
     cursor: pointer;
     background-color: green;
 }
+.primary-btn{
+    outline: 1px auto orange;
+}
 input[type = "text"]{
     height: 26px;
     width: 200px;

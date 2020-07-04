@@ -38,11 +38,11 @@ namespace JustPointingApi.Controllers
             await _pointingService.ShowVotes(teamId);
         }
 
-        [Route("SetAdmin")]
+        [Route("SetItemDescription")]
         [HttpPost]
-        public async Task SetAdmin(string socketId)
+        public async Task SetItemDescription(string teamId, string itemDescription)
         {
-            await _pointingService.SetAdmin(socketId);
+            await _pointingService.SetItemDescription(teamId, itemDescription);
         }
     }
 }

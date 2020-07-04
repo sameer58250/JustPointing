@@ -32,15 +32,18 @@ namespace JustPointing.Handlers
         public override async Task OnDisconnected(WebSocket socket)
         {
             string socketId = Connections.GetSocketId(socket);
-            await base.OnDisconnected(socket);
-            var team = _dataManager.GetTeamFromSocketId(socketId);
-            team.RemoveUser(socketId);
-            if (!team.GetAllUsers().Any())
+            if (!string.IsNullOrWhiteSpace(socketId))
             {
-                _dataManager.RemoveTeam(team.TeamId);
+                await base.OnDisconnected(socket);
+                var team = _dataManager.GetTeamFromSocketId(socketId);
+                team.RemoveUser(socketId);
+                if (!team.GetAllUsers().Any())
+                {
+                    _dataManager.RemoveTeam(team.TeamId);
+                }
+                await SendMessageToTeam(team);
+                StoryPoint.RemoveStoryPoint(socketId);
             }
-            await SendMessageToTeam(team);
-            StoryPoint.RemoveStoryPoint(socketId);
         }
 
         public override async Task Receive(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)

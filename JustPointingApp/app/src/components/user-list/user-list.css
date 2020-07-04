@@ -10,3 +10,12 @@
 .app-table-cell button:hover{
     background-color: #569f6b;
 }
+.remove-user-div{
+    padding-left: 0;
+    text-align: left;
+}
+.remove-user{
+    height: auto;
+    margin: 0 13px 0 0;
+    background-color: #ad2424;
+}

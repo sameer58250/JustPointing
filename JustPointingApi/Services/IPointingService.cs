@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JustPointing.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,6 @@ namespace JustPointingApi.Services
 
         Task CastVote(string socketId, string vote);
 
-        Task SetAdmin(string socketId);
+        Task SetItemDescription(string teamId, string storyDescription);
     }
 }

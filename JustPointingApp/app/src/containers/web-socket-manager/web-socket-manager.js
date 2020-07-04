@@ -5,7 +5,7 @@ class WebSocketManager {
 
     pointingWebSocket;
 
-    startWebSocket = (teamId, name, onMessageCallback) => {
+    startWebSocket = (teamId, name, onMessageCallback, onCloseCallback) => {
         const webSocketUrl = Config.REACT_APP_WEB_SOCKET_URL;
         var url = webSocketUrl + "?teamId=" + teamId + "&name=" + name;
         if(this.pointingWebSocket){
@@ -17,6 +17,7 @@ class WebSocketManager {
             console.log(this.pointingWebSocket);
         }
         this.pointingWebSocket.onmessage = onMessageCallback;
+        this.pointingWebSocket.onclose = onCloseCallback;
     };
 }
 

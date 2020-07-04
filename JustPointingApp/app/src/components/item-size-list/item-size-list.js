@@ -3,7 +3,8 @@ import './item-size-list.css';
 import UserList from '../user-list/user-list';
 import * as actions from '../../store/web-socket/web-socket-actions';
 import { connect } from 'react-redux';
-import { CastVote, ShowVotes, ClearVotes } from '../../containers/session-manager/session-manager';
+import { CastVote, ShowVotes, ClearVotes, RemoveUser } from '../../containers/session-manager/session-manager';
+import * as Utils from '../../utils/utils';
 
 
 const ItemSizeList = props => {
@@ -53,6 +54,23 @@ const ItemSizeList = props => {
         })
     }
 
+    const removeUser = (socketId) => {
+        var i = Utils.findIndexArrayByAttr(props.userList,"SocketId", socketId);
+        if(i!=- 1 && !props.userList[i].IsAdmin){
+            RemoveUser(socketId)
+            .then(res => {
+                props.userList.splice(i, 1);
+                props.removeUser(props.userList);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+        else {
+            props.failure("Cannot remove an admin.");
+        }
+    }
+
     return (
         <div>
             <div className = "item-size-list">
@@ -60,7 +78,7 @@ const ItemSizeList = props => {
                     return (<button onClick = {vote} key = {point}>{point}</button>)
                 })}
             </div>
-            <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled} showVotes = {showVotes} clearVotes = {clearVotes}/>
+            <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled} showVotes = {showVotes} clearVotes = {clearVotes} removeUser = {removeUser}/>
         </div>
     )
 }
@@ -69,10 +87,11 @@ const ItemSizeList = props => {
 function mapStateToProps(state){
     return {
         sessionId: state.SessionReducer.sessionId,
-        userList: state.WebSocketReducer.users,
-        storyPoints: state.WebSocketReducer.storyPoints,
-        webSocketId: state.WebSocketReducer.webSocketId,
-        isShowEnabled: state.WebSocketReducer.isShowEnabled
+        userList: state.WebSocketReducer.Users,
+        storyPoints: state.WebSocketReducer.ValidStoryPoints,
+        webSocketId: state.WebSocketReducer.WebSocketId,
+        isAdmin: state.SessionReducer.isAdmin,
+        isShowEnabled: state.WebSocketReducer.IsShowEnabled
     };
 }
 
@@ -80,7 +99,9 @@ function mapDispatchToProps(dispatch){
     return {
         vote: (userList) => dispatch(actions.updateIfUserPointed(userList)),
         showVotes: () => dispatch(actions.showVotes()),
-        clearVotes: (userList) => dispatch(actions.clearVotes(userList))
+        clearVotes: (userList) => dispatch(actions.clearVotes(userList)),
+        removeUser: (userList) => dispatch(actions.removeUser(userList)),
+        failure: (err) => dispatch(actions.error(err))
     };
 }
 
