@@ -1,6 +1,7 @@
 ﻿using JustPointing.Handlers;
 using JustPointing.Models;
 using JustPointing.WebSocketManager;
+using JustPointingApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JustPointingApi.Services
 {
-    public class UserService:IUserService
+    public class UserService : IUserService
     {
         private readonly SocketHandler _socketHandler;
         private readonly TeamsDataManager _dataManager;
@@ -41,6 +42,19 @@ namespace JustPointingApi.Services
             await _socketHandler.RemoveSocket(socketId);
             await _socketHandler.SendMessageToTeam(team);
             return user;
+        }
+
+        public async Task UpdateSettings(string teamId, AdminSettings settings)
+        {
+            if(settings != null)
+            {
+                var team = _dataManager.GetTeam(teamId);
+                if (team != null)
+                {
+                    team.UpdateSettings(settings);
+                    await _socketHandler.SendMessageToTeam(team);
+                }
+            }
         }
     }
 }

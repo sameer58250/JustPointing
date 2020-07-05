@@ -20,9 +20,11 @@ const ValidItemSize = props => {
     const addPoint = event => {
         if(event.keyCode == 13){
             var point = event.currentTarget.value;
-            props.storyPoints.push(point);
-            updateValidPointState();
-            event.currentTarget.value = "";
+            if(point){
+                props.storyPoints.unshift(point);
+                updateValidPointState();
+                event.currentTarget.value = "";
+            }
         }
     }
 
@@ -40,15 +42,15 @@ const ValidItemSize = props => {
     return(
         <div className = "valid-item-size">
             <label>Add or update item size list</label>
+            <div>
+                <input id = "add-point-input" type = "text" className = "item-size-input" onKeyUp = {(evt) =>addPoint(evt)}></input>
+            </div>
             {props.storyPoints.map((point, index) => (
                 <div key = {index}>
                     <input type = "text" value = {point} onChange = {(event) => updatePoint(event, index)} className = "item-size-input"></input>
                     <button className = "item-size-btn" onClick = {() => removePoint(index)}>X</button>
                 </div>
             ))}
-            <div>
-                <input id = "add-point-input" type = "text" className = "item-size-input" onKeyUp = {(evt) =>addPoint(evt)}></input>
-            </div>
         </div>
     )
 }

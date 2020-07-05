@@ -31,7 +31,8 @@ namespace JustPointing
                         .AllowAnyHeader();
                     });
             });
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
             services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

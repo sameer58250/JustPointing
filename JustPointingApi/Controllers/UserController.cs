@@ -1,4 +1,5 @@
 ﻿using JustPointing.Models;
+using JustPointingApi.Models;
 using JustPointingApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,6 +32,13 @@ namespace JustPointingApi.Controllers
         {
             var user = await _userService.RemoveUser(socketId);
             return Ok(user);
+        }
+
+        [Route("UpdateSettings")]
+        [HttpPost]
+        public async Task UpdateSettings(string teamId, [FromBody]AdminSettings settings)
+        {
+            await _userService.UpdateSettings(teamId, settings);
         }
     }
 }

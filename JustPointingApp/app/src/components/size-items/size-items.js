@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
 import './size-items.css';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import * as SessionManager from '../../containers/session-manager/session-manager';
 import { connect } from 'react-redux';
-import * as sessionActions from '../../store/session/session-actions';
 import { useHistory } from 'react-router-dom';
+import * as SessionManager from '../../containers/session-manager/session-manager';
+import * as sessionActions from '../../store/session/session-actions';
 import WebSocketManager from '../../containers/web-socket-manager/web-socket-manager';
 import * as webSocketActions from '../../store/web-socket/web-socket-actions';
+import { initialState } from '../../store/web-socket/web-socket-reducer';
 import ItemSizeList from '../item-size-list/item-size-list';
 import Settings from '../settings/settings';
 import AppError from '../error/error';
-import { initialState } from '../../store/web-socket/web-socket-reducer';
+import * as adminSettingActions from '../../store/admin-settings/admin-setting-actions';
+import { initialSettings } from '../../store/admin-settings/admin-setting-reducer';
 
 const SizeItems = props => {
 
@@ -46,6 +48,7 @@ const SizeItems = props => {
         }
         else{
             props.webSocketMessageReceived(data);
+            props.updateAdminSettings(data.AdminSettings);
         }
     }
 
@@ -53,6 +56,7 @@ const SizeItems = props => {
         props.sessionFailure("You have been disconnencted.")
         History.replace('/');
         props.webSocketMessageReceived(initialState);
+        props.updateAdminSettings(initialSettings);
     }
 
     function setAdmin(socketId){
@@ -143,7 +147,8 @@ function mapDispatchToProps(dispatch){
         sessionFailure: (errorText) => dispatch(sessionActions.create_session_failure(errorText)),
         webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData)),
         webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId)),
-        setItemDescription: (description) => dispatch(webSocketActions.setItemDescription(description))
+        setItemDescription: (description) => dispatch(webSocketActions.setItemDescription(description)),
+        updateAdminSettings: (settings) => dispatch(adminSettingActions.updateAllSettings(settings))
     }
 }
 

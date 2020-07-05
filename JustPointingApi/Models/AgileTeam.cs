@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JustPointingApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace JustPointing.Models
         public IList<UserData> Users { get; set; }
         public string StoryDescription { get; set; }
         public IList<string> ValidStoryPoints { get; set; }
+        public AdminSettings AdminSettings { get; set; }
         [JsonConstructor]
         public AgileTeam()
         {
@@ -22,6 +24,7 @@ namespace JustPointing.Models
         {
             Users = new List<UserData>();
             ValidStoryPoints = new List<string>();
+            AdminSettings = new AdminSettings();
             if (IsDefaultPoints)
             {
                 ValidStoryPoints = new List<string> { "0.5", "1", "2", "3", "5", "8", "13", "21", "34" };
@@ -67,6 +70,10 @@ namespace JustPointing.Models
         public void UpdateValidStoryPoints(List<string> sizeList)
         {
             ValidStoryPoints = sizeList;
+        }
+        public void UpdateSettings(AdminSettings settings)
+        {
+            AdminSettings = settings;
         }
     }
 }

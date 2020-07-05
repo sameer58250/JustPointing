@@ -1,4 +1,5 @@
 ﻿using JustPointing.Models;
+using JustPointingApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace JustPointingApi.Services
         Task<UserData> RemoveUser(string socketId);
 
         Task SetAdmin(string socketId);
+
+        Task UpdateSettings(string teamId, AdminSettings settings);
     }
 }

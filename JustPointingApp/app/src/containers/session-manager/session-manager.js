@@ -60,10 +60,14 @@ export const UpdateValidStoryPoints = (sessionId, sizeList) => {
     var url = BaseApiUrl()
         + "/Pointing/UpdateValidStoryPoints?teamId="
         + sessionId;
-    var data = {
-        sizeList: sizeList
-    };
     return axios.post(url, sizeList);
+}
+
+export const UpdatedSettings = (sessionId, settings) => {
+    var url = BaseApiUrl()
+        + "/User/UpdateSettings?teamId="
+        + sessionId;
+    return axios.post(url,settings);
 }
 
 function BaseApiUrl(){

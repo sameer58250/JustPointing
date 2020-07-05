@@ -2,15 +2,18 @@
     border: 0.5px solid grey;
     padding: 5px;
     width: 100%;
+    display: flex;
 }
 .valid-item-size{
     display: inline-block;
-    width: 50%;
+    width: 49%;
+    border: 0.5px solid grey;
 }
 .valid-item-size > label{
     display: block;
     font-weight: bolder;
     margin: 6.5px;
+    text-decoration: underline;
 }
 .item-size-btn{
     margin: 3px;
@@ -22,16 +25,25 @@
     width: 85px !important;
 }
 #add-point-input{
-    margin-bottom: 13px;
+    margin-bottom: 3px;
 }
 
 .sizing-controls{
     display: inline-block;
-    width: 50%;
+    width: 49%;
+    border: 0.5px solid grey;
     vertical-align: top;
+    margin-left: 5px;
 }
 .sizing-controls > label{
     display: block;
     font-weight: bolder;
     margin: 6.5px;
+    text-decoration: underline;
+}
+.control-input{
+    margin: 13px;
+}
+.control-input > label{
+    font-weight: bold;
 }

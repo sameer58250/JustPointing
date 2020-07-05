@@ -6,7 +6,7 @@ const UserList = props => {
     return (
         <div className = "user-list app-table">
             <div className = "app-table-header">
-                <div className = "app-table-cell">Name</div>
+                <div className = "app-table-cell first-head-cell">Name</div>
                 <div className = "app-table-cell">HasVoted</div>
                 <div className = "app-table-cell">
                     <button className = "show-button" onClick = {props.showVotes}>Show votes</button>
