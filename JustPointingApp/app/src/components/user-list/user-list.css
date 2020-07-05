@@ -7,7 +7,7 @@
     height: 27px;
     background-color: #f5ecec;
 }
-.app-table-cell button:hover{
+.app-table-cell button:hover:enabled{
     background-color: #569f6b;
 }
 .remove-user-div{

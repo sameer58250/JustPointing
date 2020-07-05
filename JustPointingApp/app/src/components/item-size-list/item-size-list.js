@@ -78,7 +78,11 @@ const ItemSizeList = props => {
                     return (<button onClick = {vote} key = {index}>{point}</button>)
                 })}
             </div>
-            <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled} showVotes = {showVotes} clearVotes = {clearVotes} removeUser = {removeUser}/>
+            <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled}
+                showVotes = {showVotes} clearVotes = {clearVotes} removeUser = {removeUser}
+                resetVoteSetting = {props.resetVoteSetting} showVoteSetting = {props.showVoteSetting}
+                controlUserSetting = {props.controlUserSetting} isAdmin = {props.isAdmin}
+            />
         </div>
     )
 }
@@ -91,7 +95,10 @@ function mapStateToProps(state){
         storyPoints: state.WebSocketReducer.ValidStoryPoints,
         webSocketId: state.WebSocketReducer.WebSocketId,
         isAdmin: state.SessionReducer.isAdmin,
-        isShowEnabled: state.WebSocketReducer.IsShowEnabled
+        isShowEnabled: state.WebSocketReducer.IsShowEnabled,
+        resetVoteSetting: state.AdminSettingReducer.ResetVoteSetting,
+        showVoteSetting: state.AdminSettingReducer.ShowVoteSetting,
+        controlUserSetting: state.AdminSettingReducer.ControlUserSetting
     };
 }
 

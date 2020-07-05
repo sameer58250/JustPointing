@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './settings.css'
 import { connect } from 'react-redux';
 import * as settingActions from '../../store/admin-settings/admin-setting-actions';
@@ -6,6 +6,13 @@ import { UpdatedSettings } from '../../containers/session-manager/session-manage
 import * as webSocketActions from '../../store/web-socket/web-socket-actions';
 
 const SizingControl = props => {
+
+    useEffect(() => {
+        var inputEle = document.querySelectorAll('#sizing-controls input');
+        inputEle.forEach(ele => {
+            ele.disabled = !props.isAdmin;
+        })
+    },[]);
 
     const showVoteSettingChange = event => {
         var setting  = event.currentTarget.value;
@@ -44,7 +51,7 @@ const SizingControl = props => {
     }
 
     return (
-        <div className = "sizing-controls">
+        <div className = "sizing-controls" id = "sizing-controls">
             <label>Configurations</label>
             <div>
                 <div className = "control-input">
@@ -104,7 +111,7 @@ const SizingControl = props => {
                 </div>
                 <hr/>
             </div>
-            <button onClick = {saveSettings}>Save</button>
+            <button onClick = {saveSettings} id = "save-settings" disabled = {!props.isAdmin}>Save</button>
         </div>
     )
 }
@@ -115,7 +122,8 @@ function mapStateToProps(state){
         resetVoteSetting: state.AdminSettingReducer.ResetVoteSetting,
         editSizeListSetting: state.AdminSettingReducer.EditSizeListSetting,
         controlUserSetting: state.AdminSettingReducer.ControlUserSetting,
-        sessionId: state.SessionReducer.sessionId
+        sessionId: state.SessionReducer.sessionId,
+        isAdmin: state.SessionReducer.isAdmin
     }
 }
 

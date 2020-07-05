@@ -22,6 +22,12 @@ button:hover:enabled{
     cursor: pointer;
     background-color: green;
 }
+button:active{
+    outline: 1.5px solid black;
+}
+button:focus{
+    outline: 1.5px solid black;
+}
 .primary-btn{
     outline: 1px auto orange;
 }

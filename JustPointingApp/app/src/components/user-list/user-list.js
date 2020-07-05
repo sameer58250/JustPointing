@@ -9,15 +9,21 @@ const UserList = props => {
                 <div className = "app-table-cell first-head-cell">Name</div>
                 <div className = "app-table-cell">HasVoted</div>
                 <div className = "app-table-cell">
-                    <button className = "show-button" onClick = {props.showVotes}>Show votes</button>
-                    <button className = "clear-button" onClick = {props.clearVotes}>Reset votes</button>
+                    <button className = "show-button" onClick = {props.showVotes} disabled = {props.showVoteSetting=="OnlyAdmin" && !props.isAdmin}>
+                        Show votes
+                    </button>
+                    <button className = "clear-button" onClick = {props.clearVotes} disabled = {props.resetVoteSetting=="OnlyAdmin" && !props.isAdmin}>
+                        Reset votes
+                    </button>
                 </div>
             </div>
             {props.users.map(user => {
                 return (
                     <div key = {user.SocketId} className = "app-table-row">
                         <div className = "app-table-cell remove-user-div">
-                            <button className = "remove-user" onClick = {() => props.removeUser(user.SocketId)}>X</button>
+                            <button className = "remove-user" onClick = {() => props.removeUser(user.SocketId)} disabled = {props.controlUserSetting=="OnlyAdmin" && !props.isAdmin}>
+                                X
+                            </button>
                             {user.Name}
                         </div>
                         <div className = "app-table-cell">

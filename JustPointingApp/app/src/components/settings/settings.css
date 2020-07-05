@@ -33,7 +33,7 @@
     width: 49%;
     border: 0.5px solid grey;
     vertical-align: top;
-    margin-left: 5px;
+    margin-left: 1.5%;
 }
 .sizing-controls > label{
     display: block;
@@ -46,4 +46,7 @@
 }
 .control-input > label{
     font-weight: bold;
+}
+.input-size-div{
+    display: inline-block;
 }

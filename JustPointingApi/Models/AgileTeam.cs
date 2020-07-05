@@ -27,7 +27,7 @@ namespace JustPointing.Models
             AdminSettings = new AdminSettings();
             if (IsDefaultPoints)
             {
-                ValidStoryPoints = new List<string> { "0.5", "1", "2", "3", "5", "8", "13", "21", "34" };
+                ValidStoryPoints = new List<string> { "34", "21", "13", "8", "5", "3", "2", "1" };
             }
         }
         public void AddUser(UserData user)

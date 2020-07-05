@@ -9,6 +9,6 @@
     margin: 5px;
 }
 
-.item-size-list button:hover{
+.item-size-list button:hover:enabled{
     background-color: #569f6b !important;
 }
