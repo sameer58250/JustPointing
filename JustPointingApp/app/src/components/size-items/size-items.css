@@ -1,8 +1,8 @@
 .size-items{
     text-align: left;
-    width: 52%;
-    left: 24%;
-    position: absolute;
+    width: 90%;
+    margin: auto;
+    position: relative;
 }
 .size-item-tabs{
     padding: 5px;
@@ -40,4 +40,11 @@ a.is-active{
 }
 .item-description > label{
     font-weight: bold;
+}
+.size-item-block{
+    display: inline-block;
+    width: 60%;
+}
+.join-team-sizing{
+    text-align: center;
 }

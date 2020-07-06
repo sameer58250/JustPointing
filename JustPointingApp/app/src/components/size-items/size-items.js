@@ -13,6 +13,7 @@ import Settings from '../settings/settings';
 import AppError from '../error/error';
 import * as adminSettingActions from '../../store/admin-settings/admin-setting-actions';
 import { initialSettings } from '../../store/admin-settings/admin-setting-reducer';
+import SizingResults from '../sizing-results/sizing-results';
 
 const SizeItems = props => {
 
@@ -100,25 +101,28 @@ const SizeItems = props => {
     return (
         <div className = "size-items">
             {isJoinClicked
-                ? 
-                <div>
-                    <div className = "item-description">
-                        <label htmlFor = "item-description">Item Description:</label>
-                        <textarea id = "item-description" value = {props.storyDescription ? props.storyDescription : ""} onChange = {onDescriptionChange}
-                            name = "item-description" placeholder = "Please enter item description" onBlur = {setDescription}
-                        />
-                    </div>   
-                    <div>
-                        <div className = "size-item-tabs">
-                            <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Size</NavLink>
-                            <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
+                ?
+                <div> 
+                    <div className = "size-item-block">
+                        <div className = "item-description">
+                            <label htmlFor = "item-description">Item Description:</label>
+                            <textarea id = "item-description" value = {props.storyDescription ? props.storyDescription : ""} onChange = {onDescriptionChange}
+                                name = "item-description" placeholder = "Please enter item description" onBlur = {setDescription}
+                            />
+                        </div>   
+                        <div>
+                            <div className = "size-item-tabs">
+                                <NavLink to = {props.match.url + '/Size'} activeClassName = "is-active">Sizing</NavLink>
+                                <NavLink to = {props.match.url + '/Settings'}  activeClassName = "is-active">Settings</NavLink>
+                            </div>
+                            <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList></ItemSizeList>}/>
+                            <Route exact path = {props.match.path + '/Settings'} render = {() => <Settings/>}/>
                         </div>
-                        <Route exact path = {props.match.path + '/Size'} render = {() => <ItemSizeList></ItemSizeList>}/>
-                        <Route exact path = {props.match.path + '/Settings'} render = {() => <Settings/>}/>
                     </div>
+                    <SizingResults users = {props.users}/>
                 </div>
                 : 
-                <div>
+                <div className = "join-team-sizing">
                     Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input>
                     <button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
                 </div>
@@ -137,7 +141,8 @@ function mapStateToProps(state){
         isAdmin: state.SessionReducer.isAdmin,
         storyPoints: state.WebSocketReducer.ValidStoryPoints,
         storyDescription: state.WebSocketReducer.StoryDescription,
-        PreStoryDescription: state.WebSocketReducer.PreStoryDescription
+        PreStoryDescription: state.WebSocketReducer.PreStoryDescription,
+        users: state.WebSocketReducer.Users
     }
 }
 

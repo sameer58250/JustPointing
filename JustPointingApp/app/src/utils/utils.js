@@ -16,3 +16,23 @@ export const findIndexArrayByAttr = (arr, attr, value) => {
     }
     return -1;
 }
+
+export const getValuesWithCount = (arr, attr) => {
+    var i = 1;
+    if(arr.length > 0){
+        var newArr = [{StoryPoint: arr[0][attr], count: 1}];
+        while(i < arr.length){
+            var idx = findIndexArrayByAttr(newArr, attr, arr[i][attr]);
+            if(idx == -1){
+                var obj = {StoryPoint: arr[i][attr], count: 1};
+                newArr.push(obj);
+            }
+            else{
+                newArr[idx].count++;
+            }
+            i++;
+        }
+        return newArr;
+    }
+    return [{}];
+}
