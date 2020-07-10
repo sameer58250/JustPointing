@@ -17,6 +17,8 @@ namespace JustPointing.Models
         public IList<string> ValidStoryPoints { get; set; }
         public AdminSettings AdminSettings { get; set; }
         public IList<Observer> Observers { get; set; }
+        public DateTime CreationDate { get; set; }
+
         [JsonConstructor]
         public AgileTeam()
         {
@@ -27,6 +29,7 @@ namespace JustPointing.Models
             ValidStoryPoints = new List<string>();
             AdminSettings = new AdminSettings();
             Observers = new List<Observer>();
+            CreationDate = new DateTime();
             if (IsDefaultPoints)
             {
                 ValidStoryPoints = new List<string> { "34", "21", "13", "8", "5", "3", "2", "1" };

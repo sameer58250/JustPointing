@@ -1,3 +1,10 @@
 .home{
     text-align: center;
 }
+.app-title{
+    text-align: center;
+    font-size: 50px;
+    width: 90%;
+    margin: auto;
+    user-select: none;
+}

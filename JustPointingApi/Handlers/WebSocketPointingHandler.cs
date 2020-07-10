@@ -69,6 +69,7 @@ namespace JustPointing.Handlers
                 }
                 await SendMessageToTeam(team);
                 StoryPoint.RemoveStoryPoint(socketId);
+                _removeUnusedSessions(1);
             }
         }
 
@@ -122,6 +123,20 @@ namespace JustPointing.Handlers
             catch(Exception ex)
             {
                 throw new Exception("Failed to add to the team", ex);
+            }
+        }
+
+        private void _removeUnusedSessions(int expirationTimeInHours)
+        {
+            var allTeams = _dataManager.AllTeams.Values;
+            foreach(var team in allTeams)
+            {
+                var currentDate = new DateTime();
+                var diff = (currentDate - team.CreationDate).TotalHours;
+                if(diff > (double)expirationTimeInHours)
+                {
+                    _dataManager.RemoveTeam(team.TeamId);
+                }
             }
         }
     }

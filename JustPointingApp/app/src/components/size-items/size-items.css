@@ -37,6 +37,7 @@ a.is-active{
     display: block;
     height: 60px;
     padding: 5px;
+    max-width: 100%;
 }
 .item-description > label{
     font-weight: bold;

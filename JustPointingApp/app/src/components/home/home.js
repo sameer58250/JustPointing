@@ -41,11 +41,16 @@ const Home = props => {
     }
 
     return (
-        <div className = "home">
-            <button onClick = {startSession} className = "primary-btn">Start Session</button>
-            <label>Session ID:</label><input type = "text" id = "session-id-input" onChange = {sessionIdInputChange}></input>
-            <button onClick = {joinSession}  disabled = {!sessionIdInput}> Join Session</button>
-            <AppError errorText = {props.error}></AppError>
+        <div>
+            <div className = "app-title">
+                <p>Collaborate to size your items and make agile development easy</p>
+            </div>
+            <div className = "home">
+                <button onClick = {startSession} className = "primary-btn">Start Session</button>
+                <label>Session ID:</label><input type = "text" id = "session-id-input" onChange = {sessionIdInputChange}></input>
+                <button onClick = {joinSession}  disabled = {!sessionIdInput}> Join Session</button>
+                <AppError errorText = {props.error}></AppError>
+            </div>
         </div>
     )
 }
