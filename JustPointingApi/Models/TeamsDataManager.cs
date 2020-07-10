@@ -35,7 +35,12 @@ namespace JustPointing.Models
             foreach(var t in AllTeams)
             {
                 var user = t.Value.Users.FirstOrDefault(x => x.SocketId == socketId);
+                var observer = t.Value.Observers.FirstOrDefault(x => x.SocketId == socketId);
                 if(user != null)
+                {
+                    team = t.Value;
+                }
+                else if (observer != null)
                 {
                     team = t.Value;
                 }

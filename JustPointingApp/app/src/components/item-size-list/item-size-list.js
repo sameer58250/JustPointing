@@ -73,7 +73,7 @@ const ItemSizeList = props => {
 
     return (
         <div className = "item-size-list">
-            <div>
+            <div hidden = {props.isObserver}>
                 { props.storyPoints.map((point, index) => {
                     return (<button onClick = {vote} key = {index}>{point}</button>)
                 })}
@@ -98,7 +98,8 @@ function mapStateToProps(state){
         isShowEnabled: state.WebSocketReducer.IsShowEnabled,
         resetVoteSetting: state.AdminSettingReducer.ResetVoteSetting,
         showVoteSetting: state.AdminSettingReducer.ShowVoteSetting,
-        controlUserSetting: state.AdminSettingReducer.ControlUserSetting
+        controlUserSetting: state.AdminSettingReducer.ControlUserSetting,
+        isObserver: state.SessionReducer.isObserver
     };
 }
 

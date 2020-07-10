@@ -1,5 +1,7 @@
 ﻿using JustPointing.Models;
 using JustPointing.WebSocketManager;
+using JustPointingApi.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,20 +16,39 @@ namespace JustPointing.Handlers
     {
         private  StoryPointManager StoryPoint;
         private TeamsDataManager _dataManager;
+        private IHttpContextAccessor _contextAccessor;
 
         public WebSocketPointingHandler(ConnectionManager connections, TeamsDataManager dataManager, StoryPointManager storyPoint) : base(connections)
         {
             StoryPoint = storyPoint;
             _dataManager = dataManager;
+            _contextAccessor = new HttpContextAccessor();
         }
 
-        public override async Task OnConnected(WebSocket socket, string teamId, string name)
+        public override async Task OnConnected(WebSocket socket)
         {
-            await base.OnConnected(socket, teamId, name);
+            await base.OnConnected(socket);
+            var context = _contextAccessor.HttpContext;
+            string teamId = context.Request.Query["teamId"];
+            string name = context.Request.Query["name"];
+            string role = context.Request.Query["role"];
+            if (string.IsNullOrEmpty(teamId))
+            {
+                throw new Exception("Team id cannot be null or empty");
+            }
             var socketId = Connections.GetSocketId(socket);
             var obj = new { SocketId = socketId };
             await SendMessage(socket, JsonConvert.SerializeObject(obj));
-            await SendMessageToTeam(_addToTeam(socketId, teamId, name));
+            AgileTeam team = null;
+            if (role == "Observer")
+            {
+                team = _addAsObserver(socketId, teamId, name);
+            }
+            else
+            {
+                team = _addToTeam(socketId, teamId, name);
+            }
+            await SendMessageToTeam(team);
         }
         public override async Task OnDisconnected(WebSocket socket)
         {
@@ -37,7 +58,12 @@ namespace JustPointing.Handlers
                 await base.OnDisconnected(socket);
                 var team = _dataManager.GetTeamFromSocketId(socketId);
                 team.RemoveUser(socketId);
+                team.RemoveObserver(socketId);
                 if (!team.GetAllUsers().Any())
+                {
+                    team.IsShowEnabled = false;
+                }
+                if (!team.GetAllUsers().Any() && !team.GetAllObservers().Any())
                 {
                     _dataManager.RemoveTeam(team.TeamId);
                 }
@@ -68,7 +94,6 @@ namespace JustPointing.Handlers
                 var user = new UserData(socketId, name);
                 if (team == null)
                 {
-                    user.IsAdmin = true;
                     team = new AgileTeam(true);
                     team.TeamId = teamId;
                 }
@@ -77,6 +102,24 @@ namespace JustPointing.Handlers
                 return team;
             }
             catch (Exception ex)
+            {
+                throw new Exception("Failed to add to the team", ex);
+            }
+        }
+
+        private AgileTeam _addAsObserver(string socketId, string teamId, string name)
+        {
+            try
+            {
+                var team = _dataManager.GetTeam(teamId);
+                if(team == null)
+                {
+                    team = new AgileTeam(true);
+                }
+                team.AddObserver(socketId, name);
+                return team;
+            }
+            catch(Exception ex)
             {
                 throw new Exception("Failed to add to the team", ex);
             }

@@ -3,7 +3,8 @@ import * as ACTION_TYPES from './session-action-types';
 export const initialState = {
     sessionId: null,
     sessionError: "",
-    isAdmin: false
+    isAdmin: false,
+    isObserver: false
 }
 
 export const SessionReducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ export const SessionReducer = (state = initialState, action) => {
                 ...state,
                 isAdmin: true
             };
+        case ACTION_TYPES.SET_ROLE:
+            return {
+                ...state,
+                isObserver: action.payload
+            }
         default:
             return state;
     }

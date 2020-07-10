@@ -17,7 +17,7 @@ namespace JustPointing.WebSocketManager
         {
             Connections = connections;
         }
-        public virtual async Task OnConnected(WebSocket socket, string teamId, string name)
+        public virtual async Task OnConnected(WebSocket socket)
         {
             await Task.Run(() => Connections.AddSocketConnection(socket));
         }
@@ -70,6 +70,10 @@ namespace JustPointing.WebSocketManager
                 foreach (var user in team.Users)
                 {
                     await SendMessage(user.SocketId, team);
+                }
+                foreach(var observer in team.Observers)
+                {
+                    await SendMessage(observer.SocketId, team);
                 }
             }
         }

@@ -16,6 +16,7 @@ namespace JustPointing.Models
         public string StoryDescription { get; set; }
         public IList<string> ValidStoryPoints { get; set; }
         public AdminSettings AdminSettings { get; set; }
+        public IList<Observer> Observers { get; set; }
         [JsonConstructor]
         public AgileTeam()
         {
@@ -25,6 +26,7 @@ namespace JustPointing.Models
             Users = new List<UserData>();
             ValidStoryPoints = new List<string>();
             AdminSettings = new AdminSettings();
+            Observers = new List<Observer>();
             if (IsDefaultPoints)
             {
                 ValidStoryPoints = new List<string> { "34", "21", "13", "8", "5", "3", "2", "1" };
@@ -74,6 +76,26 @@ namespace JustPointing.Models
         public void UpdateSettings(AdminSettings settings)
         {
             AdminSettings = settings;
+        }
+        public void AddObserver(string socketId, string name)
+        {
+            Observers.Add(new Observer(socketId, name));
+        }
+        public Observer GetObserver(string socketId)
+        {
+            return Observers.Where(x => x.SocketId == socketId).FirstOrDefault();
+        }
+        public Observer RemoveObserver(string socketId)
+        {
+            var obs = Observers.Where(x => x.SocketId == socketId).FirstOrDefault();
+            if (obs !=null && Observers.Remove(obs))
+                return obs;
+            return null;
+        }
+
+        public IList<Observer> GetAllObservers()
+        {
+            return Observers;
         }
     }
 }

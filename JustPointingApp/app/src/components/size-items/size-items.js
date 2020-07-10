@@ -72,11 +72,14 @@ const SizeItems = props => {
         }
     }
 
-    const joinTeamSizing = () => {
+    const joinTeamSizing = (role = "Voter") => {
         var nameInputEle = document.getElementById("name-input");
         var name = nameInputEle.value;
-        webSocketmanager.startWebSocket(props.sessionId, name, onmessage, onclose);
+        webSocketmanager.startWebSocket(props.sessionId, name, role, onmessage, onclose);
         setJoinClicked(true);
+        if(role !== "Voter"){
+            props.setRole(true);
+        }
         History.replace('/' + props.sessionId + '/size');
     }
 
@@ -119,12 +122,13 @@ const SizeItems = props => {
                             <Route exact path = {props.match.path + '/Settings'} render = {() => <Settings/>}/>
                         </div>
                     </div>
-                    <SizingResults users = {props.users}/>
+                    <SizingResults users = {props.users} isShowEnabled = {props.isShowEnabled}/>
                 </div>
                 : 
                 <div className = "join-team-sizing">
                     Name:<input type = "text" id = "name-input" onChange = {nameInputChange}></input>
-                    <button onClick = {joinTeamSizing} disabled = {!isNameInput}>Join Team</button>
+                    <button onClick = {() => joinTeamSizing()} disabled = {!isNameInput}>Join Team</button>
+                    <button onClick = {() => joinTeamSizing("Observer")} disabled = {!isNameInput}>Join as observer</button>
                 </div>
             }
             <AppError errorText = {props.error}></AppError>
@@ -142,7 +146,8 @@ function mapStateToProps(state){
         storyPoints: state.WebSocketReducer.ValidStoryPoints,
         storyDescription: state.WebSocketReducer.StoryDescription,
         PreStoryDescription: state.WebSocketReducer.PreStoryDescription,
-        users: state.WebSocketReducer.Users
+        users: state.WebSocketReducer.Users,
+        isShowEnabled: state.WebSocketReducer.IsShowEnabled
     }
 }
 
@@ -153,7 +158,8 @@ function mapDispatchToProps(dispatch){
         webSocketMessageReceived: (teamsData) => dispatch(webSocketActions.webSocketMessageReceived(teamsData)),
         webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId)),
         setItemDescription: (description) => dispatch(webSocketActions.setItemDescription(description)),
-        updateAdminSettings: (settings) => dispatch(adminSettingActions.updateAllSettings(settings))
+        updateAdminSettings: (settings) => dispatch(adminSettingActions.updateAllSettings(settings)),
+        setRole: (isObserver) => dispatch(sessionActions.set_role(isObserver))
     }
 }
 

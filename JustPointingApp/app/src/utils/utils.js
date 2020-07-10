@@ -34,5 +34,5 @@ export const getValuesWithCount = (arr, attr) => {
         }
         return newArr;
     }
-    return [{}];
+    return [];
 }

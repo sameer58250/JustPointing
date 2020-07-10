@@ -25,7 +25,15 @@ namespace JustPointingApi.Services
         {
             var team = _dataManager.GetTeamFromSocketId(socketId);
             var user = team.GetUser(socketId);
-            user.IsAdmin = true;
+            var observer = team.GetObserver(socketId);
+            if(user != null)
+            {
+                user.IsAdmin = true;
+            }
+            else if(observer !=null)
+            {
+                observer.IsAdmin = true;
+            }
             await _socketHandler.SendMessageToTeam(team);
         }
 

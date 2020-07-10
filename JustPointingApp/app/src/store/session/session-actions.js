@@ -19,3 +19,10 @@ export const session_started = () => {
         type: ACTION_TYPES.SESSION_STARTED
     }
 }
+
+export const set_role = (isObserver = false) => {
+    return {
+        type: ACTION_TYPES.SET_ROLE,
+        payload: isObserver
+    }
+}

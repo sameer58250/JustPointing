@@ -4,6 +4,8 @@ import './user-list.css';
 
 const UserList = props => {
     return (
+        props.users && props.users.length > 0 
+        ?
         <div className = "user-list app-table">
             <div className = "app-table-header">
                 <div className = "app-table-cell first-head-cell">Name</div>
@@ -17,23 +19,27 @@ const UserList = props => {
                     </button>
                 </div>
             </div>
-            {props.users.map(user => {
-                return (
-                    <div key = {user.SocketId} className = "app-table-row">
-                        <div className = "app-table-cell remove-user-div">
-                            <button className = "remove-user" onClick = {() => props.removeUser(user.SocketId)} disabled = {props.controlUserSetting=="OnlyAdmin" && !props.isAdmin}>
-                                X
-                            </button>
-                            {user.Name}
+            {
+                props.users.map(user => {
+                    return (
+                        <div key = {user.SocketId} className = "app-table-row">
+                            <div className = "app-table-cell remove-user-div">
+                                <button className = "remove-user" onClick = {() => props.removeUser(user.SocketId)} disabled = {props.controlUserSetting=="OnlyAdmin" && !props.isAdmin}>
+                                    X
+                                </button>
+                                {user.Name}
+                            </div>
+                            <div className = "app-table-cell">
+                                <input type = "checkbox" checked = {!!user.HasPointed} readOnly></input>
+                            </div>
+                            <div className = "app-table-cell">{props.isShowEnabled ? user.StoryPoint : ""}</div>
                         </div>
-                        <div className = "app-table-cell">
-                            <input type = "checkbox" checked = {!!user.HasPointed} readOnly></input>
-                        </div>
-                        <div className = "app-table-cell">{props.isShowEnabled ? user.StoryPoint : ""}</div>
-                    </div>
-                )
-            })}
+                    )
+                })
+            }
         </div>
+        :
+        <div className = "no-users"> Invite your team members to join.</div>
     )
 }
 

@@ -23,13 +23,7 @@ namespace JustPointing.WebSocketManager
                 return;
             }
             var socket = await context.WebSockets.AcceptWebSocketAsync();
-            string teamId = context.Request.Query["teamId"];
-            string name = context.Request.Query["name"];
-            if (string.IsNullOrEmpty(teamId))
-            {
-                throw new Exception("Team id cannot be null or empty");
-            }
-            await _handler.OnConnected(socket, teamId, name);
+            await _handler.OnConnected(socket);
             await Receive(socket, async (result, buffer) =>
             {
                 if (result.MessageType == WebSocketMessageType.Text)
