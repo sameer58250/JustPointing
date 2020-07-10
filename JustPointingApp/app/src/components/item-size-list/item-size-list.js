@@ -75,7 +75,7 @@ const ItemSizeList = props => {
         <div className = "item-size-list">
             <div hidden = {props.isObserver}>
                 { props.storyPoints.map((point, index) => {
-                    return (<button onClick = {vote} key = {index}>{point}</button>)
+                    return (<button onClick = {vote} key = {index} disabled = {props.isShowEnabled}>{point}</button>)
                 })}
             </div>
             <UserList users = {props.userList} isShowEnabled = {props.isShowEnabled}

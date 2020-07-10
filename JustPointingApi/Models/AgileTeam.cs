@@ -29,7 +29,7 @@ namespace JustPointing.Models
             ValidStoryPoints = new List<string>();
             AdminSettings = new AdminSettings();
             Observers = new List<Observer>();
-            CreationDate = new DateTime();
+            CreationDate = DateTime.Now;
             if (IsDefaultPoints)
             {
                 ValidStoryPoints = new List<string> { "34", "21", "13", "8", "5", "3", "2", "1" };

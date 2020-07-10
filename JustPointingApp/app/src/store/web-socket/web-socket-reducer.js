@@ -1,6 +1,7 @@
 import * as ACTION_TYPES from './web-socket-action-types';
 
 export const initialState = {
+    PointingWebSocket: "",
     ValidStoryPoints: [],
     Users: [],
     TeamId: "",
@@ -13,6 +14,11 @@ export const initialState = {
 
 export const WebSocketReducer = (state = initialState, action) => {
     switch(action.type) {
+        case ACTION_TYPES.ASSIGN_WEB_SOCKET:
+            return {
+                ...state,
+                PointingWebSocket: action.payload
+            }
         case ACTION_TYPES.WEB_SOCKET_MESSAGE_RECEIVED:
             return {
                 ...state,

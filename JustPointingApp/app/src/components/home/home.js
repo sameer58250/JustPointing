@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './home.css';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,6 +8,13 @@ import AppError from '../error/error';
 const Home = props => {
 
     const History = useHistory();
+
+    useEffect(() => {
+        if(props.webSocket){
+            props.webSocket.close();
+        }   
+    });
+
     const startSession = () => {
         SessionManager.StartSession()
         .then(response => {
@@ -57,7 +64,8 @@ const Home = props => {
 
 function mapStateToProps(state){
     return {
-        error: state.SessionReducer.sessionError
+        error: state.SessionReducer.sessionError,
+        webSocket: state.WebSocketReducer.PointingWebSocket
     }
 }
 

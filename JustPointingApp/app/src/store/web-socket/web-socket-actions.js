@@ -1,5 +1,12 @@
 import * as ACTION_TYPES from './web-socket-action-types';
 
+export const assignWebSocket = (webSocket) => {
+    return {
+        type: ACTION_TYPES.ASSIGN_WEB_SOCKET,
+        payload: webSocket
+    }
+}
+
 export const webSocketMessageReceived = (teamsData) => {
     return {
         type: ACTION_TYPES.WEB_SOCKET_MESSAGE_RECEIVED,

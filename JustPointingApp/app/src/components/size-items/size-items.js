@@ -80,6 +80,7 @@ const SizeItems = props => {
         if(role !== "Voter"){
             props.setRole(true);
         }
+        props.assignWebSocket(webSocketmanager.pointingWebSocket);
         History.replace('/' + props.sessionId + '/size');
     }
 
@@ -159,7 +160,8 @@ function mapDispatchToProps(dispatch){
         webSocketIdReceived: (socketId) => dispatch(webSocketActions.webSocketIdReceived(socketId)),
         setItemDescription: (description) => dispatch(webSocketActions.setItemDescription(description)),
         updateAdminSettings: (settings) => dispatch(adminSettingActions.updateAllSettings(settings)),
-        setRole: (isObserver) => dispatch(sessionActions.set_role(isObserver))
+        setRole: (isObserver) => dispatch(sessionActions.set_role(isObserver)),
+        assignWebSocket: (webSocket) => dispatch(webSocketActions.assignWebSocket(webSocket))
     }
 }
 

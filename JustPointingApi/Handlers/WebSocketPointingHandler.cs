@@ -98,6 +98,7 @@ namespace JustPointing.Handlers
                     team = new AgileTeam(true);
                     team.TeamId = teamId;
                 }
+                team.IsShowEnabled = false;
                 team.AddUser(user);
                 _dataManager.AddTeam(teamId, team);
                 return team;
@@ -131,7 +132,7 @@ namespace JustPointing.Handlers
             var allTeams = _dataManager.AllTeams.Values;
             foreach(var team in allTeams)
             {
-                var currentDate = new DateTime();
+                var currentDate = DateTime.Now;
                 var diff = (currentDate - team.CreationDate).TotalHours;
                 if(diff > (double)expirationTimeInHours)
                 {
