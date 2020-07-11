@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JustPointing.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("[Controller]")]
     [ApiController]
     public class HomeController : ControllerBase
     {

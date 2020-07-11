@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace JustPointingApi.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
+    [Route("[Controller]")]
     public class PointingController:ControllerBase
     {
         private readonly IPointingService _pointingService;
