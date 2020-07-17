@@ -36,7 +36,6 @@ namespace JustPointing
                     builder =>
                     {
                         builder.WithOrigins(allowedHosts.Split(','))
-                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                     });
@@ -77,7 +76,7 @@ namespace JustPointing
                 {
                     await context.Response.WriteAsync("JustPointing API");
                 });
-                endpoints.MapControllers().RequireCors(_myCorsPolicy);
+                endpoints.MapControllers();
             });
         }
     }
