@@ -28,10 +28,9 @@ namespace JustPointingApi.Controllers
 
         [Route("RemoveUser")]
         [HttpPost]
-        public async Task<ActionResult<UserData>> RemoveUser(string socketId)
+        public async Task RemoveUser(string socketId)
         {
-            var user = await _userService.RemoveUser(socketId);
-            return Ok(user);
+            await _userService.RemoveUser(socketId);
         }
 
         [Route("UpdateSettings")]
