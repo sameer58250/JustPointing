@@ -1,7 +1,6 @@
 ﻿using JustPointing.Models;
 using JustPointingApi.Models;
 using JustPointingApi.Services;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,6 @@ namespace JustPointingApi.Controllers
             await _userService.SetAdmin(socketId);
         }
 
-        [EnableCors("MyCorsPolicy")]
         [Route("RemoveUser")]
         [HttpPost]
         public async Task<ActionResult<UserData>> RemoveUser(string socketId)

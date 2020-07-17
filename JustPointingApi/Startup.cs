@@ -77,7 +77,7 @@ namespace JustPointing
                 {
                     await context.Response.WriteAsync("JustPointing API");
                 });
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireCors(_myCorsPolicy);
             });
         }
     }
