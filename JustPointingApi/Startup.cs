@@ -35,7 +35,7 @@ namespace JustPointing
                 options.AddPolicy(name: _myCorsPolicy,
                     builder =>
                     {
-                        builder.WithOrigins(allowedHosts.Split(','))
+                        builder
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
