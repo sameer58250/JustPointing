@@ -50,7 +50,7 @@ namespace JustPointingApi.Services
                 }
                 team.RemoveUser(socketId);
                 await _socketHandler.RemoveSocket(socketId);
-                //_socketHandler.SendMessageToTeam(team).Wait();
+                await _socketHandler.SendMessageToTeam(team);
                 return await Task.FromResult(user);
             }
             catch (Exception ex)
