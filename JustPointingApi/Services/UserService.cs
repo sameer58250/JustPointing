@@ -49,7 +49,7 @@ namespace JustPointingApi.Services
                     throw new Exception("Cannot remove an admin.");
                 }
                 team.RemoveUser(socketId);
-                //_socketHandler.RemoveSocket(socketId).Wait();
+                await _socketHandler.RemoveSocket(socketId);
                 //_socketHandler.SendMessageToTeam(team).Wait();
                 return await Task.FromResult(user);
             }
