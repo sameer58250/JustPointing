@@ -39,17 +39,24 @@ namespace JustPointingApi.Services
 
         public async Task<UserData> RemoveUser(string socketId)
         {
-            var team = _dataManager.GetTeamFromSocketId(socketId);
-            _storyPoints.RemoveStoryPoint(socketId);
-            var user = team.GetUser(socketId);
-            if (user.IsAdmin)
+            try
             {
-                throw new Exception("Cannot remove an admin.");
+                var team = _dataManager.GetTeamFromSocketId(socketId);
+                _storyPoints.RemoveStoryPoint(socketId);
+                var user = team.GetUser(socketId);
+                if (user.IsAdmin)
+                {
+                    throw new Exception("Cannot remove an admin.");
+                }
+                team.RemoveUser(socketId);
+                await _socketHandler.RemoveSocket(socketId);
+                await _socketHandler.SendMessageToTeam(team);
+                return user;
             }
-            team.RemoveUser(socketId);
-            await _socketHandler.RemoveSocket(socketId);
-            await _socketHandler.SendMessageToTeam(team);
-            return user;
+            catch (Exception ex)
+            {
+                throw new Exception("failed to remove user", ex);
+            }
         }
 
         public async Task UpdateSettings(string teamId, AdminSettings settings)
