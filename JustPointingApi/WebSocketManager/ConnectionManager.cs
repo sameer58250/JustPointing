@@ -28,7 +28,8 @@ namespace JustPointing.WebSocketManager
         {
             WebSocket socket;
             _connections.TryRemove(id, out socket);
-            await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "socket connection closed", CancellationToken.None);
+            if (socket != null && socket.State == WebSocketState.Open)
+                await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "socket connection closed", CancellationToken.None);
         }
         public void AddSocketConnection(WebSocket socket)
         {
