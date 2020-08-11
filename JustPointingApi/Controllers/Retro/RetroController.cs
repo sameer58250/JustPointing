@@ -32,5 +32,11 @@ namespace JustPointingApi.Controllers.Retro
             var columns = await _retroService.GetRetroBoardDetails(boardId);
             return Ok(columns);
         }
+        [HttpPost]
+        [Route("AddRetroPoint")]
+        public async Task AddRetroPoint([FromBody]RetroPoint retroPoint)
+        {
+            await _retroService.AddRetroPoint(retroPoint);
+        }
     }
 }

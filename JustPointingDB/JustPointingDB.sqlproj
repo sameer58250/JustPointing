@@ -59,6 +59,7 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="Views" />
+    <Folder Include="ReferenceData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Users.sql" />
@@ -84,5 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="JustPointingDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="ReferenceData\Script.AddDummyData.sql" />
   </ItemGroup>
 </Project>

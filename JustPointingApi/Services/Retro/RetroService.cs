@@ -35,5 +35,10 @@ namespace JustPointingApi.Services.Retro
         {
             return await _retroRepo.GetBoardsWithUserId(userId);
         }
+
+        public async Task AddRetroPoint(RetroPoint retroPoint)
+        {
+            await _retroRepo.AddRetroPoint(retroPoint);
+        }
     }
 }

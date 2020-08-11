@@ -19,6 +19,14 @@ namespace JustPointingApi.Repositories
             string connectionString = configuration.GetConnectionString("JustPointningConnection");
             _db = new SqlConnection(connectionString);
         }
+
+        public async Task AddRetroPoint(RetroPoint retroPoint)
+        {
+            await _db.QueryAsync("AddRetroPoints",
+                new { @userId = retroPoint.RetroPointUserId, @columnId = retroPoint.RetroColumnId, @pointText = retroPoint.RetroPointText },
+                commandType: CommandType.StoredProcedure);
+        }
+
         public async Task<List<RetroBoard>> GetBoardsWithUserId(int userId)
         {
             var queryRes = await _db.QueryAsync("GetAllBoardsWithUserId", new { @userId = userId }, commandType: CommandType.StoredProcedure);

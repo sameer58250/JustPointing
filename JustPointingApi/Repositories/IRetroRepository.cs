@@ -12,5 +12,6 @@ namespace JustPointingApi.Repositories
         Task<List<RetroBoard>> GetSharedBoardsWithUserId(int userId);
         Task<List<RetroColumn>> GetRetroColumns(int boardId);
         Task<List<RetroPoint>> GetRetroPoints(int columnId);
+        Task AddRetroPoint(RetroPoint retroPoint);
     }
 }
