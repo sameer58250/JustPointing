@@ -1,0 +1,55 @@
+.retroTopicContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.newCardInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.newCardInput .inputField {
+  width: auto;
+  margin-left: 0px;
+}
+
+.retroTopicContainer .addCardButton {
+  background: #635d5d;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 2px;
+  text-decoration: none;
+  font-size: larger;
+  color: white;
+  border-radius: 3px;
+  height: 26px;
+  text-align: center;
+}
+
+.retroTopicContainer .addCardButton:hover {
+  background-color: #635d5d;
+}
+
+.newCardInput .button {
+  background: #635d5d;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 2px;
+  text-decoration: unset;
+  font-size: larger;
+  color: white;
+  border-radius: 3px;
+  height: 26px;
+  text-align: center;
+}
+
+.newCardInput .button:hover {
+  background-color: #635d5d;
+}
+
+.retroTopicContainer .topicHeader {
+  color: #383535;
+  font-weight: bold;
+  font-size: 25px;
+}
