@@ -1,4 +1,4 @@
-.retro{
-    display: block;
-    text-align: center;
+.retro {
+  display: flex;
+  justify-content: space-around;
 }
