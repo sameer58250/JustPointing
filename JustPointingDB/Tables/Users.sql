@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Users]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+	UserEmail VARCHAR(100) NOT NULL UNIQUE,
+	CreationDate DATETIME
+)

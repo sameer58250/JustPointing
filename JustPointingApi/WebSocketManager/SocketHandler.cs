@@ -17,9 +17,9 @@ namespace JustPointing.WebSocketManager
         {
             Connections = connections;
         }
-        public virtual async Task OnConnected(WebSocket socket)
+        public virtual async Task OnConnected(WebSocket socket, string key = "")
         {
-            await Task.Run(() => Connections.AddSocketConnection(socket));
+            await Task.Run(() => Connections.AddSocketConnection(socket, key));
         }
         public virtual async Task OnDisconnected(WebSocket socket)
         {

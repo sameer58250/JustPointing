@@ -25,7 +25,7 @@ namespace JustPointing.Handlers
             _contextAccessor = new HttpContextAccessor();
         }
 
-        public override async Task OnConnected(WebSocket socket)
+        public override async Task OnConnected(WebSocket socket, string key = "")
         {
             await base.OnConnected(socket);
             var context = _contextAccessor.HttpContext;
