@@ -30,7 +30,7 @@ const SimpleCard = (props) => {
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="body2" component="p">
-          {props.CardDetails}
+          {props.cardDetails}
         </Typography>
       </CardContent>
     </Card>

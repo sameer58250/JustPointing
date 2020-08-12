@@ -2,29 +2,41 @@ import "./retro-topic-container.css";
 import React, { useState, useEffect } from "react";
 import SimpleCard from "../card/card";
 import { Button, InputLabel } from "@material-ui/core";
+import * as RetroManager from "../../containers/retro-manager/retro-manager";
+import { findIndexArrayByAttr } from "../../utils/utils";
 
 const RetroTopicContainer = (props) => {
-  const initialValue = [{ id: 0, value: " --- Select a State ---" }];
-  const [stateOptions, setStateValues] = useState(initialValue);
   const [isAddCardVisible, setIsAddCardVisible] = useState(true);
   const [newCard, setNewCard] = useState("");
 
-  const allowedState = [
-    { id: 1, value: "Alabama" },
-    { id: 2, value: "Georgia" },
-    { id: 3, value: "Tennessee" },
-  ];
-
-  useEffect(() => {
-    setStateValues(allowedState);
-  }, []);
-
   const addCard = () => {
     console.log("click");
-    setStateValues((stateOptions) => [
-      ...stateOptions,
-      { id: stateOptions.slice(-1)[0].id + 1, value: newCard },
-    ]);
+    var date = new Date();
+    var retroPointDate = date.toLocaleDateString;
+    var newRetroPoint = {
+      // retroPointId: props.cardDetails.slice(-1)[0].retroPointId + 1,
+      retroPointUserId: props.cardDetails.slice(-1)[0].retroPointUserId,
+      retroPointText: newCard,
+      creationDate: retroPointDate,
+      retroColumnId: props.cardDetails.slice(-1)[0].retroColumnId,
+    };
+    var newCardDetails;
+    RetroManager.PostRetroPoint(newRetroPoint).then((resp) => {
+      debugger;
+      newRetroPoint.retroPointId = resp.data;
+      props.cardDetails.push(newRetroPoint);
+      var columnIndex = findIndexArrayByAttr(
+        props.fullRetroData,
+        "columnId",
+        props.columnDetails.columnId
+      );
+      props.fullRetroData[columnIndex].retroPoints = props.cardDetails;
+      props.updateRetroData(props.fullRetroData);
+      RetroManager.GetRetroColumns(1).then((resp) =>
+        props.updateRetroData(resp.data)
+      );
+    });
+
     setIsAddCardVisible(true);
   };
 
@@ -42,10 +54,14 @@ const RetroTopicContainer = (props) => {
 
   return (
     <div className="retroTopicContainer">
-      <div className="topicHeader">{props.Topic}</div>
-      {stateOptions.map((state) => (
-        <SimpleCard key={state.id} CardDetails={state.value} />
-      ))}
+      <div className="topicHeader">{props.columnTitle}</div>
+      {props.cardDetails &&
+        props.cardDetails.map((retroPoint) => (
+          <SimpleCard
+            key={retroPoint.retroPointId}
+            cardDetails={retroPoint.retroPointText}
+          />
+        ))}
       {isAddCardVisible && (
         <Button className="addCardButton" onClick={addCardClicked}>
           Add a Card
@@ -65,5 +81,22 @@ const RetroTopicContainer = (props) => {
     </div>
   );
 };
+
+// function mapStateToProps(state) {
+//   return {
+//     retroData: state.RetroReducer.retroData,
+//   };
+// }
+
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     getRetroData: (retroData) => dispatch(actions.getRetroData(retroData)),
+//   };
+// }
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(RetroTopicContainer);
 
 export default RetroTopicContainer;
