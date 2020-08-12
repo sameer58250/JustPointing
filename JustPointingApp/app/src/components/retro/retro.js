@@ -18,6 +18,7 @@ const Retro = (props) => {
           <RetroTopicContainer
             key={details.columnId}
             columnTitle={details.columnTitle}
+            columnId={details.columnId}
             columnDetails={details}
             cardDetails={details.retroPoints}
             updateRetroData={props.getRetroData}

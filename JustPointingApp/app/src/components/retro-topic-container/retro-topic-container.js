@@ -10,20 +10,19 @@ const RetroTopicContainer = (props) => {
   const [newCard, setNewCard] = useState("");
 
   const addCard = () => {
-    console.log("click");
     var date = new Date();
     var retroPointDate = date.toLocaleDateString;
     var newRetroPoint = {
-      // retroPointId: props.cardDetails.slice(-1)[0].retroPointId + 1,
-      retroPointUserId: props.cardDetails.slice(-1)[0].retroPointUserId,
+      retroPointUserId: 1,
       retroPointText: newCard,
       creationDate: retroPointDate,
-      retroColumnId: props.cardDetails.slice(-1)[0].retroColumnId,
+      retroColumnId: props.columnId,
     };
-    var newCardDetails;
     RetroManager.PostRetroPoint(newRetroPoint).then((resp) => {
-      debugger;
       newRetroPoint.retroPointId = resp.data;
+      if (!props.cardDetails) {
+        props.cardDetails = [];
+      }
       props.cardDetails.push(newRetroPoint);
       var columnIndex = findIndexArrayByAttr(
         props.fullRetroData,
