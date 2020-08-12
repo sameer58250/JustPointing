@@ -34,9 +34,10 @@ namespace JustPointingApi.Controllers.Retro
         }
         [HttpPost]
         [Route("AddRetroPoint")]
-        public async Task AddRetroPoint([FromBody]RetroPoint retroPoint)
+        public async Task<ActionResult<int>> AddRetroPoint([FromBody]RetroPoint retroPoint)
         {
-            await _retroService.AddRetroPoint(retroPoint);
+            var pointId = await _retroService.AddRetroPoint(retroPoint);
+            return Ok(pointId);
         }
     }
 }

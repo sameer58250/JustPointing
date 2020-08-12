@@ -20,11 +20,12 @@ namespace JustPointingApi.Repositories
             _db = new SqlConnection(connectionString);
         }
 
-        public async Task AddRetroPoint(RetroPoint retroPoint)
+        public async Task<int> AddRetroPoint(RetroPoint retroPoint)
         {
-            await _db.QueryAsync("AddRetroPoints",
+           var queryRes = await _db.QueryAsync<int>("AddRetroPoints",
                 new { @userId = retroPoint.RetroPointUserId, @columnId = retroPoint.RetroColumnId, @pointText = retroPoint.RetroPointText },
                 commandType: CommandType.StoredProcedure);
+            return queryRes.FirstOrDefault();
         }
 
         public async Task<List<RetroBoard>> GetBoardsWithUserId(int userId)
