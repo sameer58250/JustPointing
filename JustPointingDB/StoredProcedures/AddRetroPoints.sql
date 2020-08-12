@@ -6,5 +6,5 @@
 AS
 	INSERT INTO RetroPoints (RetroPointText, PointUserid, RetroColumnTypeId, CreationDate)
 	VALUES (@pointText, @userId, @columnId, GETDATE());
-	return SCOPE_IDENTITY();
+	SELECT SCOPE_IDENTITY();
 RETURN 0
