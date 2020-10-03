@@ -1,5 +1,6 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This is a small app used in Agile software development process for sizing features/user stories/defects and conducting retrospective meetings.
+url - http://justpointing.azurewebsites.net/
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
