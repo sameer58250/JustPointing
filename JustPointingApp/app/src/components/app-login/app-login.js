@@ -1,10 +1,11 @@
 import React from 'react';
 import './app-login.css';
+import LoginView from "../login/login";
 
 const AppLogin = (props) => {
     return (
         <div className = "app-login">
-            App login goes here.
+            <LoginView></LoginView>
         </div>
     )
 }

@@ -4,7 +4,9 @@ export const initialState = {
     sessionId: null,
     sessionError: "",
     isAdmin: false,
-    isObserver: false
+    isObserver: false,
+    isUserLoggedIn: false,
+    userDetails: {}
 }
 
 export const SessionReducer = (state = initialState, action) => {
@@ -30,6 +32,17 @@ export const SessionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isObserver: action.payload
+            }
+        case ACTION_TYPES.LOGIN_USER:
+            return {
+                ...state,
+                isUserLoggedIn: true,
+                userDetails: action.payload
+            }
+        case ACTION_TYPES.LOGOUT_USER:
+            return {
+                ...state,
+                isUserLoggedIn: false
             }
         default:
             return state;

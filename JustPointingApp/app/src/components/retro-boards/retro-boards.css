@@ -1,0 +1,30 @@
+.retro-boards {
+  display: inline-block;
+  padding: 13px;
+  border: 1px solid grey;
+  max-width: 30%;
+  min-width: 203px;
+  overflow-x: auto;
+}
+.retro-boards > button {
+  display: block;
+  margin: 13px;
+  padding: 6.5px;
+  min-width: 80%;
+}
+.create-board {
+  display: block;
+}
+.create-board > input {
+    display: block;
+    width: calc(100% - 52px);
+}
+.create-board > div {
+    display: block;
+}
+.retro-board-title {
+    background-color: darkgray;
+}
+.retro-board-title:hover {
+    background-color:lightgrey !important;
+}

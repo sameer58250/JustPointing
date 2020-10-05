@@ -1,4 +1,16 @@
 .retro {
   display: flex;
+  border: 1px solid grey;
+}
+.board-content {
+  display: flex;
   justify-content: space-around;
+  flex-flow: row;
+  padding: 13px;
+}
+.login-modal > div{
+  width: 400px;
+  height: fit-content;
+  margin: auto;
+  position: absolute;
 }
