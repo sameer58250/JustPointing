@@ -1,3 +1,7 @@
 export const GET_RETRO_DATA = "GET_RETRO_DATA";
 
 export const POST_RETRO_DATA = "POST_RETRO_DATA";
+
+export const GET_RETRO_BOARDS = "GET_RETRO_BOARDS";
+
+export const SELECT_BOARD = "SELECT_BOARD";

@@ -1,10 +1,11 @@
 .retro-boards {
   display: inline-block;
-  padding: 13px;
+  padding: 13px 0 0 0;
   border: 1px solid grey;
-  max-width: 30%;
-  min-width: 203px;
+  width: 26%;
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 500px;
 }
 .retro-boards > button {
   display: block;
@@ -24,7 +25,30 @@
 }
 .retro-board-title {
     background-color: darkgray;
+    display: block;
+    float: left;
+    margin: 3.25px 6.5px 3.25px 13px;
+    padding: 6.5px;
+    width: 76%;
+    border-radius: 3px;
 }
 .retro-board-title:hover {
     background-color:lightgrey !important;
+    cursor: pointer;
+    border: 1px solid grey;
+}
+.board{
+  display: block;
+}
+.retro-board-menu{
+  display: block;
+  float: right;
+}
+.board-input{
+  background: white;
+  margin-left: 13px !important;
+}
+.board-icon{
+  display: inline-grid;
+  cursor: pointer;
 }

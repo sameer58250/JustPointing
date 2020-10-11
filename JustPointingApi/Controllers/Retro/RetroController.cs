@@ -39,5 +39,43 @@ namespace JustPointingApi.Controllers.Retro
             var pointId = await _retroService.AddRetroPoint(retroPoint);
             return Ok(pointId);
         }
+        [HttpPost]
+        [Route("AddRetroBoard")]
+        public async Task<ActionResult<int>> AddRetroBoard([FromBody] RetroBoard board)
+        {
+            var boardId = await _retroService.AddRetroBoard(board);
+            return Ok(boardId);
+        }
+        [HttpPost]
+        [Route("AddRetroColumn")]
+        public async Task<ActionResult<int>> AddRetroColumn([FromBody] RetroColumn column)
+        {
+            var columnId = await _retroService.AddRetroColumn(column);
+            return Ok(columnId);
+        }
+        [HttpPut]
+        [Route("UpdateRetroColumn")]
+        public async Task UpdateRetroColumn([FromBody] RetroColumn column)
+        {
+            await _retroService.UpdateRetroColumn(column);
+        }
+        [HttpPut]
+        [Route("UpdateRetroPoint")]
+        public async Task UpdateRetroPoint([FromBody] RetroPoint point)
+        {
+            await _retroService.UpdateRetroPoint(point);
+        }
+        [HttpDelete]
+        [Route("DeleteRetroPoint")]
+        public async Task DeleteRetroPoint([FromBody] RetroPoint point)
+        {
+            await _retroService.DeleteRetroPoint(point);
+        }
+        [HttpDelete]
+        [Route("DeleteRetroBoard")]
+        public async Task DeleteRetroBoard(string boardId, [FromBody]int userId)
+        {
+            await _retroService.DeleteRetroBoard(boardId, userId);
+        }
     }
 }

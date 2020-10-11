@@ -13,5 +13,11 @@ namespace JustPointingApi.Repositories
         Task<List<RetroColumn>> GetRetroColumns(int boardId);
         Task<List<RetroPoint>> GetRetroPoints(int columnId);
         Task<int> AddRetroPoint(RetroPoint retroPoint);
+        Task<int> AddRetroBoard(RetroBoard board);
+        Task<int> AddRetroColumn(RetroColumn column);
+        Task<int> UpdateRetroColumn(RetroColumn column);
+        Task UpdateRetroPoint(RetroPoint point);
+        Task DeleteRetroPoint(RetroPoint point);
+        Task DeleteRetroBoard(string boardId, int userId);
     }
 }

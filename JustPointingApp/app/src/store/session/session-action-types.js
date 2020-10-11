@@ -9,3 +9,5 @@ export const SET_ROLE = "SET_ROLE";
 export const LOGIN_USER = "LOGIN_USER";
 
 export const LOGOUT_USER = "LOGOUT_USER";
+
+export const OPEN_LOGIN_POPUP = "OPEN_LOGIN_POPUP";

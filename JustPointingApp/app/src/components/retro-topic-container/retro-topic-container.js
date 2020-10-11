@@ -1,101 +1,152 @@
 import "./retro-topic-container.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SimpleCard from "../card/card";
-import { Button, InputLabel } from "@material-ui/core";
 import * as RetroManager from "../../containers/retro-manager/retro-manager";
-import { findIndexArrayByAttr } from "../../utils/utils";
+import { findIndexArrayByAttr, removeFromArrayByAttr } from "../../utils/utils";
+import { connect } from "react-redux";
+import * as actions from "../../store/retro/retro-actions";
+import AddIcon from "@material-ui/icons/Add";
 
 const RetroTopicContainer = (props) => {
-  const [isAddCardVisible, setIsAddCardVisible] = useState(true);
-  const [newCard, setNewCard] = useState("");
+    const [isAddCardVisible, setIsAddCardVisible] = useState(true);
 
-  const addCard = () => {
-    var date = new Date();
-    var retroPointDate = date.toLocaleDateString;
     var newRetroPoint = {
-      retroPointUserId: 1,
-      retroPointText: newCard,
-      creationDate: retroPointDate,
-      retroColumnId: props.columnId,
+        retroPointUserId: props.userDetails.userId,
+        retroPointText: "",
+        creationDate: "",
+        retroColumnId: props.columnId,
     };
-    RetroManager.PostRetroPoint(newRetroPoint).then((resp) => {
-      newRetroPoint.retroPointId = resp.data;
-      if (!props.cardDetails) {
-        props.cardDetails = [];
-      }
-      props.cardDetails.push(newRetroPoint);
-      var columnIndex = findIndexArrayByAttr(
-        props.fullRetroData,
-        "columnId",
-        props.columnDetails.columnId
-      );
-      props.fullRetroData[columnIndex].retroPoints = props.cardDetails;
-      props.updateRetroData(props.fullRetroData);
-      RetroManager.GetRetroColumns(1).then((resp) =>
-        props.updateRetroData(resp.data)
-      );
-    });
 
-    setIsAddCardVisible(true);
-  };
+    const addCard = (newPoint) => {
+        if (!props.columnDetails.retroPoints) {
+            props.columnDetails.retroPoints = [];
+        }
+        props.columnDetails.retroPoints.push(newPoint);
+        var columnIndex = findIndexArrayByAttr(
+            props.retroData,
+            "columnId",
+            props.columnDetails.columnId
+        );
+        props.retroData[columnIndex] = props.columnDetails;
+        updateRetroColumns();
+        setIsAddCardVisible(true);
+    };
 
-  const addCardClicked = () => {
-    setIsAddCardVisible(false);
-  };
+    const addCardClicked = () => {
+        setIsAddCardVisible(false);
+    };
 
-  const cancelClicked = () => {
-    setIsAddCardVisible(true);
-  };
+    const cancelClicked = () => {
+        setIsAddCardVisible(true);
+    };
 
-  const cardModified = (event) => {
-    setNewCard(event.target.value);
-  };
+    const addRetroColumn = (e, columnId) => {
+        if (e.key === "Enter") {
+            if (e.target.value) {
+                e.persist();
+                if (columnId) {
+                    var columnIndex = findIndexArrayByAttr(
+                        props.retroData,
+                        "columnId",
+                        columnId
+                    );
+                    var column = props.retroData[columnIndex];
+                    column.columnTitle = e.target.value;
+                    RetroManager.UpdateRetroColumn(column).then(
+                        (res) => {
+                            updateRetroColumns();
+                            e.target.blur();
+                        },
+                        (err) => {
+                            console.log(err);
+                        }
+                    );
+                } else {
+                    var newColumn = {
+                        columnTitle: e.target.value,
+                        creationDate: new Date().toDateString(),
+                        retroBoardId: props.selectedBoard.boardId,
+                        RetroPoints: [],
+                    };
+                    props.retroData.push(newColumn);
+                    RetroManager.AddRetroColumn(newColumn).then(
+                        (res) => {
+                            newColumn.columnId = res.data;
+                            updateRetroColumns();
+                        },
+                        (err) => {
+                            console.log(err);
+                        }
+                    );
+                    e.target.value = "";
+                }
+            }
+        }
+    };
 
-  return (
-    <div className="retroTopicContainer">
-      <div className="topicHeader">{props.columnTitle}</div>
-      {props.cardDetails &&
-        props.cardDetails.map((retroPoint) => (
-          <SimpleCard
-            key={retroPoint.retroPointId}
-            cardDetails={retroPoint.retroPointText}
-          />
-        ))}
-      {isAddCardVisible && (
-        <Button className="addCardButton" onClick={addCardClicked}>
-          Add a Card
-        </Button>
-      )}
-      {!isAddCardVisible && (
-        <form className="newCardInput">
-          <input type="text" className="inputField" onChange={cardModified} />
-          <Button className="button" onClick={cancelClicked}>
-            Cancel
-          </Button>
-          <Button className="button" onClick={addCard}>
-            Add
-          </Button>
-        </form>
-      )}
-    </div>
-  );
+    const updateRetroColumns = () => {
+        var retroDataCopy = props.retroData.slice();
+        props.updateRetroData(retroDataCopy);
+    };
+
+    const deleteCard = (point) => {
+        removeFromArrayByAttr(
+            props.columnDetails.retroPoints,
+            "retroPointId",
+            point.retroPointId
+        );
+        updateRetroColumns();
+    };
+
+    return (
+        <div className="retroTopicContainer">
+            <input
+                type="text"
+                className="retroColumnHeader"
+                defaultValue={props.columnTitle}
+                placeholder={props.placeholder || "Click to add retro column"}
+                onKeyPress={(e) => addRetroColumn(e, props.columnId)}></input>
+            {props.columnDetails &&
+                props.columnDetails.retroPoints &&
+                props.columnDetails.retroPoints.map((retroPoint) => (
+                    <SimpleCard
+                        key={retroPoint.retroPointId}
+                        cardDetails={retroPoint}
+                        deleteCard={deleteCard}
+                        updateCard={updateRetroColumns}
+                    />
+                ))}
+            {isAddCardVisible && props.columnDetails && (
+                <div title="Click to add point" className="addCardButton">
+                    <AddIcon onClick={addCardClicked}></AddIcon>
+                </div>
+            )}
+            {!isAddCardVisible && (
+                <SimpleCard
+                    cardDetails={newRetroPoint}
+                    addCard={addCard}
+                    cancelAdd={cancelClicked}></SimpleCard>
+            )}
+        </div>
+    );
 };
 
-// function mapStateToProps(state) {
-//   return {
-//     retroData: state.RetroReducer.retroData,
-//   };
-// }
+function mapStateToProps(state) {
+    return {
+        retroData: state.RetroReducer.retroData,
+        selectedBoard: state.RetroReducer.selectedBoard,
+        userDetails: state.SessionReducer.userDetails,
+    };
+}
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     getRetroData: (retroData) => dispatch(actions.getRetroData(retroData)),
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+    return {
+        updateRetroData: (retroData) =>
+            dispatch(actions.getRetroData(retroData)),
+    };
+}
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(RetroTopicContainer);
-
-export default RetroTopicContainer;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RetroTopicContainer);

@@ -39,3 +39,10 @@ export const logout_user = () => {
         type: ACTION_TYPES.LOGOUT_USER
     }
 }
+
+export const open_login_popup = (shouldLoginPopupOpen) => {
+    return {
+        type: ACTION_TYPES.OPEN_LOGIN_POPUP,
+        payload: shouldLoginPopupOpen
+    }
+}

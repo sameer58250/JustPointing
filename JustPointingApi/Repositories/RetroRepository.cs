@@ -20,6 +20,31 @@ namespace JustPointingApi.Repositories
             _db = new SqlConnection(connectionString);
         }
 
+        public async Task<int> AddRetroBoard(RetroBoard board)
+        {
+            var queryRes = await _db.QueryAsync<int>("CreateRetroBoard",
+                 new { @boardOwner = board.BoardOwnerId, @boardTitle = board.BoardTitle },
+                 commandType: CommandType.StoredProcedure);
+            return queryRes.FirstOrDefault();
+        }
+
+        public async Task<int> AddRetroColumn(RetroColumn column)
+        {
+            var queryRes = await _db.QueryAsync<int>("AddRetroColumns",
+                 new { @boardId = column.RetroBoardId, @columnTitle = column.ColumnTitle },
+                 commandType: CommandType.StoredProcedure);
+            return queryRes.FirstOrDefault();
+        }
+
+
+        public async Task<int> UpdateRetroColumn(RetroColumn column)
+        {
+            var queryRes = await _db.QueryAsync<int>("UpdateRetroColumn",
+                 new { @columnId = column.ColumnId, @columnTitle = column.ColumnTitle },
+                 commandType: CommandType.StoredProcedure);
+            return queryRes.FirstOrDefault();
+        }
+
         public async Task<int> AddRetroPoint(RetroPoint retroPoint)
         {
            var queryRes = await _db.QueryAsync<int>("AddRetroPoints",
@@ -75,6 +100,27 @@ namespace JustPointingApi.Repositories
                 BoardOwnerId = board.RetroBoardOwner,
                 CreationDate = board.CreationDate
             }).ToList();
+        }
+
+        public async Task UpdateRetroPoint(RetroPoint point)
+        {
+            await _db.QueryAsync<int>("UpdateRetroPoint",
+                 new { @retroPointId = point.RetroPointId, @pointText = point.RetroPointText },
+                 commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task DeleteRetroPoint(RetroPoint point)
+        {
+            await _db.QueryAsync("DeleteRetroPoint",
+                new { @pointId = point.RetroPointId },
+                commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task DeleteRetroBoard(string boardId, int userId)
+        {
+            await _db.QueryAsync("DeleteRetroBoard",
+                new { @boardId = boardId, @userId = userId },
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

@@ -40,5 +40,35 @@ namespace JustPointingApi.Services.Retro
         {
             return await _retroRepo.AddRetroPoint(retroPoint);
         }
+
+        public async Task<int> AddRetroBoard(RetroBoard board)
+        {
+            return await _retroRepo.AddRetroBoard(board);
+        }
+
+        public async Task<int> AddRetroColumn(RetroColumn column)
+        {
+            return await _retroRepo.AddRetroColumn(column);
+        }
+
+        public async Task<int> UpdateRetroColumn(RetroColumn column)
+        {
+            return await _retroRepo.UpdateRetroColumn(column);
+        }
+
+        public async Task UpdateRetroPoint(RetroPoint point)
+        {
+            await _retroRepo.UpdateRetroPoint(point);
+        }
+
+        public async Task DeleteRetroPoint(RetroPoint point)
+        {
+            await _retroRepo.DeleteRetroPoint(point);
+        }
+
+        public async Task DeleteRetroBoard(string boardId, int userId)
+        {
+            await _retroRepo.DeleteRetroBoard(boardId, userId);
+        }
     }
 }

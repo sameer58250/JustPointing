@@ -1,1 +1,21 @@
-
+.retro-point-icon {
+    font-size: smaller !important;
+}
+.retro-point-icon:hover{
+    cursor: pointer;
+}
+.retro-point-icon:active{
+    background-color: lightgray;
+    border-radius: 30%;
+    padding: 2px;
+}
+.retro-point-date{
+    font-size: x-small;
+    flex: auto;
+}
+.retro-point-edit{
+    resize: none;
+    width: -webkit-fill-available;
+    height: auto;
+    overflow-y: hidden;
+}

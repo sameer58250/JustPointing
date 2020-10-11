@@ -17,6 +17,9 @@
     height: 26px;
     text-align: center;
 }
+.app-login-btn {
+    cursor: pointer;
+}
 .login-tabs{
     float: right;
 }

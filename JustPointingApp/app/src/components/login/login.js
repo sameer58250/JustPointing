@@ -11,8 +11,8 @@ const Login = props => {
         if(emailEle && emailEle.value) {
             LoginUser(emailEle.value)
             .then((res) => {
-                console.log(res.data);
                 props.login(res.data);
+                props.loginCallback && props.loginCallback(res.data.userId);
             }, (err) => {
                 setError("Failed to login. Please try later");
             })
@@ -21,10 +21,14 @@ const Login = props => {
             setError("Please enter a valid Email ID.");
         }
     }
+    const close = () => {
+        props.openLogin(false);
+    }
     return (
         <div>
           <label>Email: </label><input type="text" placeholder="Enter your email address" id = "user-email"></input>
           <button onClick={login}>Submit</button>
+          {props.showCancelButton && <button onClick={close}>Cancel</button>}
           <LoginError errorText = {error}></LoginError>
         </div>
     )
@@ -36,7 +40,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-      login: (userDetail) => dispatch(sessionActions.login_user(userDetail))
+      login: (userDetail) => dispatch(sessionActions.login_user(userDetail)),
+      openLogin: (openLogin) => dispatch(sessionActions.open_login_popup(openLogin))
     };
   }
 

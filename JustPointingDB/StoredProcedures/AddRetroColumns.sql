@@ -4,4 +4,5 @@
 AS
 	INSERT INTO RetroColumnTypes (ColumnTitle, RetroBoardId, CreationDate)
 	VALUES (@columnTitle, @boardId, GETDATE())
+	SELECT SCOPE_IDENTITY()
 RETURN 0

@@ -4,4 +4,5 @@
 AS
 	INSERT INTO RetroBoards (RetroBoardTitle, RetroBoardOwner, CreationDate)
 	VALUES (@boardTitle, @boardOwner, GETDATE())
+	SELECT SCOPE_IDENTITY();
 RETURN 0

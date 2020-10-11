@@ -2,3 +2,9 @@
     display: block;
     text-align: center;
 }
+.app-login-modal > div{
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  position: absolute;
+}
