@@ -20,3 +20,10 @@ export const selectRetroBoard = (board) => {
         payload: board,
     };
 };
+
+export const selectBoardIdFromURL = (boardId) => {
+    return {
+        type: ACTION_TYPES.LOAD_BOARD_ID_FROM_URL,
+        payload: boardId,
+    };
+};

@@ -1,6 +1,5 @@
 import "./retro.css";
-import React, { useEffect, useState } from "react";
-import RetroTopicContainer from "../retro-topic-container/retro-topic-container";
+import React, { useEffect } from "react";
 import * as RetroManager from "../../containers/retro-manager/retro-manager";
 import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
@@ -8,6 +7,8 @@ import * as sessionActions from "../../store/session/session-actions";
 import RetroBoards from "../retro-boards/retro-boards";
 import LoginView from "../app-login/app-login";
 import AppError from "../error/error";
+import { Route } from "react-router-dom";
+import BoardDetails from "../retro-topic-container/retro-board-details";
 
 const Retro = (props) => {
     useEffect(() => {
@@ -19,7 +20,6 @@ const Retro = (props) => {
     }, []);
 
     const GetRetroBoardsOfUser = (userId) => {
-        console.log("callback execued");
         RetroManager.GetRetroBoardsOfUser(userId).then(
             (res) => {
                 props.getRetroBoards(res.data);
@@ -34,29 +34,11 @@ const Retro = (props) => {
         <div>
             <div className="retro">
                 <RetroBoards />
-                {props.selectedBoard && props.selectedBoard.boardId ? (
-                    <div className="retro-detail-container">
-                        <div className="selected-board-title">
-                            <label>{props.selectedBoard.boardTitle}</label>
-                        </div>
-                        <div className="board-content">
-                            {props.retroData &&
-                                props.retroData.map((details) => (
-                                    <RetroTopicContainer
-                                        key={details.columnId}
-                                        columnTitle={details.columnTitle}
-                                        columnId={details.columnId}
-                                        columnDetails={details}
-                                    />
-                                ))}
-                            <RetroTopicContainer />
-                        </div>
-                    </div>
-                ) : (
-                    <div className="select-retro-board">
-                        Please select board from left pane.
-                    </div>
-                )}
+                <Route
+                    path={["/retro/:id", "/retro/"]}
+                    render={(props) => (
+                        <BoardDetails {...props}></BoardDetails>
+                    )}></Route>
             </div>
             <div style={{ textAlign: "center" }}>
                 <AppError errorText={props.error}></AppError>
@@ -71,17 +53,14 @@ const Retro = (props) => {
 
 function mapStateToProps(state) {
     return {
-        retroData: state.RetroReducer.retroData,
         isUserLoggedIn: state.SessionReducer.isUserLoggedIn,
         userDetails: state.SessionReducer.userDetails,
-        selectedBoard: state.RetroReducer.selectedBoard,
         error: state.SessionReducer.sessionError,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getRetroData: (retroData) => dispatch(actions.getRetroData(retroData)),
         getRetroBoards: (boards) => dispatch(actions.getRetroBoards(boards)),
         openLoginPopup: (openLogin) =>
             dispatch(sessionActions.open_login_popup(openLogin)),

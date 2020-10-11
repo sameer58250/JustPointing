@@ -5,3 +5,5 @@ export const POST_RETRO_DATA = "POST_RETRO_DATA";
 export const GET_RETRO_BOARDS = "GET_RETRO_BOARDS";
 
 export const SELECT_BOARD = "SELECT_BOARD";
+
+export const LOAD_BOARD_ID_FROM_URL = "LOAD_BOARD_ID_FROM_URL";

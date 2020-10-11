@@ -1,14 +1,27 @@
 import "./retro-boards.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as RetroManager from "../../containers/retro-manager/retro-manager";
 import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
 import * as sessionActions from "../../store/session/session-actions";
 import Board from "./board";
-import { removeFromArrayByAttr } from "../../utils/utils";
+import { removeFromArrayByAttr,findIndexArrayByAttr } from "../../utils/utils";
+import {useHistory} from 'react-router-dom';
 
 const RetroBoards = (props) => {
+    const History = useHistory();
     const [isCreateActive, setCreateBtnActive] = useState(false);
+    useEffect(() => {
+        if(props.selectedBoardIdFromURL){
+            var idx = findIndexArrayByAttr(props.retroBoards, "boardId", new Number(props.selectedBoardIdFromURL).valueOf());
+            if(idx !== -1) {
+                selectRetroBoard(props.retroBoards[idx]);
+            }
+            else {
+                History.replace("/retro/");
+            }
+        }
+    }, [props.retroBoards.length]);
     const createBoard = (boardName) => {
         if (boardName) {
             var board = {
@@ -66,7 +79,8 @@ const RetroBoards = (props) => {
                 removeFromArrayByAttr(props.retroBoards, "boardId", boardId);
                 var boards = props.retroBoards.slice();
                 props.getRetroBoards(boards);
-                props.selectRetroBoard({});
+                if (boardId === props.selectedBoard.boardId)
+                    props.selectRetroBoard({});
             }
         );
     };
@@ -102,8 +116,9 @@ const RetroBoards = (props) => {
 function mapStateToProps(state) {
     return {
         retroBoards: state.RetroReducer.retroBoards,
-        isUserLoggedIn: state.SessionReducer.isUserLoggedIn,
         userDetails: state.SessionReducer.userDetails,
+        selectedBoard: state.RetroReducer.selectedBoard,
+        selectedBoardIdFromURL: state.RetroReducer.selectedBoardId,
     };
 }
 

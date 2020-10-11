@@ -4,6 +4,7 @@ import Menus from "../menus/menus";
 import TextField from "@material-ui/core/TextField";
 import CheckIcon from "@material-ui/icons/Check";
 import CancelIcon from "@material-ui/icons/Cancel";
+import { NavLink } from "react-router-dom";
 
 const Board = (props) => {
     const [showInput, setShowInput] = useState(false);
@@ -39,17 +40,21 @@ const Board = (props) => {
                     </div>
                 </div>
             ) : (
-                <div onClick={props.selectBoard} className="retro-board-title">
-                    {props.board.boardTitle}
-                </div>
+                <NavLink
+                    to={"/retro/" + props.board.boardId}
+                    activeClassName="is-active">
+                    <div
+                        onClick={props.selectBoard}
+                        className="retro-board-title">
+                        {props.board.boardTitle}
+                    </div>
+                </NavLink>
             )}
             {!props.showInput && (
                 <div className="retro-board-menu">
                     <Menus
                         editItem={() => setShowInput(true)}
-                        deleteItem={() =>
-                            props.deleteBoard()
-                        }></Menus>
+                        deleteItem={() => props.deleteBoard()}></Menus>
                 </div>
             )}
         </div>
