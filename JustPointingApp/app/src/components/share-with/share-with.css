@@ -1,0 +1,32 @@
+.share-with {
+    display: block;
+}
+.share-with>div{
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: auto;
+    margin-top: 0;
+    position: absolute;
+}
+.share-with-container {
+}
+.retro-board-share-icon {
+    float: right;
+    margin-right: 10%;
+}
+.retro-board-share-icon:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: grey;
+}
+.share-with-close-icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+}
+.share-with-close-icon:hover{
+    cursor: pointer;
+}

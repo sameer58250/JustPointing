@@ -118,8 +118,24 @@ namespace JustPointingApi.Repositories
 
         public async Task DeleteRetroBoard(string boardId, int userId)
         {
-            await _db.QueryAsync("DeleteRetroBoard",
-                new { @boardId = boardId, @userId = userId },
+            var parameters = new DynamicParameters();
+            parameters.Add("@boardId", boardId);
+            parameters.Add("@userId", userId);
+            parameters.Add("@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+            await _db.QueryAsync<int>("DeleteRetroBoard",
+                parameters,
+                commandType: CommandType.StoredProcedure);
+            var res = parameters.Get<int>("@returnValue");
+            if (res != 0)
+            {
+                throw new Exception("Failed to delete the board.");
+            }
+        }
+
+        public async Task AddUserToBoard(string boardId, string userEmail)
+        {
+            await _db.QueryAsync("AddBoardPermission",
+                new { @boardId = boardId, @userEmail = userEmail },
                 commandType: CommandType.StoredProcedure);
         }
     }

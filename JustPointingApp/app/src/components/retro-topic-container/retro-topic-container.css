@@ -71,3 +71,12 @@
   width: 200px;
   overflow-wrap: break-word;
 }
+.retro-board-share-icon{
+  float: right;
+  margin-right: 10%;
+}
+.retro-board-share-icon:hover{
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: grey;
+}

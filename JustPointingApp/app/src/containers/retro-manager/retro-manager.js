@@ -46,6 +46,21 @@ export const DeleteRetroBoard = (boardId, userId) => {
     return axios.delete(url, { data: new Number(userId) });
 };
 
+export const ShareBoard = (boardId, userEmail) => {
+    var url =
+        BaseApiUrl() +
+        "/retro/AddUserToBoard?boardId=" +
+        boardId +
+        "&userEmail=" +
+        userEmail;
+    return axios.post(url);
+};
+
+export const GetSharedBoards = (userId) => {
+    var url = BaseApiUrl() + "/retro/GetShareBoards?userId=" + userId;
+    return axios.get(url);
+};
+
 function BaseApiUrl() {
     return Config.REACT_APP_BASE_API_URL;
 }

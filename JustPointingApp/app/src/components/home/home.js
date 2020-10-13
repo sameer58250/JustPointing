@@ -12,7 +12,8 @@ const Home = props => {
     useEffect(() => {
         if(props.webSocket){
             props.webSocket.close();
-        }   
+        }
+        props.failure("");   
     });
 
     const startSession = () => {

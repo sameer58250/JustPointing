@@ -5,19 +5,22 @@ import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
 import * as sessionActions from "../../store/session/session-actions";
 import Board from "./board";
-import { removeFromArrayByAttr,findIndexArrayByAttr } from "../../utils/utils";
-import {useHistory} from 'react-router-dom';
+import { removeFromArrayByAttr, findIndexArrayByAttr } from "../../utils/utils";
+import { useHistory } from "react-router-dom";
 
 const RetroBoards = (props) => {
     const History = useHistory();
     const [isCreateActive, setCreateBtnActive] = useState(false);
     useEffect(() => {
-        if(props.selectedBoardIdFromURL){
-            var idx = findIndexArrayByAttr(props.retroBoards, "boardId", new Number(props.selectedBoardIdFromURL).valueOf());
-            if(idx !== -1) {
+        if (props.selectedBoardIdFromURL) {
+            var idx = findIndexArrayByAttr(
+                props.retroBoards,
+                "boardId",
+                new Number(props.selectedBoardIdFromURL).valueOf()
+            );
+            if (idx !== -1) {
                 selectRetroBoard(props.retroBoards[idx]);
-            }
-            else {
+            } else {
                 History.replace("/retro/");
             }
         }
@@ -76,27 +79,48 @@ const RetroBoards = (props) => {
     const deleteRetroBoard = (boardId) => {
         RetroManager.DeleteRetroBoard(boardId, props.userDetails.userId).then(
             () => {
+                props.setError("");
                 removeFromArrayByAttr(props.retroBoards, "boardId", boardId);
                 var boards = props.retroBoards.slice();
                 props.getRetroBoards(boards);
                 if (boardId === props.selectedBoard.boardId)
                     props.selectRetroBoard({});
+            },() => {
+                props.setError("Failed to delete the board.")
             }
         );
     };
     return (
         <div className="retro-boards">
+            <label className="retro-board-heading">My boards</label>
             {props.retroBoards.map((board, idx) => {
-                return (
-                    <Board
-                        key={idx}
-                        board={board}
-                        selectBoard={() => selectRetroBoard(board)}
-                        updateBoard={() => updateRetroBoard(board)}
-                        deleteBoard={() =>
-                            deleteRetroBoard(board.boardId)
-                        }></Board>
-                );
+                if (props.userDetails.userId === board.boardOwnerId) {
+                    return (
+                        <Board
+                            key={idx}
+                            board={board}
+                            selectBoard={() => selectRetroBoard(board)}
+                            updateBoard={() => updateRetroBoard(board)}
+                            deleteBoard={() =>
+                                deleteRetroBoard(board.boardId)
+                            }></Board>
+                    );
+                }
+            })}
+            <label className="retro-board-heading">Shared boards</label>
+            {props.retroBoards.map((board, idx) => {
+                if (props.userDetails.userId !== board.boardOwnerId) {
+                    return (
+                        <Board
+                            key={idx}
+                            board={board}
+                            selectBoard={() => selectRetroBoard(board)}
+                            updateBoard={() => updateRetroBoard(board)}
+                            deleteBoard={() =>
+                                deleteRetroBoard(board.boardId)
+                            }></Board>
+                    );
+                }
             })}
             {isCreateActive ? (
                 <Board

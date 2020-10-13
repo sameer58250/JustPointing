@@ -1,13 +1,15 @@
-﻿CREATE PROCEDURE [dbo].[DeleteRetroBoard]
+﻿--@errorLevel = 1 (user does not have permission)
+--@errorLevel = 2 (failed to delete the board)
+CREATE PROCEDURE [dbo].[DeleteRetroBoard]
 	@boardId int,
 	@userId int
 AS
 	declare @boardOwenrId as int;
-	declare @error as nvarchar(2048);
+	declare @errorLevel as tinyint = 0;
 	select @boardOwenrId=RetroBoardOwner from RetroBoards where RetroBoardId=@boardId and RetroBoardOwner=@userId
 	if @boardOwenrId is NULL
 	begin
-		RAISERROR('permission denied',1, 1);
+		set @errorLevel = 1;
 	end
 	else
 	begin
@@ -22,7 +24,7 @@ AS
 		begin catch
 			if @@TRANCOUNT > 0
 				rollback tran;
-			RAISERROR('Failed to delete the board',2,1)
+			set @errorLevel = 2;
 		end catch
 	end
-RETURN 0
+RETURN @errorLevel

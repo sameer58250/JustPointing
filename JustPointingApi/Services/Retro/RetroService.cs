@@ -70,5 +70,15 @@ namespace JustPointingApi.Services.Retro
         {
             await _retroRepo.DeleteRetroBoard(boardId, userId);
         }
+
+        public async Task AddUserToBoard(string boardId, string userEmail)
+        {
+            await _retroRepo.AddUserToBoard(boardId, userEmail);
+        }
+
+        public async Task<List<RetroBoard>> GetSharedBoards(int userId)
+        {
+            return await _retroRepo.GetSharedBoardsWithUserId(userId);
+        }
     }
 }

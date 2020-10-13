@@ -5,9 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import CheckIcon from "@material-ui/icons/Check";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { NavLink } from "react-router-dom";
+import SharePopup from "../share-with/share-with";
 
 const Board = (props) => {
     const [showInput, setShowInput] = useState(false);
+    const [openShareWith, setOpenShareWith] = useState(false);
     const createBoard = () => {
         var ele = document.getElementById("retro-board-input");
         if (ele.value) {
@@ -54,9 +56,13 @@ const Board = (props) => {
                 <div className="retro-board-menu">
                     <Menus
                         editItem={() => setShowInput(true)}
-                        deleteItem={() => props.deleteBoard()}></Menus>
+                        deleteItem={() => props.deleteBoard()}
+                        shareItem={() => setOpenShareWith(true)}></Menus>
                 </div>
             )}
+            <SharePopup isShareWithModalOpen={openShareWith}
+                closeModal={() => setOpenShareWith(false)}
+                board={props.board}></SharePopup>
         </div>
     );
 };

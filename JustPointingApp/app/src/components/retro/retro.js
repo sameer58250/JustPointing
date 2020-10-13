@@ -20,14 +20,21 @@ const Retro = (props) => {
     }, []);
 
     const GetRetroBoardsOfUser = (userId) => {
+        var boards = [];
         RetroManager.GetRetroBoardsOfUser(userId).then(
             (res) => {
-                props.getRetroBoards(res.data);
+                boards = boards.concat(res.data);
+                props.getRetroBoards(boards);
             },
             (err) => {
                 console.log(err);
             }
         );
+        RetroManager.GetSharedBoards(userId)
+        .then((res) => {
+            boards = boards.concat(res.data);
+            props.getRetroBoards(boards);
+        })
     };
 
     return props.isUserLoggedIn ? (
@@ -56,6 +63,7 @@ function mapStateToProps(state) {
         isUserLoggedIn: state.SessionReducer.isUserLoggedIn,
         userDetails: state.SessionReducer.userDetails,
         error: state.SessionReducer.sessionError,
+        retroBoards: state.RetroReducer.retroBoards,
     };
 }
 

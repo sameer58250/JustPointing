@@ -77,5 +77,18 @@ namespace JustPointingApi.Controllers.Retro
         {
             await _retroService.DeleteRetroBoard(boardId, userId);
         }
+        [HttpPost]
+        [Route("AddUserToBoard")]
+        public async Task AddUserToBoard([FromQuery]string boardId, [FromQuery]string userEmail)
+        {
+            await _retroService.AddUserToBoard(boardId, userEmail);
+        }
+        [HttpGet]
+        [Route("GetShareBoards")]
+        public async Task<ActionResult<List<RetroBoard>>> GetShareBoards(int userId)
+        {
+            var res = await _retroService.GetSharedBoards(userId);
+            return Ok(res);
+        }
     }
 }
