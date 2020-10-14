@@ -20,5 +20,6 @@ namespace JustPointingApi.Repositories
         Task DeleteRetroPoint(RetroPoint point);
         Task DeleteRetroBoard(string boardId, int userId);
         Task AddUserToBoard(string boardId, string userEmail);
+        Task<List<RetroBoardUser>> GetBoardUsers(int boardId);
     }
 }

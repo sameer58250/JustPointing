@@ -1,22 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App';
-import AppReducer from './store/index';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+import AppReducer from "./store/index";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import * as serviceWorker from "./serviceWorker";
+import { CookiesProvider } from "react-cookie";
 
-
-let store = createStore(AppReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+let store = createStore(
+    AppReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store = { store }>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider store={store}>
+            <CookiesProvider>
+                <App />
+            </CookiesProvider>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

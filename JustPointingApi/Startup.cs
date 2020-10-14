@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using JustPointing.Handlers;
 using JustPointing.Models;
 using JustPointing.Services;
 using JustPointing.WebSocketManager;
+using JustPointingApi.Handlers;
 using JustPointingApi.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +51,8 @@ namespace JustPointing
                 options.Cookie.IsEssential = true;
                 options.Cookie.HttpOnly = true;
             });
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.RegisterWebSocketManager();
             services.RegisterDataObject();
             services.RegisterService();
@@ -67,12 +68,15 @@ namespace JustPointing
             }
             app.UseWebSockets();
             app.MapSocket("/point", serviceProvider.GetService<WebSocketPointingHandler>());
+            app.MapSocket("/retro", serviceProvider.GetService<RetroSocketHandler>());
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors(_myCorsPolicy);
             app.UseSession();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>

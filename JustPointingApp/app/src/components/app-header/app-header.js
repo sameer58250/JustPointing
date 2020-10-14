@@ -1,12 +1,20 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./app-header.css";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import * as SessionActions from "../../store/session/session-actions";
 import { useHistory } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const AppHeader = (props) => {
     const History = useHistory();
+    var cookies = new Cookies();
+    useEffect(()=>{
+        if (cookies.get("userdetails")) {
+            var userInfo = cookies.get("userdetails");
+            props.login(userInfo);
+        }
+    },[])
 
     const openLoginPopup = () => {
         if (window.location.href.indexOf("retro") === -1) {
@@ -14,6 +22,7 @@ const AppHeader = (props) => {
         }
     };
     const logout = () => {
+        cookies.remove('userdetails');
         props.logout();
         History.replace("/");
     };
@@ -65,6 +74,7 @@ function mapDispatchToProps(dispatch) {
         openLoginPopup: (shouldOpenLogin) =>
             dispatch(SessionActions.open_login_popup(shouldOpenLogin)),
         logout: () => dispatch(SessionActions.logout_user()),
+        login: (userDetails) => dispatch(SessionActions.login_user(userDetails)),
     };
 }
 

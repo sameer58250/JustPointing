@@ -3,14 +3,17 @@ import * as sessionActions from "../../store/session/session-actions";
 import { connect } from "react-redux";
 import {LoginUser} from "../../containers/session-manager/account";
 import LoginError from "../error/error";
+import { Cookies } from 'react-cookie';
 
 const Login = props => {
+    var cookies = new Cookies();
     const [error, setError] = useState("");
     const login = () => {
         var emailEle = document.getElementById("user-email");
         if(emailEle && emailEle.value) {
             LoginUser(emailEle.value)
             .then((res) => {
+                cookies.set('userdetails', JSON.stringify(res.data));
                 props.login(res.data);
                 props.loginCallback && props.loginCallback(res.data.userId);
             }, (err) => {

@@ -39,6 +39,7 @@
 }
 .board {
     display: block;
+    margin-top: 6.5px
 }
 .retro-board-menu {
     display: block;

@@ -1,4 +1,6 @@
-﻿using JustPointingApi.Models.Retro;
+﻿using JustPointing.WebSocketManager;
+using JustPointingApi.Handlers;
+using JustPointingApi.Models.Retro;
 using JustPointingApi.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,9 +12,12 @@ namespace JustPointingApi.Services.Retro
     public class RetroService : IRetroService
     {
         private readonly IRetroRepository _retroRepo;
-        public RetroService(IRetroRepository retroRepo)
+        private readonly SocketHandler _socketHandler;
+        public RetroService(IRetroRepository retroRepo,
+            RetroSocketHandler socketHandler)
         {
             _retroRepo = retroRepo;
+            _socketHandler = socketHandler;
         }
         public async Task<List<RetroColumn>> GetRetroBoardDetails(int boardId)
         {
@@ -79,6 +84,30 @@ namespace JustPointingApi.Services.Retro
         public async Task<List<RetroBoard>> GetSharedBoards(int userId)
         {
             return await _retroRepo.GetSharedBoardsWithUserId(userId);
+        }
+
+        public async Task<List<RetroBoardUser>> GetBoardUsers(int boardId)
+        {
+            return await _retroRepo.GetBoardUsers(boardId);
+        }
+
+        private async Task _sendUpdateToActiveSocketConnections(RetroBoardActionTypes actionType, int boardId)
+        {
+            try
+            {
+                var users = await _retroRepo.GetBoardUsers(boardId);
+                if (users != null)
+                {
+                    foreach (var user in users)
+                    {
+                        await _socketHandler.SendMessage(user.UserId.ToString(), actionType.ToString());
+                    }
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

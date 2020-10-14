@@ -43,37 +43,38 @@ namespace JustPointing.WebSocketManager
             {
             }
         }
-        public async Task SendMessage(string id, AgileTeam team)
+        public async Task SendMessage(string id, string message)
         {
             try
             {
-                var msg = JsonConvert.SerializeObject(team);
-                await SendMessage(Connections.GetSocket(id), msg);
+                var socket = Connections.GetSocket(id);
+                if (socket != null)
+                    await SendMessage(Connections.GetSocket(id), message);
             }
             catch (Exception ex)
             {
 
             }
         }
-        public async Task SendMessageToAll(AgileTeam team)
+        public async Task SendMessageToAll(string message)
         {
-            var msg = JsonConvert.SerializeObject(team);
             foreach (var con in Connections.GetAllConnections())
             {
-                await SendMessage(con.Value, msg);
+                await SendMessage(con.Value, message);
             }
         }
         public async Task SendMessageToTeam(AgileTeam team)
         {
+            var msg = JsonConvert.SerializeObject(team);
             if (team != null)
             {
                 foreach (var user in team.Users)
                 {
-                    await SendMessage(user.SocketId, team);
+                    await SendMessage(user.SocketId, msg);
                 }
                 foreach(var observer in team.Observers)
                 {
-                    await SendMessage(observer.SocketId, team);
+                    await SendMessage(observer.SocketId, msg);
                 }
             }
         }

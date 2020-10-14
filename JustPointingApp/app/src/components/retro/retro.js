@@ -17,7 +17,7 @@ const Retro = (props) => {
         if (props.isUserLoggedIn) {
             GetRetroBoardsOfUser(props.userDetails.userId);
         }
-    }, []);
+    }, [props.isUserLoggedIn]);
 
     const GetRetroBoardsOfUser = (userId) => {
         var boards = [];
@@ -54,7 +54,7 @@ const Retro = (props) => {
     ) : (
         <LoginView
             openLoginPopup={!props.isUserLoggedIn}
-            loginCallback={GetRetroBoardsOfUser}></LoginView>
+            loginCallback={()=>{}}></LoginView>
     );
 };
 

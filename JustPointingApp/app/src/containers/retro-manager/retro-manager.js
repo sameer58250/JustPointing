@@ -1,5 +1,5 @@
 import Config from "../../config/config";
-import axios from "axios";
+import axios from '../axios-interceptor';
 
 export const GetRetroBoardsOfUser = (userId) => {
     var url = BaseApiUrl() + "/retro/GetRetroBoardsOfUser?userId=" + userId;

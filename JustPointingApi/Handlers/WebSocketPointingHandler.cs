@@ -69,7 +69,7 @@ namespace JustPointing.Handlers
                 }
                 await SendMessageToTeam(team);
                 StoryPoint.RemoveStoryPoint(socketId);
-                _removeUnusedSessions(1);
+                _removeUnusedSessions(24);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using JustPointingApi.Models.Retro;
 using JustPointingApi.Services.Retro;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace JustPointingApi.Controllers.Retro
 {
+    [Authorize]
     [ApiController]
     [Route("[Controller]")]
     public class RetroController : ControllerBase

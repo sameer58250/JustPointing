@@ -92,6 +92,17 @@ const RetroBoards = (props) => {
     };
     return (
         <div className="retro-boards">
+        {isCreateActive ? (
+            <Board
+                showInput={true}
+                board={{}}
+                createBoard={createBoard}
+                cancelCreate={cancelCreate}></Board>
+        ) : (
+            <button onClick={() => setCreateBtnActive(true)}>
+                Create board
+            </button>
+        )}
             <label className="retro-board-heading">My boards</label>
             {props.retroBoards.map((board, idx) => {
                 if (props.userDetails.userId === board.boardOwnerId) {
@@ -122,17 +133,6 @@ const RetroBoards = (props) => {
                     );
                 }
             })}
-            {isCreateActive ? (
-                <Board
-                    showInput={true}
-                    board={{}}
-                    createBoard={createBoard}
-                    cancelCreate={cancelCreate}></Board>
-            ) : (
-                <button onClick={() => setCreateBtnActive(true)}>
-                    Create board
-                </button>
-            )}
         </div>
     );
 };
