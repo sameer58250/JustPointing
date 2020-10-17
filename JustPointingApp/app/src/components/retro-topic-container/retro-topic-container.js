@@ -111,6 +111,7 @@ const RetroTopicContainer = (props) => {
                 props.columnDetails.retroPoints.map((retroPoint) => (
                     <SimpleCard
                         key={retroPoint.retroPointId}
+                        boardId={props.selectedBoard.boardId}
                         cardDetails={retroPoint}
                         deleteCard={deleteCard}
                         updateCard={updateRetroColumns}
@@ -123,6 +124,7 @@ const RetroTopicContainer = (props) => {
             )}
             {!isAddCardVisible && (
                 <SimpleCard
+                    boardId={props.selectedBoard.boardId}
                     cardDetails={newRetroPoint}
                     addCard={addCard}
                     cancelAdd={cancelClicked}></SimpleCard>

@@ -7,6 +7,7 @@ namespace JustPointingApi.Models.Retro
 {
     public class RetroPoint
     {
+        public int RetroBoardId { get; set; }
         public int RetroPointId { get; set; }
         public int RetroPointUserId { get; set; }
         public string RetroPointText { get; set; }

@@ -68,7 +68,7 @@ namespace JustPointing
             }
             app.UseWebSockets();
             app.MapSocket("/point", serviceProvider.GetService<WebSocketPointingHandler>());
-            app.MapSocket("/retro", serviceProvider.GetService<RetroSocketHandler>());
+            app.MapSocket("/retroSocket", serviceProvider.GetService<RetroSocketHandler>());
             app.UseStaticFiles();
 
             app.UseRouting();

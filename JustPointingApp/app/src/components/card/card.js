@@ -42,6 +42,7 @@ const SimpleCard = (props) => {
         var ele = document.getElementById("retro-point-input");
         if (ele.value) {
             props.cardDetails.retroPointText = ele.value;
+            props.cardDetails.retroBoardId = props.boardId;
             RetroManager.UpdateRetroPoint(props.cardDetails).then(() => {
                 props.updateCard();
                 setOpenInputBox(false);
@@ -53,6 +54,7 @@ const SimpleCard = (props) => {
         if (ele.value) {
             props.cardDetails.retroPointText = ele.value;
             props.cardDetails.creationDate = new Date().toDateString();
+            props.cardDetails.retroBoardId = props.boardId;
             RetroManager.PostRetroPoint(props.cardDetails).then((resp) => {
                 props.cardDetails.retroPointId = resp.data;
                 props.addCard(props.cardDetails);
@@ -60,6 +62,7 @@ const SimpleCard = (props) => {
         }
     };
     const deletePoint = () => {
+        props.cardDetails.retroBoardId = props.boardId;
         RetroManager.DeleteRetroPoint(props.cardDetails).then(() => {
             props.deleteCard(props.cardDetails);
             setOpenInputBox(false);

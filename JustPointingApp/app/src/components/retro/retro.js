@@ -9,6 +9,7 @@ import LoginView from "../app-login/app-login";
 import AppError from "../error/error";
 import { Route } from "react-router-dom";
 import BoardDetails from "../retro-topic-container/retro-board-details";
+import RetroSocketManager from "../../containers/web-socket-manager/retro-socket-manager";
 
 const Retro = (props) => {
     useEffect(() => {
@@ -30,15 +31,15 @@ const Retro = (props) => {
                 console.log(err);
             }
         );
-        RetroManager.GetSharedBoards(userId)
-        .then((res) => {
+        RetroManager.GetSharedBoards(userId).then((res) => {
             boards = boards.concat(res.data);
             props.getRetroBoards(boards);
-        })
+        });
     };
 
     return props.isUserLoggedIn ? (
         <div>
+            <RetroSocketManager userId={props.userDetails.userId} />
             <div className="retro">
                 <RetroBoards />
                 <Route
@@ -54,7 +55,7 @@ const Retro = (props) => {
     ) : (
         <LoginView
             openLoginPopup={!props.isUserLoggedIn}
-            loginCallback={()=>{}}></LoginView>
+            loginCallback={() => {}}></LoginView>
     );
 };
 

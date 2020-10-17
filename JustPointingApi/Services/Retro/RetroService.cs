@@ -2,6 +2,7 @@
 using JustPointingApi.Handlers;
 using JustPointingApi.Models.Retro;
 using JustPointingApi.Repositories;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,42 +44,54 @@ namespace JustPointingApi.Services.Retro
 
         public async Task<int> AddRetroPoint(RetroPoint retroPoint)
         {
-            return await _retroRepo.AddRetroPoint(retroPoint);
+            var retroId = await _retroRepo.AddRetroPoint(retroPoint);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardDetailsUpdated, retroPoint.RetroBoardId);
+            return retroId;
         }
 
         public async Task<int> AddRetroBoard(RetroBoard board)
         {
-            return await _retroRepo.AddRetroBoard(board);
+            var boardId = await _retroRepo.AddRetroBoard(board);
+            //await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, boardId);
+            return boardId;
         }
 
         public async Task<int> AddRetroColumn(RetroColumn column)
         {
-            return await _retroRepo.AddRetroColumn(column);
+            var columnId = await _retroRepo.AddRetroColumn(column);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardDetailsUpdated, column.RetroBoardId);
+            return columnId;
         }
 
         public async Task<int> UpdateRetroColumn(RetroColumn column)
         {
-            return await _retroRepo.UpdateRetroColumn(column);
+            var res = await _retroRepo.UpdateRetroColumn(column);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardDetailsUpdated, column.RetroBoardId);
+            return res;
         }
 
         public async Task UpdateRetroPoint(RetroPoint point)
         {
             await _retroRepo.UpdateRetroPoint(point);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardDetailsUpdated, point.RetroBoardId);
         }
 
         public async Task DeleteRetroPoint(RetroPoint point)
         {
             await _retroRepo.DeleteRetroPoint(point);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardDetailsUpdated, point.RetroBoardId);
         }
 
         public async Task DeleteRetroBoard(string boardId, int userId)
         {
             await _retroRepo.DeleteRetroBoard(boardId, userId);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardUpdated, Convert.ToInt32(boardId));
         }
 
         public async Task AddUserToBoard(string boardId, string userEmail)
         {
             await _retroRepo.AddUserToBoard(boardId, userEmail);
+            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, Convert.ToInt32(boardId));
         }
 
         public async Task<List<RetroBoard>> GetSharedBoards(int userId)
@@ -100,7 +113,7 @@ namespace JustPointingApi.Services.Retro
                 {
                     foreach (var user in users)
                     {
-                        await _socketHandler.SendMessage(user.UserId.ToString(), actionType.ToString());
+                        await _sendUpdateToUser(actionType, boardId, user.UserId);
                     }
                 }
             }
@@ -108,6 +121,12 @@ namespace JustPointingApi.Services.Retro
             {
 
             }
+        }
+
+        private async Task _sendUpdateToUser(RetroBoardActionTypes actionType, int boardId, int userId)
+        {
+            var message = JsonConvert.SerializeObject(new { action = actionType.ToString(), boardid = boardId });
+            await _socketHandler.SendMessage(userId.ToString(), message);
         }
     }
 }
