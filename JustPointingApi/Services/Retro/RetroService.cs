@@ -91,7 +91,7 @@ namespace JustPointingApi.Services.Retro
         public async Task AddUserToBoard(string boardId, string userEmail)
         {
             await _retroRepo.AddUserToBoard(boardId, userEmail);
-            await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, Convert.ToInt32(boardId));
+            //await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, Convert.ToInt32(boardId));
         }
 
         public async Task<List<RetroBoard>> GetSharedBoards(int userId)
@@ -127,6 +127,11 @@ namespace JustPointingApi.Services.Retro
         {
             var message = JsonConvert.SerializeObject(new { action = actionType.ToString(), boardid = boardId });
             await _socketHandler.SendMessage(userId.ToString(), message);
+        }
+
+        public async Task UpdateRetroBoard(RetroBoard board)
+        {
+            await _retroRepo.UpdateRetroBoard(board);
         }
     }
 }

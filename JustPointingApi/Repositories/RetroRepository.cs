@@ -144,5 +144,12 @@ namespace JustPointingApi.Repositories
             var res = await _db.QueryAsync<RetroBoardUser>("GetBoardUsers", new { @boardId = boardId }, commandType: CommandType.StoredProcedure);
             return res.ToList();
         }
+
+        public async Task UpdateRetroBoard(RetroBoard board)
+        {
+            await _db.QueryAsync("UpdateRetroBoard",
+                new { @title = board.BoardTitle, @boardId = board.BoardId },
+                commandType: CommandType.StoredProcedure);
+        }
     }
 }

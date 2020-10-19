@@ -7,6 +7,7 @@ import * as sessionActions from "../../store/session/session-actions";
 import Board from "./board";
 import { removeFromArrayByAttr, findIndexArrayByAttr } from "../../utils/utils";
 import { useHistory } from "react-router-dom";
+import CollapseIcon from '@material-ui/icons/ChevronLeft';
 
 const RetroBoards = (props) => {
     const History = useHistory();
@@ -71,9 +72,9 @@ const RetroBoards = (props) => {
     };
 
     const updateRetroBoard = (board) => {
-        //http call is pending
-        props.getRetroBoards(props.retroBoards);
-        console.log(board);
+        RetroManager.UpdateRetroBoard(board).then(() => {
+            props.getRetroBoards(props.retroBoards);
+        });
     };
 
     const deleteRetroBoard = (boardId) => {
@@ -85,24 +86,25 @@ const RetroBoards = (props) => {
                 props.getRetroBoards(boards);
                 if (boardId === props.selectedBoard.boardId)
                     props.selectRetroBoard({});
-            },() => {
-                props.setError("Failed to delete the board.")
+            },
+            () => {
+                props.setError("Failed to delete the board.");
             }
         );
     };
     return (
         <div className="retro-boards">
-        {isCreateActive ? (
-            <Board
-                showInput={true}
-                board={{}}
-                createBoard={createBoard}
-                cancelCreate={cancelCreate}></Board>
-        ) : (
-            <button onClick={() => setCreateBtnActive(true)}>
-                Create board
-            </button>
-        )}
+            {isCreateActive ? (
+                <Board
+                    showInput={true}
+                    board={{}}
+                    createBoard={createBoard}
+                    cancelCreate={cancelCreate}></Board>
+            ) : (
+                <button onClick={() => setCreateBtnActive(true)}>
+                    Create board
+                </button>
+            )}
             <label className="retro-board-heading">My boards</label>
             {props.retroBoards.map((board, idx) => {
                 if (props.userDetails.userId === board.boardOwnerId) {

@@ -1,5 +1,5 @@
 import Config from "../../config/config";
-import axios from '../axios-interceptor';
+import axios from "../axios-interceptor";
 
 export const GetRetroBoardsOfUser = (userId) => {
     var url = BaseApiUrl() + "/retro/GetRetroBoardsOfUser?userId=" + userId;
@@ -59,6 +59,11 @@ export const ShareBoard = (boardId, userEmail) => {
 export const GetSharedBoards = (userId) => {
     var url = BaseApiUrl() + "/retro/GetShareBoards?userId=" + userId;
     return axios.get(url);
+};
+
+export const UpdateRetroBoard = (board) => {
+    var url = BaseApiUrl() + "/retro/UpdateRetroBoard";
+    return axios.post(url, board);
 };
 
 function BaseApiUrl() {

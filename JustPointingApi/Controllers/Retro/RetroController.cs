@@ -92,5 +92,11 @@ namespace JustPointingApi.Controllers.Retro
             var res = await _retroService.GetSharedBoards(userId);
             return Ok(res);
         }
+        [HttpPost]
+        [Route("UpdateRetroBoard")]
+        public async Task UpdateRetroBoard(RetroBoard board)
+        {
+            await _retroService.UpdateRetroBoard(board);
+        }
     }
 }

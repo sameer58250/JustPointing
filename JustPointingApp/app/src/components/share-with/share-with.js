@@ -5,15 +5,24 @@ import CloseIcon from "@material-ui/icons/Cancel";
 import ErrorView from "../error/error";
 import { validateEmail } from "../../utils/validation-utils";
 import { ShareBoard } from "../../containers/retro-manager/retro-manager";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import * as AccountManager from "../../containers/session-manager/account";
 
 const ShareWith = (props) => {
     const [error, setError] = useState("");
+    const [open, setOpen] = React.useState(false);
+    const [options, setOptions] = React.useState([]);
+    const [inputText, setInputText] = React.useState("");
+    const [email, setEmail] = React.useState("");
+
     const shareBoard = () => {
-        var ele = document.getElementById("share-email-input");
-        if (ele && ele.value) {
-            if (validateEmail(ele.value.trim())) {
-                ShareBoard(props.board.boardId, ele.value.trim()).then((res) => {
-                    props.closeModal();
+        if (email) {
+            if (validateEmail(email.trim())) {
+                ShareBoard(props.board.boardId, email.trim()).then((res) => {
+                    //props.closeModal();
+                    setEmail("");
                     setError("");
                 });
             } else {
@@ -23,6 +32,35 @@ const ShareWith = (props) => {
             setError("Please enter email address");
         }
     };
+    React.useEffect(() => {
+        let active = true;
+
+        if (inputText.length < 3 || inputText.length > 3) {
+            return undefined;
+        }
+        AccountManager.SearchUsers(inputText).then(
+            (res) => {
+                setOptions(
+                    res.data.map((user) => {
+                        return user.userEmail;
+                    })
+                );
+            },
+            () => {
+                setOptions([]);
+            }
+        );
+
+        return () => {
+            active = false;
+        };
+    }, [inputText]);
+
+    React.useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
     return (
         <Modal
             isOpen={props.isShareWithModalOpen}
@@ -32,11 +70,36 @@ const ShareWith = (props) => {
                 <CloseIcon
                     className="share-with-close-icon"
                     onClick={props.closeModal}></CloseIcon>
-                <input
-                    type="text"
-                    id="share-email-input"
-                    placeholder="Please enter email address"
-                    pattern="[0-9]"
+                <Autocomplete
+                    id="asynchronous-demo"
+                    freeSolo
+                    value={email}
+                    style={{ width: 300, marginTop: 13 }}
+                    open={open}
+                    onOpen={() => {
+                        setOpen(true);
+                    }}
+                    onClose={() => {
+                        setOpen(false);
+                    }}
+                    onChange={(e, v) => {
+                        setEmail(v);
+                    }}
+                    onKeyUp={(e) => {
+                        setInputText(e.target.value);
+                    }}
+                    getOptionLabel={(option) => option}
+                    options={options}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Email"
+                            variant="outlined"
+                            InputProps={{
+                                ...params.InputProps,
+                            }}
+                        />
+                    )}
                 />
                 <button onClick={shareBoard}>Share</button>
             </div>

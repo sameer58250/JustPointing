@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import RetroTopicContainer from "./retro-topic-container";
 import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
-import ShareIcon from "@material-ui/icons/Share";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ShareView from "../share-with/share-with";
 
 const RetroDetails = (props) => {
@@ -25,9 +25,9 @@ const RetroDetails = (props) => {
         <div className="retro-detail-container">
             <div className="selected-board-title">
                 <label>{props.selectedBoard.boardTitle}</label>
-                <ShareIcon
+                <PersonAddIcon
                     className="retro-board-share-icon"
-                    onClick={openShareModal}></ShareIcon>
+                    onClick={openShareModal}></PersonAddIcon>
             </div>
             <ShareView
                 isShareWithModalOpen={openShareWith}

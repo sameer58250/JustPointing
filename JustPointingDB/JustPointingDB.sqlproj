@@ -85,6 +85,7 @@
     <Build Include="StoredProcedures\DeleteRetroPoint.sql" />
     <Build Include="StoredProcedures\DeleteRetroBoard.sql" />
     <Build Include="StoredProcedures\CreateUser.sql" />
+    <Build Include="StoredProcedures\FilterUsersByEmail.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="JustPointingDB.refactorlog" />

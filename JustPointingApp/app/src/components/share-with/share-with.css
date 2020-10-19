@@ -10,7 +10,8 @@
     margin-top: 0;
     position: absolute;
 }
-.share-with-container {
+.share-with-container>button {
+    margin-left: 0;
 }
 .retro-board-share-icon {
     float: right;

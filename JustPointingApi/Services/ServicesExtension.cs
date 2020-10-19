@@ -1,4 +1,5 @@
 ﻿using JustPointingApi.Services;
+using JustPointingApi.Services.Account;
 using JustPointingApi.Services.Retro;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace JustPointing.Services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IRetroService, RetroService>();
+            services.AddTransient<IAccountService, AccountService>();
             return services;
         }
     }
