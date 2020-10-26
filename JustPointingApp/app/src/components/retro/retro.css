@@ -8,6 +8,7 @@
   padding: 13px 0 0 0;
   height: 474px;
   overflow-x: auto;
+  width: 100%;
 }
 .select-retro-board {
   margin: auto;

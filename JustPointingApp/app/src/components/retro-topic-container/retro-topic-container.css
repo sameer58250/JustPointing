@@ -1,82 +1,98 @@
 .retroTopicContainer {
-  text-align: center;
+    text-align: center;
 }
 
 .newCardInput {
-  display: flex;
-  flex-direction: column;
-  margin-left: 13px;
-  margin-top: 6.5px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 13px;
+    margin-top: 6.5px;
 }
 
 .newCardInput .inputField {
-  width: auto;
-  margin-left: 0px;
+    width: auto;
+    margin-left: 0px;
 }
 
 .retroTopicContainer .addCardButton {
-  width: 26px;
-  background: white;
-  border: 1px solid black;
-  padding: 5px;
-  margin: 6.5px auto 0 auto;
-  text-decoration: none;
-  font-size: larger;
-  border-radius: 3px;
-  height: 26px;
-  text-align: center;
+    width: 26px;
+    background: white;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 6.5px auto 0 auto;
+    text-decoration: none;
+    font-size: larger;
+    border-radius: 3px;
+    height: 26px;
+    text-align: center;
 }
 
 .retroTopicContainer .addCardButton:hover {
-  background-color: grey;
-  cursor: pointer;
+    background-color: grey;
+    cursor: pointer;
 }
 
 .newCardInput .button {
-  background: #635d5d;
-  border: 1px solid black;
-  padding: 5px;
-  margin: 2px;
-  text-decoration: unset;
-  font-size: larger;
-  color: white;
-  border-radius: 3px;
-  height: 26px;
-  text-align: center;
+    background: #635d5d;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 2px;
+    text-decoration: unset;
+    font-size: larger;
+    color: white;
+    border-radius: 3px;
+    height: 26px;
+    text-align: center;
 }
 
 .newCardInput .button:hover {
-  background-color: #635d5d;
+    background-color: #635d5d;
 }
 
 .retroTopicContainer .topicHeader {
-  color: #383535;
-  font-weight: bold;
-  font-size: 25px;
+    color: #383535;
+    font-weight: bold;
+    font-size: 25px;
 }
-.retroColumnHeader{
-  height: 36px !important;
-  min-width: 220px !important;
-  border: 1px solid gray !important;
-  cursor: pointer !important;
-  font-size: large;
-  background-color: darkslategray;
-  font-weight: bold;
-  text-align: center;
+.retroColumnHeaderInput {
+    border: none;
 }
 .retroColumnHeader:focus {
-  background-color: white;
+    background-color: white;
 }
 .MuiCardContent-root {
-  width: 200px;
-  overflow-wrap: break-word;
+    width: 200px;
+    overflow-wrap: break-word;
 }
-.retro-board-share-icon{
+.retro-board-share-icon {
+    margin-right: 5px
+}
+.retro-board-share-icon:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: grey;
+}
+.board-users {
+  display: block;
   float: right;
-  margin-right: 10%;
 }
-.retro-board-share-icon:hover{
-  cursor: pointer;
+.board-users>p{
+  display: inline;
+  vertical-align: top;
+  padding: 0 7px 0 7px;
+  border: 1px solid black;
   border-radius: 50%;
   background-color: grey;
+  margin-right: 2px;
+}
+.retroColumnHeader{
+    display: block;
+    padding-left: 13px;
+    margin: auto;
+    height: 55px;
+    font-weight: bolder;
+    width: 232px;
+}
+.retroColumnHeaderLabel{
+    cursor: pointer;
 }

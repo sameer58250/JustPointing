@@ -66,6 +66,11 @@ export const UpdateRetroBoard = (board) => {
     return axios.post(url, board);
 };
 
+export const GetBoardUsers = (boardId) => {
+    var url = BaseApiUrl() + "/retro/GetBoardUsers?boardId=" + boardId;
+    return axios.get(url);
+}
+
 function BaseApiUrl() {
     return Config.REACT_APP_BASE_API_URL;
 }

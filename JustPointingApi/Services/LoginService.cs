@@ -1,4 +1,5 @@
-﻿using JustPointingApi.Models.Retro;
+﻿using JustPointingApi.Models.Account;
+using JustPointingApi.Models.Retro;
 using JustPointingApi.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,14 @@ namespace JustPointingApi.Services.Retro
             _loginRepo = repo;
         }
 
-        public async Task<RetroBoardUser> CreateUser(string email)
+        public async Task<RetroBoardUser> CreateUser(User user)
         {
-            return await _loginRepo.CreateUser(email);
+            return await _loginRepo.CreateUser(user);
         }
 
-        public async Task<RetroBoardUser> Login(string email)
+        public async Task<RetroBoardUser> Login(User user)
         {
-            return await _loginRepo.Login(email);
+            return await _loginRepo.Login(user);
         }
     }
 }

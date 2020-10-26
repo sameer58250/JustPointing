@@ -18,5 +18,5 @@ AS
 	JOIN RetroBoardPermissions p ON u.Id = p.UserId
 	WHERE p.RetroBoardId = @boardId
 
-	select * from #userTbl;
+	select distinct UserEmail, UserId from #userTbl;
 RETURN 0

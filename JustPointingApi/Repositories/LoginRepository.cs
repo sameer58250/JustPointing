@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using JustPointingApi.Models.Account;
 using JustPointingApi.Models.Retro;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,10 +20,12 @@ namespace JustPointingApi.Repositories
             _db = new SqlConnection(connectionString);
         }
 
-        public async Task<RetroBoardUser> CreateUser(string email)
+        public async Task<RetroBoardUser> CreateUser(User userDetails)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@email", email);
+            parameters.Add("@email", userDetails.UserEmail);
+            parameters.Add("@password", userDetails.SHA256Password);
+            parameters.Add("@creationDate", userDetails.CreationDate);
             parameters.Add("@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
             var user = await _db.QueryAsync<RetroBoardUser>("CreateUser",
                 parameters,
@@ -35,9 +38,11 @@ namespace JustPointingApi.Repositories
             return user.FirstOrDefault();
         }
 
-        public async Task<RetroBoardUser> Login(string email)
+        public async Task<RetroBoardUser> Login(User user)
         {
-            var queryRes = await _db.QueryAsync("LoginUser", new { @userEmail = email }, commandType: CommandType.StoredProcedure);
+            var queryRes = await _db.QueryAsync("LoginUser",
+                new { @userEmail = user.UserEmail, @password = user.SHA256Password },
+                commandType: CommandType.StoredProcedure);
             return queryRes.Select(
                 user => new RetroBoardUser
                 {

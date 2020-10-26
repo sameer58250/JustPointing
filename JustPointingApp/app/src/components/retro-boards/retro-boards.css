@@ -1,11 +1,14 @@
+.retro-board-container{
+    border: 1px solid grey;
+    width: 26%;
+    max-height: 520px;
+}
 .retro-boards {
     display: inline-block;
     padding: 13px 0 0 0;
-    border: 1px solid grey;
-    width: 26%;
     overflow-x: auto;
     overflow-y: auto;
-    max-height: 500px;
+    width: 100%;
 }
 .retro-boards > button {
     display: block;
@@ -58,4 +61,7 @@
     text-decoration: underline;
     font-weight: bold;
     display: block;
+}
+.expand-collapse-icon{
+    cursor: pointer;
 }

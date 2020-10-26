@@ -23,6 +23,7 @@ const AppHeader = (props) => {
     };
     const logout = () => {
         cookies.remove('userdetails');
+        cookies.remove('token');
         props.logout();
         History.replace("/");
     };

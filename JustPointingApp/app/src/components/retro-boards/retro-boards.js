@@ -7,11 +7,13 @@ import * as sessionActions from "../../store/session/session-actions";
 import Board from "./board";
 import { removeFromArrayByAttr, findIndexArrayByAttr } from "../../utils/utils";
 import { useHistory } from "react-router-dom";
-import CollapseIcon from '@material-ui/icons/ChevronLeft';
+import CollapseIcon from "@material-ui/icons/ChevronLeft";
+import ExpandIcon from "@material-ui/icons/ChevronRight";
 
 const RetroBoards = (props) => {
     const History = useHistory();
     const [isCreateActive, setCreateBtnActive] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     useEffect(() => {
         if (props.selectedBoardIdFromURL) {
             var idx = findIndexArrayByAttr(
@@ -55,6 +57,9 @@ const RetroBoards = (props) => {
     };
     const selectRetroBoard = (board) => {
         props.selectRetroBoard(board);
+        RetroManager.GetBoardUsers(board.boardId).then((res) => {
+            props.updateBoardUsers(res.data);
+        });
         RetroManager.GetRetroColumns(board.boardId).then(
             (res) => {
                 props.getRetroData(res.data);
@@ -93,48 +98,73 @@ const RetroBoards = (props) => {
         );
     };
     return (
-        <div className="retro-boards">
-            {isCreateActive ? (
-                <Board
-                    showInput={true}
-                    board={{}}
-                    createBoard={createBoard}
-                    cancelCreate={cancelCreate}></Board>
-            ) : (
-                <button onClick={() => setCreateBtnActive(true)}>
-                    Create board
-                </button>
+        <div className="retro-board-container" id="retro-board-container">
+            <div>
+                {isCollapsed ? (
+                    <ExpandIcon
+                    className="expand-collapse-icon"
+                        onClick={() => {
+                            document.getElementById(
+                                "retro-board-container"
+                            ).style.width = "26%";
+                            setIsCollapsed(false);
+                        }}></ExpandIcon>
+                ) : (
+                    <CollapseIcon
+                    className="expand-collapse-icon"
+                        onClick={() => {
+                            document.getElementById(
+                                "retro-board-container"
+                            ).style.width = "auto";
+                            setIsCollapsed(true);
+                        }}></CollapseIcon>
+                )}
+            </div>
+            {!isCollapsed && (
+                <div className="retro-boards">
+                    {isCreateActive ? (
+                        <Board
+                            showInput={true}
+                            board={{}}
+                            createBoard={createBoard}
+                            cancelCreate={cancelCreate}></Board>
+                    ) : (
+                        <button onClick={() => setCreateBtnActive(true)}>
+                            Create board
+                        </button>
+                    )}
+                    <label className="retro-board-heading">My boards</label>
+                    {props.retroBoards.map((board, idx) => {
+                        if (props.userDetails.userId === board.boardOwnerId) {
+                            return (
+                                <Board
+                                    key={idx}
+                                    board={board}
+                                    selectBoard={() => selectRetroBoard(board)}
+                                    updateBoard={() => updateRetroBoard(board)}
+                                    deleteBoard={() =>
+                                        deleteRetroBoard(board.boardId)
+                                    }></Board>
+                            );
+                        }
+                    })}
+                    <label className="retro-board-heading">Shared boards</label>
+                    {props.retroBoards.map((board, idx) => {
+                        if (props.userDetails.userId !== board.boardOwnerId) {
+                            return (
+                                <Board
+                                    key={idx}
+                                    board={board}
+                                    selectBoard={() => selectRetroBoard(board)}
+                                    updateBoard={() => updateRetroBoard(board)}
+                                    deleteBoard={() =>
+                                        deleteRetroBoard(board.boardId)
+                                    }></Board>
+                            );
+                        }
+                    })}
+                </div>
             )}
-            <label className="retro-board-heading">My boards</label>
-            {props.retroBoards.map((board, idx) => {
-                if (props.userDetails.userId === board.boardOwnerId) {
-                    return (
-                        <Board
-                            key={idx}
-                            board={board}
-                            selectBoard={() => selectRetroBoard(board)}
-                            updateBoard={() => updateRetroBoard(board)}
-                            deleteBoard={() =>
-                                deleteRetroBoard(board.boardId)
-                            }></Board>
-                    );
-                }
-            })}
-            <label className="retro-board-heading">Shared boards</label>
-            {props.retroBoards.map((board, idx) => {
-                if (props.userDetails.userId !== board.boardOwnerId) {
-                    return (
-                        <Board
-                            key={idx}
-                            board={board}
-                            selectBoard={() => selectRetroBoard(board)}
-                            updateBoard={() => updateRetroBoard(board)}
-                            deleteBoard={() =>
-                                deleteRetroBoard(board.boardId)
-                            }></Board>
-                    );
-                }
-            })}
         </div>
     );
 };
@@ -155,6 +185,7 @@ function mapDispatchToProps(dispatch) {
         selectRetroBoard: (board) => dispatch(actions.selectRetroBoard(board)),
         setError: (errorText) =>
             dispatch(sessionActions.create_session_failure(errorText)),
+        updateBoardUsers: (users) => dispatch(actions.updateBoardUsers(users)),
     };
 }
 

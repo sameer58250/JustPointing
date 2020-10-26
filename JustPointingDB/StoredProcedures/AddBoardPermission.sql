@@ -9,7 +9,8 @@ AS
 		VALUES (@userEmail)
 	END
 	select @userId = Id from Users where UserEmail = @userEmail;
-	If NOT EXISTS (select * from RetroBoardPermissions where RetroBoardId = @boardId and UserId = @userId)
+	If NOT EXISTS (select * from RetroBoardPermissions p join RetroBoards b
+	on p.RetroBoardId=b.RetroBoardId where (p.RetroBoardId = @boardId and p.UserId = @userId) or b.RetroBoardOwner = @userId)
 	BEGIN
 		INSERT INTO RetroBoardPermissions (RetroBoardId, UserId)
 		VALUES (@boardId, @userId)

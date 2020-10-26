@@ -1,12 +1,24 @@
-import './registration.css';
-import React from 'react';
+import "./registration.css";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Registration = (props) => {
-    return (
-        <div className = "registration">
-            App registration goes here.
-        </div>
-    )
+    const History = useHistory();
+    useEffect(() => {
+        if (props.isUserLoggedIn) {
+            History.replace("/");
+        }
+    }, [props.isUserLoggedIn]);
+    return <div className="registration">App registration goes here.</div>;
+};
+
+function mapStateToProps(state) {
+    return {
+        isUserLoggedIn: state.SessionReducer.isUserLoggedIn,
+    };
 }
 
-export default Registration;
+function mapDispatchToProps(dispatch) {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

@@ -18,9 +18,13 @@ const ShareWith = (props) => {
     const [email, setEmail] = React.useState("");
 
     const shareBoard = () => {
-        if (email) {
-            if (validateEmail(email.trim())) {
-                ShareBoard(props.board.boardId, email.trim()).then((res) => {
+        var inputEmail = email;
+        if(!email){
+            inputEmail = inputText;
+        }
+        if (inputEmail) {
+            if (validateEmail(inputEmail.trim())) {
+                ShareBoard(props.board.boardId, inputEmail.trim()).then((res) => {
                     //props.closeModal();
                     setEmail("");
                     setError("");

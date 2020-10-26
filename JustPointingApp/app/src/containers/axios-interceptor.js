@@ -5,12 +5,8 @@ const axiosInstance = axios.create();
 var cookies = new Cookies();
 axiosInstance.interceptors.request.use(
     (config) => {
-        var userInfo = cookies.get("userdetails");
-        var token = "";
-        if (userInfo) {
-            token = userInfo.userEmail + ":" + userInfo.password;
-        }
-        config.headers.authorization = "Basic " + btoa(token);
+        var token = cookies.get("token");
+        config.headers.authorization = token;
         return config;
     },
     (error) => {

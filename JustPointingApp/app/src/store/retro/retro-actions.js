@@ -27,3 +27,10 @@ export const selectBoardIdFromURL = (boardId) => {
         payload: boardId,
     };
 };
+
+export const updateBoardUsers = (users) => {
+    return {
+        type: ACTION_TYPES.UPDATE_BOARD_USERS,
+        payload: users,
+    };
+};

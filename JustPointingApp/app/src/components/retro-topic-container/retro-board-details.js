@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import RetroTopicContainer from "./retro-topic-container";
 import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShareView from "../share-with/share-with";
 
 const RetroDetails = (props) => {
@@ -25,9 +25,16 @@ const RetroDetails = (props) => {
         <div className="retro-detail-container">
             <div className="selected-board-title">
                 <label>{props.selectedBoard.boardTitle}</label>
-                <PersonAddIcon
-                    className="retro-board-share-icon"
-                    onClick={openShareModal}></PersonAddIcon>
+                <div className="board-users">
+                    <PersonAddIcon
+                        className="retro-board-share-icon"
+                        onClick={openShareModal}></PersonAddIcon>
+                    {props.boardUsers.map((user) => (
+                        <p key={user.userId} title={user.userEmail}>
+                            {user.userEmail.substring(0, 1)}
+                        </p>
+                    ))}
+                </div>
             </div>
             <ShareView
                 isShareWithModalOpen={openShareWith}
@@ -58,6 +65,7 @@ function mapStateToProps(state) {
         retroData: state.RetroReducer.retroData,
         selectedBoard: state.RetroReducer.selectedBoard,
         boardIdFromURL: state.RetroReducer.selectedBoardId,
+        boardUsers: state.RetroReducer.selectedBoardUsers,
     };
 }
 

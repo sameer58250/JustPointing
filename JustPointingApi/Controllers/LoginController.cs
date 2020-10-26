@@ -1,4 +1,5 @@
-﻿using JustPointingApi.Models.Retro;
+﻿using JustPointingApi.Models.Account;
+using JustPointingApi.Models.Retro;
 using JustPointingApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,14 +20,9 @@ namespace JustPointingApi.Controllers
         }
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult<RetroBoardUser>> Login([FromBody]string email)
+        public async Task<ActionResult<RetroBoardUser>> Login([FromBody]User user)
         {
-            var loginRes = await _loginService.Login(email);
-            if (loginRes == null)
-            {
-                //create user
-                loginRes = await _loginService.CreateUser(email);
-            }
+            var loginRes = await _loginService.Login(user);
             if (loginRes == null)
             {
                 return NotFound("User not found.");

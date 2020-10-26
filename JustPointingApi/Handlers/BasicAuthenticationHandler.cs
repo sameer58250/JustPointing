@@ -1,4 +1,5 @@
-﻿using JustPointingApi.Models.Retro;
+﻿using JustPointingApi.Models.Account;
+using JustPointingApi.Models.Retro;
 using JustPointingApi.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -41,7 +42,10 @@ namespace JustPointingApi.Handlers
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var userEmail = credentials[0];
                 var password = credentials[1];
-                user = await _loginService.Login(userEmail);
+                User userCredentials = new User();
+                userCredentials.UserEmail = userEmail;
+                userCredentials.Password = password;
+                user = await _loginService.Login(userCredentials);
             }
             catch
             {

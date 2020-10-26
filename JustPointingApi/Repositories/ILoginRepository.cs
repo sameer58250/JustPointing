@@ -1,4 +1,5 @@
-﻿using JustPointingApi.Models.Retro;
+﻿using JustPointingApi.Models.Account;
+using JustPointingApi.Models.Retro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace JustPointingApi.Repositories
 {
     public interface ILoginRepository
     {
-        Task<RetroBoardUser> Login(string email);
-        Task<RetroBoardUser> CreateUser(string email);
+        Task<RetroBoardUser> Login(User user);
+        Task<RetroBoardUser> CreateUser(User user);
     }
 }

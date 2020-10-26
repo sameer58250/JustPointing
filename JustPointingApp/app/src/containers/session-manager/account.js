@@ -3,7 +3,7 @@ import axios from "../axios-interceptor";
 
 export const LoginUser = (credentials) => {
     var url = BaseApiUrl() + "/Login/Login";
-    return axios.post(url, new String(credentials), {
+    return axios.post(url, credentials, {
         headers: { "content-type": "application/json" },
     });
 };

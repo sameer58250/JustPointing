@@ -1,0 +1,14 @@
+.credentials-input{
+    display: block;
+    margin-top: 13px;
+}
+.input-password{
+    height: 26px;
+    width: 200px;
+    margin-left: 13px;
+    border-radius: 3px;
+    padding: 1px 5px 1px 5px;
+}
+.input-email{
+    margin-left: 36px !important;
+}

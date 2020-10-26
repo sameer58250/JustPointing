@@ -13,10 +13,6 @@
 .share-with-container>button {
     margin-left: 0;
 }
-.retro-board-share-icon {
-    float: right;
-    margin-right: 10%;
-}
 .retro-board-share-icon:hover {
     cursor: pointer;
     border-radius: 50%;

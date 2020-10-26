@@ -9,6 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 const RetroTopicContainer = (props) => {
     const [isAddCardVisible, setIsAddCardVisible] = useState(true);
+    const [isColumnEdit, setIsColumnEdit] = useState(false);
 
     var newRetroPoint = {
         retroPointUserId: props.userDetails.userId,
@@ -100,12 +101,32 @@ const RetroTopicContainer = (props) => {
 
     return (
         <div className="retroTopicContainer">
-            <input
-                type="text"
-                className="retroColumnHeader"
-                defaultValue={props.columnTitle}
-                placeholder={props.placeholder || "Click to add retro column"}
-                onKeyPress={(e) => addRetroColumn(e, props.columnId)}></input>
+            <div className="retroColumnHeader">
+                {props.columnTitle && !isColumnEdit ? (
+                    <label
+                        className="retroColumnHeaderLabel"
+                        onClick={() => {
+                            setIsColumnEdit(true);
+                        }}>
+                        {props.columnTitle}
+                    </label>
+                ) : (
+                    <input
+                        type="text"
+                        className="retroColumnHeaderInput"
+                        defaultValue={props.columnTitle}
+                        placeholder={
+                            props.placeholder || "Click to add retro column"
+                        }
+                        autoFocus
+                        onBlur={() => {
+                            setIsColumnEdit(false);
+                        }}
+                        onKeyPress={(e) =>
+                            addRetroColumn(e, props.columnId)
+                        }></input>
+                )}
+            </div>
             {props.columnDetails &&
                 props.columnDetails.retroPoints &&
                 props.columnDetails.retroPoints.map((retroPoint) => (
@@ -118,8 +139,11 @@ const RetroTopicContainer = (props) => {
                     />
                 ))}
             {isAddCardVisible && props.columnDetails && (
-                <div title="Click to add point" className="addCardButton">
-                    <AddIcon onClick={addCardClicked}></AddIcon>
+                <div
+                    title="Click to add point"
+                    className="addCardButton"
+                    onClick={addCardClicked}>
+                    <AddIcon></AddIcon>
                 </div>
             )}
             {!isAddCardVisible && (

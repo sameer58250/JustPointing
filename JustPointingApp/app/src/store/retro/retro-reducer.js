@@ -4,7 +4,8 @@ export const initialRetroData = {
     retroBoards: [],
     retroData: [],
     selectedBoard: {},
-    selectedBoardId:"",
+    selectedBoardId: "",
+    selectedBoardUsers: [],
 };
 
 export const RetroReducer = (state = initialRetroData, action) => {
@@ -25,10 +26,15 @@ export const RetroReducer = (state = initialRetroData, action) => {
                 selectedBoard: action.payload,
             };
         case ACTION_TYPES.LOAD_BOARD_ID_FROM_URL:
-            return{
+            return {
                 ...state,
-                selectedBoardId:action.payload,
-            }
+                selectedBoardId: action.payload,
+            };
+        case ACTION_TYPES.UPDATE_BOARD_USERS:
+            return {
+                ...state,
+                selectedBoardUsers: action.payload,
+            };
         default:
             return state;
     }
