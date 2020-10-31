@@ -69,7 +69,22 @@ export const UpdateRetroBoard = (board) => {
 export const GetBoardUsers = (boardId) => {
     var url = BaseApiUrl() + "/retro/GetBoardUsers?boardId=" + boardId;
     return axios.get(url);
-}
+};
+
+export const AddRetroPointComment = (comment) => {
+    var url = BaseApiUrl() + "/retro/AddRetroPointComment";
+    return axios.post(url, comment);
+};
+
+export const UpdateRetroPointComment = (comment) => {
+    var url = BaseApiUrl() + "/retro/UpdateRetroPointComment";
+    return axios.put(url, comment);
+};
+
+export const DeleteRetroPointComment = (comment) => {
+    var url = BaseApiUrl() + "/retro/DeleteRetroPointComment";
+    return axios.delete(url, { data: comment });
+};
 
 function BaseApiUrl() {
     return Config.REACT_APP_BASE_API_URL;

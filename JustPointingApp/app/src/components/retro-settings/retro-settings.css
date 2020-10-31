@@ -1,0 +1,11 @@
+.retro-settings{
+    display: block;
+    padding: 13px;
+    width: 100%;
+}
+.retro-settings-heading{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}

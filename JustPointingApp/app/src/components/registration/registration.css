@@ -2,3 +2,9 @@
     display: block;
     text-align: center;
 }
+.registration>div{
+    margin: auto;
+}
+.registration-labels{
+    text-align: left;
+}

@@ -26,7 +26,7 @@ const Login = (props) => {
                     props.loginCallback && props.loginCallback(res.data.userId);
                 },
                 (err) => {
-                    setError("Failed to login. Please try later");
+                    setError("Failed to login. Please try again");
                 }
             );
         } else {

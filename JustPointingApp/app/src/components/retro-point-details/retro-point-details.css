@@ -1,0 +1,63 @@
+.retro-point-details {
+    display: block;
+}
+.retro-point-details-modal {
+    display: block;
+}
+.retro-point-details-modal > div {
+    width: 300px;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin: auto;
+    margin-top: 3.4%;
+    position: absolute;
+    margin-right: 0;
+    border-radius: 0 !important;
+    border: 0.5px solid black !important;
+    background-color: antiquewhite !important;
+    max-height: 79%;
+}
+.retro-detail-close-icon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    cursor: pointer;
+}
+.retro-details-title{
+    font-size: larger;
+    font-weight: bolder;
+    margin-bottom: 13px;
+    text-align: center;
+}
+.retro-details-text{
+    font-size: smaller;
+    display: block;
+    margin-bottom: 6.5px;
+}
+.retro-point-comment{
+    border: 0.5px solid grey;
+    margin: 3.25px 0 3.25px 0;
+    padding: 3.25px 0 3.25px 3.25px;
+    width: 100%;
+    border-radius: 3px;
+}
+.retro-point-comment-input{
+    width: 100%;
+    resize: none;
+    height: 65px;
+    border-radius: 3px;
+}
+.retro-point-comment-update{
+    width: 96%;
+}
+.retro-point-comment-owner{
+    font-size: x-small;
+}
+.retro-point-comment-text{
+    font-size: large;
+    margin-bottom: 6.5px;
+}
+.retro-point-comment-date{
+    float: right;
+}

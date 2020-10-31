@@ -105,5 +105,30 @@ namespace JustPointingApi.Controllers.Retro
             var res = await _retroService.GetBoardUsers(boardId);
             return Ok(res);
         }
+        [HttpPost]
+        [Route("AddRetroPointComment")]
+        public async Task<ActionResult<RetroPointComment>> AddRetroPointComment(RetroPointComment comment)
+        {
+            var res = await _retroService.AddRetroPointComment(comment);
+            return Ok(res);
+        }
+        [HttpPut]
+        [Route("UpdateRetroPointComment")]
+        public async Task UpdateRetroPointComment(RetroPointComment comment)
+        {
+            await _retroService.UpdateRetroPointComment(comment);
+        }
+        [HttpDelete]
+        [Route("DeleteRetroPointComment")]
+        public async Task DeleteRetroPointComment([FromBody]RetroPointComment comment)
+        {
+            await _retroService.DeleteRetroPointComment(comment);
+        }
+        [HttpDelete]
+        [Route("DeleteRetroColumn")]
+        public async Task DeleteRetroColumn([FromBody] RetroColumn column)
+        {
+            await _retroService.DeleteRetroColumn(column);
+        }
     }
 }

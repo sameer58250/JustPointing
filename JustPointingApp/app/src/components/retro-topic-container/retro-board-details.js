@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ShareView from "../share-with/share-with";
+import RetroPointView from "../retro-point-details/retro-point-details";
 
 const RetroDetails = (props) => {
     useEffect(() => {
@@ -52,6 +53,7 @@ const RetroDetails = (props) => {
                     ))}
                 <RetroTopicContainer />
             </div>
+            <RetroPointView/>
         </div>
     ) : (
         <div className="select-retro-board">

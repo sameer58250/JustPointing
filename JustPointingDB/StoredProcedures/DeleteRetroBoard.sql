@@ -17,6 +17,7 @@ AS
 			begin tran
 				DELETE FROM RetroBoardPermissions where RetroBoardId=@boardId;
 				delete p from RetroPoints p inner join RetroColumnTypes c on p.RetroColumnTypeId=c.ColumnTypeId where c.RetroBoardId=@boardId;
+				delete com from RetroPointComments com inner join RetroColumnTypes col on com.RetroColumnId=col.ColumnTypeId where col.RetroBoardId=@boardId;
 				delete from RetroColumnTypes where RetroBoardId=@boardId;
 				delete from RetroBoards where RetroBoardId=@boardId;
 			commit;

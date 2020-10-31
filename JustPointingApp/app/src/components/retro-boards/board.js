@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./retro-boards.css";
-import Menus from "../menus/menus";
+import Menus from "../menus/board-menus";
 import TextField from "@material-ui/core/TextField";
 import CheckIcon from "@material-ui/icons/Check";
 import CancelIcon from "@material-ui/icons/Cancel";

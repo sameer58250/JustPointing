@@ -7,4 +7,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="RetroBoardOwner" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="19a34092-78fc-40d3-8e11-a4767e1f8de2" ChangeDateTime="10/30/2020 18:08:04">
+    <Property Name="ElementName" Value="[dbo].[RetroPointComments].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroPointComments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CommentId" />
+  </Operation>
 </Operations>

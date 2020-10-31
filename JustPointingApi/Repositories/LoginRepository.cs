@@ -20,14 +20,16 @@ namespace JustPointingApi.Repositories
             _db = new SqlConnection(connectionString);
         }
 
-        public async Task<RetroBoardUser> CreateUser(User userDetails)
+        public async Task<User> CreateUser(User userDetails)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@email", userDetails.UserEmail);
+            parameters.Add("@name", userDetails.Name);
+            parameters.Add("@phone", userDetails.Phone);
             parameters.Add("@password", userDetails.SHA256Password);
-            parameters.Add("@creationDate", userDetails.CreationDate);
+            parameters.Add("@creationDate", DateTime.Now);
             parameters.Add("@returnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
-            var user = await _db.QueryAsync<RetroBoardUser>("CreateUser",
+            var user = await _db.QueryAsync<User>("CreateUser",
                 parameters,
                 commandType: CommandType.StoredProcedure);
             var res = parameters.Get<int>("@returnValue");
@@ -46,6 +48,7 @@ namespace JustPointingApi.Repositories
             return queryRes.Select(
                 user => new RetroBoardUser
                 {
+                    Name = user.Name,
                     UserEmail = user.UserEmail,
                     UserId = user.Id
                 }).FirstOrDefault();

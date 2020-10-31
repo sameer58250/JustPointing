@@ -9,6 +9,8 @@ import { removeFromArrayByAttr, findIndexArrayByAttr } from "../../utils/utils";
 import { useHistory } from "react-router-dom";
 import CollapseIcon from "@material-ui/icons/ChevronLeft";
 import ExpandIcon from "@material-ui/icons/ChevronRight";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { NavLink } from "react-router-dom";
 
 const RetroBoards = (props) => {
     const History = useHistory();
@@ -102,23 +104,37 @@ const RetroBoards = (props) => {
             <div>
                 {isCollapsed ? (
                     <ExpandIcon
-                    className="expand-collapse-icon"
+                        className="expand-collapse-icon"
                         onClick={() => {
                             document.getElementById(
                                 "retro-board-container"
                             ).style.width = "26%";
+                            document.getElementById(
+                                "settings-icon"
+                            ).style.float = "right";
                             setIsCollapsed(false);
                         }}></ExpandIcon>
                 ) : (
                     <CollapseIcon
-                    className="expand-collapse-icon"
+                        className="expand-collapse-icon"
                         onClick={() => {
                             document.getElementById(
                                 "retro-board-container"
                             ).style.width = "auto";
+                            document.getElementById(
+                                "settings-icon"
+                            ).style.float = "none";
                             setIsCollapsed(true);
                         }}></CollapseIcon>
                 )}
+                <NavLink
+                    to={"/retro/settings"}
+                    id="settings-icon"
+                    className="settings-icon">
+                    <div>
+                        <SettingsIcon></SettingsIcon>
+                    </div>
+                </NavLink>
             </div>
             {!isCollapsed && (
                 <div className="retro-boards">

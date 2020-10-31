@@ -29,5 +29,16 @@ namespace JustPointingApi.Controllers
             }
             return Ok(loginRes);
         }
+        [HttpPost]
+        [Route("RegisterUser")]
+        public async Task<ActionResult<User>> RegisterUser([FromBody]User user)
+        {
+            var loginRes = await _loginService.CreateUser(user);
+            if (loginRes == null)
+            {
+                return BadRequest("Failed to register the user.");
+            }
+            return Ok(loginRes);
+        }
     }
 }

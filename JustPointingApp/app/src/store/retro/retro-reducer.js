@@ -6,6 +6,9 @@ export const initialRetroData = {
     selectedBoard: {},
     selectedBoardId: "",
     selectedBoardUsers: [],
+    selectedRetroPoint: {},
+    isRetroPointModalOpen: false,
+    isSettingsOpen: false,
 };
 
 export const RetroReducer = (state = initialRetroData, action) => {
@@ -24,6 +27,7 @@ export const RetroReducer = (state = initialRetroData, action) => {
             return {
                 ...state,
                 selectedBoard: action.payload,
+                isRetroPointModalOpen: false,
             };
         case ACTION_TYPES.LOAD_BOARD_ID_FROM_URL:
             return {
@@ -34,6 +38,21 @@ export const RetroReducer = (state = initialRetroData, action) => {
             return {
                 ...state,
                 selectedBoardUsers: action.payload,
+            };
+        case ACTION_TYPES.SELECT_RETRO_POINT:
+            return {
+                ...state,
+                selectedRetroPoint: action.payload,
+            };
+        case ACTION_TYPES.OPEN_CLOSE_RETRO_POINT_MODAL:
+            return {
+                ...state,
+                isRetroPointModalOpen: action.payload,
+            };
+        case ACTION_TYPES.OPEN_CLOSE_RETRO_SETTINGS:
+            return {
+                ...state,
+                isSettingsOpen: action.payload,
             };
         default:
             return state;

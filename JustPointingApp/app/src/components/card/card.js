@@ -86,7 +86,7 @@ const SimpleCard = (props) => {
                         autoFocus
                         id="retro-point-input"></TextField>
                 )}
-                <Typography variant="body2" component="p">
+                <Typography variant="body2" component="p" onClick={props.selectRetroPoint}>
                     {!openInputBox && props.cardDetails.retroPointText}
                 </Typography>
             </CardContent>

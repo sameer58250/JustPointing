@@ -9,6 +9,7 @@ namespace JustPointingApi.Models.Retro
     {
         BoardAdded = 0,
         BoardUpdated = 1,
-        BoardDetailsUpdated = 2
+        BoardDetailsUpdated = 2,
+        BoardUserAdded = 3
     }
 }

@@ -65,3 +65,12 @@
 .expand-collapse-icon{
     cursor: pointer;
 }
+.settings-icon{
+    float: right;
+    display: block;
+    margin-right: 6.5px;
+    cursor: pointer;
+}
+.settings-icon:hover{
+    background-color: lightgrey !important;
+}

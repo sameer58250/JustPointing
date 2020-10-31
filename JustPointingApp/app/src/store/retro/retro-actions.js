@@ -34,3 +34,24 @@ export const updateBoardUsers = (users) => {
         payload: users,
     };
 };
+
+export const selectRetroPoint = (retroPoint) => {
+    return {
+        type: ACTION_TYPES.SELECT_RETRO_POINT,
+        payload: retroPoint,
+    };
+};
+
+export const openCloseRetroPointModal = (isOpen) => {
+    return {
+        type: ACTION_TYPES.OPEN_CLOSE_RETRO_POINT_MODAL,
+        payload: isOpen,
+    };
+};
+
+export const openCloseRetroSetting = (isOpen) => {
+    return {
+        type: ACTION_TYPES.OPEN_CLOSE_RETRO_SETTINGS,
+        payload: isOpen,
+    };
+};

@@ -79,15 +79,26 @@ namespace JustPointingApi.Repositories
 
         public async Task<List<RetroPoint>> GetRetroPoints(int columnId)
         {
-            var queryRes = await _db.QueryAsync("GetRetroPoints", new { @columnId = columnId }, commandType: CommandType.StoredProcedure);
-            return queryRes.Select(point => new RetroPoint
+            var res = await _db.QueryMultipleAsync("GetRetroPoints", new { @columnId = columnId }, commandType: CommandType.StoredProcedure);
+            var retroPointTbl = await res.ReadAsync();
+            var retroCommentTbl = await res.ReadAsync<RetroPointComment>();
+            var retroPoints = retroPointTbl.Select(point => new RetroPoint
             {
                 RetroPointId = point.RetroPointId,
                 RetroPointText = point.RetroPointText,
                 RetroPointUserId = point.PointUserid,
                 CreationDate = point.CreationDate,
-                RetroColumnId = point.RetroColumnTypeId
+                RetroColumnId = point.RetroColumnTypeId,
+                RetroPointOwnerEmail = point.UserEmail
             }).ToList();
+
+            foreach(var point in retroPoints)
+            {
+                point.RetroComments = retroCommentTbl.Where(
+                    c => c.RetroPointId == point.RetroPointId
+                    ).ToList();
+            }
+            return retroPoints;
         }
 
         public async Task<List<RetroBoard>> GetSharedBoardsWithUserId(int userId)
@@ -149,6 +160,51 @@ namespace JustPointingApi.Repositories
         {
             await _db.QueryAsync("UpdateRetroBoard",
                 new { @title = board.BoardTitle, @boardId = board.BoardId },
+                commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task<RetroPointComment> AddRetroPointComment(RetroPointComment comment)
+        {
+            var res = await _db.QueryAsync<RetroPointComment>("AddRetroPointComment",
+                new
+                {
+                    @userId = comment.CommentOwnerId,
+                    @creationDate = DateTime.Now,
+                    @retroPointId = comment.RetroPointId,
+                    @retroColumnId = comment.RetroColumnId,
+                    @commentText = comment.CommentText
+                },
+                commandType: CommandType.StoredProcedure);
+            return res.FirstOrDefault();
+        }
+
+        public async Task UpdateRetroPointComment(RetroPointComment comment)
+        {
+            await _db.QueryAsync("UpdateRetroPointComment",
+                new
+                {
+                    @commentId = comment.CommentId,
+                    @commentText = comment.CommentText
+                }, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task DeleteRetroPointComment(RetroPointComment comment)
+        {
+            await _db.QueryAsync("DeleteRetroPointComment",
+                new
+                {
+                    @commentId = comment.CommentId
+                },
+                commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task DeleteRetroColumn(RetroColumn column)
+        {
+            await _db.QueryAsync("DeleteRetroColumn",
+                new
+                {
+                    @columnId = column.ColumnId
+                },
                 commandType: CommandType.StoredProcedure);
         }
     }

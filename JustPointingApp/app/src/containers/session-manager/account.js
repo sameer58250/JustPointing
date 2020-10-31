@@ -13,6 +13,11 @@ export const SearchUsers = (email) => {
     return axios.get(url)
 }
 
+export const RegisterUser = (user) => {
+    var url = BaseApiUrl() + "/Login/RegisterUser";
+    return axios.post(url, user);
+}
+
 function BaseApiUrl() {
     return Config.REACT_APP_BASE_API_URL;
 }

@@ -136,6 +136,10 @@ const RetroTopicContainer = (props) => {
                         cardDetails={retroPoint}
                         deleteCard={deleteCard}
                         updateCard={updateRetroColumns}
+                        selectRetroPoint={() => {
+                            props.selectRetroPoint(retroPoint);
+                            props.openCloseModal(true);
+                        }}
                     />
                 ))}
             {isAddCardVisible && props.columnDetails && (
@@ -169,6 +173,10 @@ function mapDispatchToProps(dispatch) {
     return {
         updateRetroData: (retroData) =>
             dispatch(actions.getRetroData(retroData)),
+        selectRetroPoint: (retroPoint) =>
+            dispatch(actions.selectRetroPoint(retroPoint)),
+        openCloseModal: (isOpen) =>
+            dispatch(actions.openCloseRetroPointModal(isOpen)),
     };
 }
 

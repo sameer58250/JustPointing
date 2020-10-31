@@ -21,5 +21,9 @@ namespace JustPointingApi.Services.Retro
         Task AddUserToBoard(string boardId, string userEmail);
         Task<List<RetroBoardUser>> GetBoardUsers(int boardId);
         Task UpdateRetroBoard(RetroBoard board);
+        Task<RetroPointComment> AddRetroPointComment(RetroPointComment comment);
+        Task UpdateRetroPointComment(RetroPointComment comment);
+        Task DeleteRetroPointComment(RetroPointComment comment);
+        Task DeleteRetroColumn(RetroColumn column);
     }
 }

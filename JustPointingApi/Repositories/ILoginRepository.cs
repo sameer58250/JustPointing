@@ -10,6 +10,6 @@ namespace JustPointingApi.Repositories
     public interface ILoginRepository
     {
         Task<RetroBoardUser> Login(User user);
-        Task<RetroBoardUser> CreateUser(User user);
+        Task<User> CreateUser(User user);
     }
 }

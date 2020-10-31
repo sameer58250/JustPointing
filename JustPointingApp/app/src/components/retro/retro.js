@@ -10,6 +10,7 @@ import AppError from "../error/error";
 import { Route } from "react-router-dom";
 import BoardDetails from "../retro-topic-container/retro-board-details";
 import RetroSocketManager from "../../containers/web-socket-manager/retro-socket-manager";
+import RetroSettingView from "../retro-settings/retro-settings";
 
 const Retro = (props) => {
     useEffect(() => {
@@ -43,7 +44,13 @@ const Retro = (props) => {
             <div className="retro">
                 <RetroBoards />
                 <Route
-                    path={["/retro/:id", "/retro/"]}
+                    path="/retro/settings/"
+                    render={(props) => (
+                        <RetroSettingView {...props}></RetroSettingView>
+                    )}></Route>
+                <Route
+                    path={["/retro/:id(\\d+)", "/retro/"]}
+                    exact
                     render={(props) => (
                         <BoardDetails {...props}></BoardDetails>
                     )}></Route>

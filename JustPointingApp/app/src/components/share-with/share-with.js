@@ -27,7 +27,7 @@ const ShareWith = (props) => {
                 ShareBoard(props.board.boardId, inputEmail.trim()).then((res) => {
                     //props.closeModal();
                     setEmail("");
-                    setError("");
+                    setError("Shared successfully.");
                 });
             } else {
                 setError("Please enter valid email address");
@@ -73,7 +73,7 @@ const ShareWith = (props) => {
             <div className="share-with-container">
                 <CloseIcon
                     className="share-with-close-icon"
-                    onClick={props.closeModal}></CloseIcon>
+                    onClick={()=>{props.closeModal(); setError("")}}></CloseIcon>
                 <Autocomplete
                     id="asynchronous-demo"
                     freeSolo
@@ -99,6 +99,7 @@ const ShareWith = (props) => {
                             {...params}
                             label="Email"
                             variant="outlined"
+                            autoFocus
                             InputProps={{
                                 ...params.InputProps,
                             }}

@@ -6,10 +6,12 @@ namespace JustPointingApi.Models.Account
 {
     public class User
     {
+        public string Name { get; set; }
         public string UserEmail { get; set; }
         public int UserId { get; set; }
         public string Password { private get; set; }
         public DateTime CreationDate { get; set; }
+        public string Phone { get; set; }
         public string SHA256Password
         {
             get
