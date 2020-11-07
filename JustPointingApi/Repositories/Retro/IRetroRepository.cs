@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JustPointingApi.Repositories
+namespace JustPointingApi.Repositories.Retro
 {
     public interface IRetroRepository
     {

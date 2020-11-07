@@ -1,11 +1,63 @@
-.retro-settings{
+.retro-settings {
     display: block;
     padding: 13px;
     width: 100%;
 }
-.retro-settings-heading{
+.retro-settings-heading {
     font-size: large;
     font-weight: bold;
     text-align: center;
     text-decoration: underline;
+}
+.retro-template {
+    margin-left: 12px;
+    border: 0.5px solid black;
+}
+.retro-template-header {
+    display: block;
+    margin-bottom: 13px;
+    background-color: darkgray;
+    padding: 6.5px;
+    border-radius: 3px;
+}
+.retro-template-icon {
+    display: block;
+    float: right;
+}
+.retro-template-content {
+    margin: 0 6.5px 13px 6.5px;
+}
+.retro-template-content > b {
+    text-decoration: underline;
+}
+.retro-template-user-input>div>div{
+ background-color: white;
+}
+.retro-template-column {
+    margin: 6.5px 0 6.5px 6.5px;
+}
+.retro-template-column-input {
+    margin-left: 0 !important;
+}
+.retro-template-actions {
+    display: block;
+    float: right;
+    margin-right: 13px;
+}
+.retro-template-actions > label {
+    background-color: lightgray;
+    border: 1px solid grey;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.retro-template-actions > label:hover {
+    border: 2px solid black;
+}
+.retro-template-user-email {
+    vertical-align: top;
+    margin: 6.5px;
+}
+.retro-template-user{
+    margin: 6.5px 0 6.5px 0;
 }

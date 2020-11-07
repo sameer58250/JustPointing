@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JustPointingApi.Repositories
+namespace JustPointingApi.Repositories.Retro
 {
     public class RetroRepository : IRetroRepository
     {
@@ -55,7 +55,11 @@ namespace JustPointingApi.Repositories
 
         public async Task<List<RetroBoard>> GetBoardsWithUserId(int userId)
         {
-            var queryRes = await _db.QueryAsync("GetAllBoardsWithUserId", new { @userId = userId }, commandType: CommandType.StoredProcedure);
+            var queryRes = await _db.QueryAsync("GetAllBoardsWithUserId",
+                new
+                {
+                    @userId = userId
+                }, commandType: CommandType.StoredProcedure);
             return queryRes.Select(board => new RetroBoard
             {
                 BoardId = board.RetroBoardId,
@@ -67,7 +71,12 @@ namespace JustPointingApi.Repositories
 
         public async Task<List<RetroColumn>> GetRetroColumns(int boardId)
         {
-            var queryRes = await _db.QueryAsync("GetRetroColumns", new { @boardId = boardId }, commandType: CommandType.StoredProcedure);
+            var queryRes = await _db.QueryAsync("GetRetroColumns",
+                new
+                {
+                    @boardId = boardId
+                },
+                commandType: CommandType.StoredProcedure);
             return queryRes.Select(col => new RetroColumn
             {
                 ColumnId = col.ColumnTypeId,
@@ -79,7 +88,12 @@ namespace JustPointingApi.Repositories
 
         public async Task<List<RetroPoint>> GetRetroPoints(int columnId)
         {
-            var res = await _db.QueryMultipleAsync("GetRetroPoints", new { @columnId = columnId }, commandType: CommandType.StoredProcedure);
+            var res = await _db.QueryMultipleAsync("GetRetroPoints",
+                new
+                {
+                    @columnId = columnId
+                },
+                commandType: CommandType.StoredProcedure);
             var retroPointTbl = await res.ReadAsync();
             var retroCommentTbl = await res.ReadAsync<RetroPointComment>();
             var retroPoints = retroPointTbl.Select(point => new RetroPoint
@@ -92,7 +106,7 @@ namespace JustPointingApi.Repositories
                 RetroPointOwnerEmail = point.UserEmail
             }).ToList();
 
-            foreach(var point in retroPoints)
+            foreach (var point in retroPoints)
             {
                 point.RetroComments = retroCommentTbl.Where(
                     c => c.RetroPointId == point.RetroPointId
@@ -103,7 +117,12 @@ namespace JustPointingApi.Repositories
 
         public async Task<List<RetroBoard>> GetSharedBoardsWithUserId(int userId)
         {
-            var queryRes = await _db.QueryAsync("GetSharedBoards", new { @userId = userId }, commandType: CommandType.StoredProcedure);
+            var queryRes = await _db.QueryAsync("GetSharedBoards",
+                new
+                {
+                    @userId = userId
+                },
+                commandType: CommandType.StoredProcedure);
             return queryRes.Select(board => new RetroBoard
             {
                 BoardId = board.RetroBoardId,
@@ -116,14 +135,21 @@ namespace JustPointingApi.Repositories
         public async Task UpdateRetroPoint(RetroPoint point)
         {
             await _db.QueryAsync<int>("UpdateRetroPoint",
-                 new { @retroPointId = point.RetroPointId, @pointText = point.RetroPointText },
+                 new
+                 {
+                     @retroPointId = point.RetroPointId,
+                     @pointText = point.RetroPointText
+                 },
                  commandType: CommandType.StoredProcedure);
         }
 
         public async Task DeleteRetroPoint(RetroPoint point)
         {
             await _db.QueryAsync("DeleteRetroPoint",
-                new { @pointId = point.RetroPointId },
+                new
+                {
+                    @pointId = point.RetroPointId
+                },
                 commandType: CommandType.StoredProcedure);
         }
 
@@ -146,20 +172,33 @@ namespace JustPointingApi.Repositories
         public async Task AddUserToBoard(string boardId, string userEmail)
         {
             await _db.QueryAsync("AddBoardPermission",
-                new { @boardId = boardId, @userEmail = userEmail },
+                new
+                {
+                    @boardId = boardId,
+                    @userEmail = userEmail
+                },
                 commandType: CommandType.StoredProcedure);
         }
 
         public async Task<List<RetroBoardUser>> GetBoardUsers(int boardId)
         {
-            var res = await _db.QueryAsync<RetroBoardUser>("GetBoardUsers", new { @boardId = boardId }, commandType: CommandType.StoredProcedure);
+            var res = await _db.QueryAsync<RetroBoardUser>("GetBoardUsers",
+                new
+                {
+                    @boardId = boardId
+                },
+                commandType: CommandType.StoredProcedure);
             return res.ToList();
         }
 
         public async Task UpdateRetroBoard(RetroBoard board)
         {
             await _db.QueryAsync("UpdateRetroBoard",
-                new { @title = board.BoardTitle, @boardId = board.BoardId },
+                new
+                {
+                    @title = board.BoardTitle,
+                    @boardId = board.BoardId
+                },
                 commandType: CommandType.StoredProcedure);
         }
 
@@ -185,7 +224,8 @@ namespace JustPointingApi.Repositories
                 {
                     @commentId = comment.CommentId,
                     @commentText = comment.CommentText
-                }, commandType: CommandType.StoredProcedure);
+                },
+                commandType: CommandType.StoredProcedure);
         }
 
         public async Task DeleteRetroPointComment(RetroPointComment comment)

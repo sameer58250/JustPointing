@@ -55,3 +55,10 @@ export const openCloseRetroSetting = (isOpen) => {
         payload: isOpen,
     };
 };
+
+export const getRetroBoardTemplates = (templates) => {
+    return {
+        type: ACTION_TYPES.GET_RETRO_BOARD_TEMPLATE,
+        payload: templates,
+    };
+};

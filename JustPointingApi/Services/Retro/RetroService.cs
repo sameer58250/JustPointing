@@ -1,7 +1,7 @@
 ﻿using JustPointing.WebSocketManager;
 using JustPointingApi.Handlers;
 using JustPointingApi.Models.Retro;
-using JustPointingApi.Repositories;
+using JustPointingApi.Repositories.Retro;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

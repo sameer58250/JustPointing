@@ -81,6 +81,19 @@ const RetroTopicContainer = (props) => {
                     );
                     e.target.value = "";
                 }
+            } else if (columnId) {
+                columnIndex = findIndexArrayByAttr(
+                    props.retroData,
+                    "columnId",
+                    columnId
+                );
+                if (columnIndex !== -1) {
+                    RetroManager.DeleteRetroColumn(
+                        props.retroData[columnIndex]
+                    ).then((res) => {
+                        updateRetroColumns();
+                    });
+                }
             }
         }
     };

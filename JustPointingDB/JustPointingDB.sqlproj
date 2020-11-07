@@ -91,6 +91,20 @@
     <Build Include="StoredProcedures\UpdateRetroPointComment.sql" />
     <Build Include="StoredProcedures\DeleteRetroPointComment.sql" />
     <Build Include="StoredProcedures\DeleteRetroColumn.sql" />
+    <Build Include="Tables\RetroBoardTemplates.sql" />
+    <Build Include="Tables\RetroTemplateColumns.sql" />
+    <Build Include="Tables\RetroBoardTemplateUsers.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\UpdateRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\UpdateRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplateUser.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplateUser.sql" />
+    <Build Include="StoredProcedures\GetRetroBoardTemplates.sql" />
+    <Build Include="StoredProcedures\GetRetroBoardTemplateDetails.sql" />
+    <Build Include="StoredProcedures\SetDefaultTemplate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="JustPointingDB.refactorlog" />

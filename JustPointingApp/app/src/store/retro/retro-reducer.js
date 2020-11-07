@@ -9,6 +9,7 @@ export const initialRetroData = {
     selectedRetroPoint: {},
     isRetroPointModalOpen: false,
     isSettingsOpen: false,
+    retroBoardTemplates: [],
 };
 
 export const RetroReducer = (state = initialRetroData, action) => {
@@ -53,6 +54,11 @@ export const RetroReducer = (state = initialRetroData, action) => {
             return {
                 ...state,
                 isSettingsOpen: action.payload,
+            };
+        case ACTION_TYPES.GET_RETRO_BOARD_TEMPLATE:
+            return {
+                ...state,
+                retroBoardTemplates: action.payload,
             };
         default:
             return state;

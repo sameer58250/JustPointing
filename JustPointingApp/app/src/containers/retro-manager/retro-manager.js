@@ -86,6 +86,11 @@ export const DeleteRetroPointComment = (comment) => {
     return axios.delete(url, { data: comment });
 };
 
+export const DeleteRetroColumn = (column) => {
+    var url = BaseApiUrl() + "/retro/DeleteRetroColumn";
+    return axios.delete(url, { data: column });
+};
+
 function BaseApiUrl() {
     return Config.REACT_APP_BASE_API_URL;
 }

@@ -1,4 +1,5 @@
 ﻿using JustPointingApi.Repositories.Account;
+using JustPointingApi.Repositories.Retro;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace JustPointingApi.Repositories
         {
             services.AddTransient<ILoginRepository, LoginRepository>();
             services.AddTransient<IRetroRepository, RetroRepository>();
+            services.AddTransient<IRetroSettingsRepository, RetroSettingsRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             return services;
         }

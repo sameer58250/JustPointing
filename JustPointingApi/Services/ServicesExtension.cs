@@ -19,6 +19,7 @@ namespace JustPointing.Services
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IRetroService, RetroService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IRetroSettingsService, RetroSettingsService>();
             return services;
         }
     }
