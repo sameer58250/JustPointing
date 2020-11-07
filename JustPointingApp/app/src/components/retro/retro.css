@@ -1,4 +1,27 @@
-.retro{
-    display: block;
-    text-align: center;
+.retro {
+  display: flex;
+  border: 1px solid grey;
+}
+.board-content {
+  display: flex;
+  flex-flow: row;
+  padding: 13px 0 0 0;
+  height: 474px;
+  overflow-x: auto;
+  width: 100%;
+}
+.select-retro-board {
+  margin: auto;
+  font-weight: bold;
+  font-size: large;
+}
+.selected-board-title {
+  font-size: x-large;
+  font-weight: 600;
+  background-color: antiquewhite;
+  text-align: center;
+}
+.retro-detail-container {
+  width: -webkit-fill-available;
+  min-width: 70%;
 }

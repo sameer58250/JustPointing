@@ -25,7 +25,7 @@ namespace JustPointing.Handlers
             _contextAccessor = new HttpContextAccessor();
         }
 
-        public override async Task OnConnected(WebSocket socket)
+        public override async Task OnConnected(WebSocket socket, string key = "")
         {
             await base.OnConnected(socket);
             var context = _contextAccessor.HttpContext;
@@ -69,7 +69,7 @@ namespace JustPointing.Handlers
                 }
                 await SendMessageToTeam(team);
                 StoryPoint.RemoveStoryPoint(socketId);
-                _removeUnusedSessions(1);
+                _removeUnusedSessions(24);
             }
         }
 
@@ -134,7 +134,7 @@ namespace JustPointing.Handlers
             {
                 var currentDate = DateTime.Now;
                 var diff = (currentDate - team.CreationDate).TotalHours;
-                if(diff > (double)expirationTimeInHours)
+                if(diff > (double)expirationTimeInHours && team.Users.Count <= 0 && team.Observers.Count <= 0)
                 {
                     _dataManager.RemoveTeam(team.TeamId);
                 }

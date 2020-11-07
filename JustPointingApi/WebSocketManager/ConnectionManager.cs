@@ -38,12 +38,19 @@ namespace JustPointing.WebSocketManager
 
             }
         }
-        public void AddSocketConnection(WebSocket socket)
+        public void AddSocketConnection(WebSocket socket, string key = "")
         {
-            string guid = _generateSocketId();
-            while(!_connections.TryAdd(guid, socket))
+            if (string.IsNullOrWhiteSpace(key))
             {
-                guid = _generateSocketId();
+                string guid = _generateSocketId();
+                while (!_connections.TryAdd(guid, socket))
+                {
+                    guid = _generateSocketId();
+                }
+            }
+            else
+            {
+                _connections.TryAdd(key, socket);
             }
         }
         private string _generateSocketId()

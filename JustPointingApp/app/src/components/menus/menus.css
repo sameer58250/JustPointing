@@ -1,0 +1,22 @@
+.retro-menu{
+    display: inline-block;
+    margin-top: 2%;
+}
+.retro-menu-item{
+    padding: 2px 4px 2px 4px !important;
+    font-size: x-small !important;
+}
+.retro-menu-item:hover{
+    background-color: gray !important;
+    border-radius: 3px !important;
+}
+.retro-menu-btn:hover{
+    background-color: grey !important;
+    border-radius: 50% !important;
+}
+.retro-menu-btn{
+    padding: 0 !important;
+}
+.retro-menu-btn:focus{
+    outline: none !important;
+}

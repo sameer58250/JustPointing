@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="e0c7257c-fb20-454c-95d1-30cbf6d13143" ChangeDateTime="08/10/2020 16:47:24">
+    <Property Name="ElementName" Value="[dbo].[RetroBoards].[SessionOwner]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroBoards]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroBoardOwner" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="19a34092-78fc-40d3-8e11-a4767e1f8de2" ChangeDateTime="10/30/2020 18:08:04">
+    <Property Name="ElementName" Value="[dbo].[RetroPointComments].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroPointComments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CommentId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2053e4ed-88f2-4699-8850-2767b36191e8" ChangeDateTime="11/01/2020 03:55:32">
+    <Property Name="ElementName" Value="[dbo].[RetroBoardDefaultTemplates].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroBoardDefaultTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroBoardDefaultTemplateId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2e66809e-5452-4c6c-b581-19d51e6e7f55" ChangeDateTime="11/01/2020 04:06:17">
+    <Property Name="ElementName" Value="[dbo].[RetroBoardDefaultTemplates].[RetroBoardDefaultTemplateId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroBoardDefaultTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroBoardTemplateId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5765d3c1-969f-4556-9fb2-f3145236de66" ChangeDateTime="11/01/2020 04:11:20">
+    <Property Name="ElementName" Value="[dbo].[RetroTemplateColumns].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroTemplateColumns]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroTemplateColumnId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="504d8114-66d9-4733-b40e-9791c0f6fc2d" ChangeDateTime="11/01/2020 04:20:37">
+    <Property Name="ElementName" Value="[dbo].[RetroBoardTemplateUsers].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroBoardTemplateUsers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroBoardTemplateUserId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bbdac594-f43f-4bea-a98a-376056365f96" ChangeDateTime="11/01/2020 04:21:03">
+    <Property Name="ElementName" Value="[dbo].[RetroBoardTemplateUsers].[RetroBoardTemplateUserId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroBoardTemplateUsers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d2bdddf0-e69d-4c54-831b-487cb32f5a8f" ChangeDateTime="11/01/2020 06:47:29">
+    <Property Name="ElementName" Value="[dbo].[RetroTemplateColumns].[TemplateColumnName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RetroTemplateColumns]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RetroTemplateColumnName" />
+  </Operation>
+</Operations>

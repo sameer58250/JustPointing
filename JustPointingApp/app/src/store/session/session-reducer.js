@@ -4,7 +4,10 @@ export const initialState = {
     sessionId: null,
     sessionError: "",
     isAdmin: false,
-    isObserver: false
+    isObserver: false,
+    isUserLoggedIn: false,
+    userDetails: {},
+    openLoginPopup: false
 }
 
 export const SessionReducer = (state = initialState, action) => {
@@ -30,6 +33,24 @@ export const SessionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isObserver: action.payload
+            }
+        case ACTION_TYPES.LOGIN_USER:
+            return {
+                ...state,
+                isUserLoggedIn: true,
+                userDetails: action.payload,
+                openLoginPopup: false
+            }
+        case ACTION_TYPES.LOGOUT_USER:
+            return {
+                ...state,
+                isUserLoggedIn: false,
+                userDetails: {}
+            }
+        case ACTION_TYPES.OPEN_LOGIN_POPUP:
+            return {
+                ...state,
+                openLoginPopup: action.payload
             }
         default:
             return state;

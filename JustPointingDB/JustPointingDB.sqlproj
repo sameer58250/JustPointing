@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>JustPointingDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{e09b160c-8cbe-46bb-82da-80d1180e55e7}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>JustPointingDB</RootNamespace>
+    <AssemblyName>JustPointingDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="Views" />
+    <Folder Include="ReferenceData" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Users.sql" />
+    <Build Include="Tables\RetroBoards.sql" />
+    <Build Include="Tables\RetroColumnTypes.sql" />
+    <Build Include="Tables\RetroPoints.sql" />
+    <Build Include="Tables\RetroBoardPermissions.sql" />
+    <Build Include="StoredProcedures\GetAllBoardsWithUserId.sql" />
+    <Build Include="StoredProcedures\GetRetroBoardDetails.sql" />
+    <Build Include="StoredProcedures\CreateRetroBoard.sql" />
+    <Build Include="StoredProcedures\AddRetroColumns.sql" />
+    <Build Include="StoredProcedures\AddRetroPoints.sql" />
+    <Build Include="StoredProcedures\UpdateRetroBoard.sql" />
+    <Build Include="StoredProcedures\UpdateRetroColumn.sql" />
+    <Build Include="StoredProcedures\UpdateRetroPoint.sql" />
+    <Build Include="StoredProcedures\AddBoardPermission.sql" />
+    <Build Include="StoredProcedures\DeleteBoardPermission.sql" />
+    <Build Include="StoredProcedures\GetSharedBoards.sql" />
+    <Build Include="StoredProcedures\GetBoardUsers.sql" />
+    <Build Include="StoredProcedures\LoginUser.sql" />
+    <Build Include="StoredProcedures\GetRetroColumns.sql" />
+    <Build Include="StoredProcedures\GetRetroPoints.sql" />
+    <Build Include="StoredProcedures\DeleteRetroPoint.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoard.sql" />
+    <Build Include="StoredProcedures\CreateUser.sql" />
+    <Build Include="StoredProcedures\FilterUsersByEmail.sql" />
+    <Build Include="Tables\RetroPointComments.sql" />
+    <Build Include="StoredProcedures\AddRetroPointComment.sql" />
+    <Build Include="StoredProcedures\UpdateRetroPointComment.sql" />
+    <Build Include="StoredProcedures\DeleteRetroPointComment.sql" />
+    <Build Include="StoredProcedures\DeleteRetroColumn.sql" />
+    <Build Include="Tables\RetroBoardTemplates.sql" />
+    <Build Include="Tables\RetroTemplateColumns.sql" />
+    <Build Include="Tables\RetroBoardTemplateUsers.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\UpdateRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplate.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\UpdateRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplateColumn.sql" />
+    <Build Include="StoredProcedures\AddRetroBoardTemplateUser.sql" />
+    <Build Include="StoredProcedures\DeleteRetroBoardTemplateUser.sql" />
+    <Build Include="StoredProcedures\GetRetroBoardTemplates.sql" />
+    <Build Include="StoredProcedures\GetRetroBoardTemplateDetails.sql" />
+    <Build Include="StoredProcedures\SetDefaultTemplate.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="JustPointingDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="ReferenceData\Script.AddDummyData.sql" />
+  </ItemGroup>
+</Project>
