@@ -32,3 +32,14 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: SqlAzureDacpacDeployment@1
+  inputs:
+    azureSubscription: 'Visual Studio Professional(a9f37254-2e89-4a67-9c42-6f04ad75e3d1)'
+    AuthenticationType: 'server'
+    ServerName: 'justpointingsqlserver.database.windows.net'
+    DatabaseName: 'JustPointing'
+    SqlUsername: 'sameer.ahmad'
+    SqlPassword: 'same@102187'
+    deployType: 'DacpacTask'
+    DeploymentAction: 'Extract'
+    IpDetectionMethod: 'AutoDetect'
