@@ -134,7 +134,7 @@ namespace JustPointing.Handlers
             {
                 var currentDate = DateTime.Now;
                 var diff = (currentDate - team.CreationDate).TotalHours;
-                if(diff > (double)expirationTimeInHours)
+                if(diff > (double)expirationTimeInHours && team.Users.Count <= 0 && team.Observers.Count <= 0)
                 {
                     _dataManager.RemoveTeam(team.TeamId);
                 }
