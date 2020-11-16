@@ -14,11 +14,14 @@ namespace JustPointingApi.Services.Retro
     {
         private readonly IRetroRepository _retroRepo;
         private readonly SocketHandler _socketHandler;
+        private readonly IRetroSettingsService _retroSettingsService;
         public RetroService(IRetroRepository retroRepo,
-            RetroSocketHandler socketHandler)
+            RetroSocketHandler socketHandler,
+            IRetroSettingsService retroSettingsService)
         {
             _retroRepo = retroRepo;
             _socketHandler = socketHandler;
+            _retroSettingsService = retroSettingsService;
         }
         public async Task<List<RetroColumn>> GetRetroBoardDetails(int boardId)
         {
@@ -49,8 +52,50 @@ namespace JustPointingApi.Services.Retro
             return retroId;
         }
 
+        private async Task AddDefaultRetroTemplate(int boardOwnerId)
+        {
+            RetroBoardTemplate retroBoardTemplate = new RetroBoardTemplate
+            {
+                TemplateOwnerId = boardOwnerId,
+                TemplateName = "Default template",
+                CreationDate = DateTime.UtcNow,
+                IsDefault = true
+            };
+
+            var defaultRetroBoardTemplate =
+                await _retroSettingsService.AddRetroBoardTemplate(retroBoardTemplate);
+
+            RetroBoardTemplateColumn defaultColumn1 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "What went well?",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+            RetroBoardTemplateColumn defaultColumn2 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "What could be done better?",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+            RetroBoardTemplateColumn defaultColumn3 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "Action items",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn1);
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn2);
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn3);
+        }
+
         public async Task<int> AddRetroBoard(RetroBoard board)
         {
+            var retroBoardTemplatesForBoardOwner =
+                await _retroSettingsService.GetRetroBoardTemplates(board.BoardOwnerId);
+
+            if (!retroBoardTemplatesForBoardOwner.Any())
+            {
+                await AddDefaultRetroTemplate(board.BoardOwnerId);
+            }
+
             var boardId = await _retroRepo.AddRetroBoard(board);
             //await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, boardId);
             return boardId;
