@@ -2,6 +2,7 @@
 using JustPointingApi.Handlers;
 using JustPointingApi.Models.Retro;
 using JustPointingApi.Repositories.Retro;
+using JustPointingApi.Services.Email;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,16 @@ namespace JustPointingApi.Services.Retro
     {
         private readonly IRetroRepository _retroRepo;
         private readonly SocketHandler _socketHandler;
+        private readonly IEmailMessageService _emailService;
         private readonly IRetroSettingsService _retroSettingsService;
         public RetroService(IRetroRepository retroRepo,
             RetroSocketHandler socketHandler,
+            IEmailMessageService emailService,
             IRetroSettingsService retroSettingsService)
         {
             _retroRepo = retroRepo;
             _socketHandler = socketHandler;
+            _emailService = emailService;
             _retroSettingsService = retroSettingsService;
         }
         public async Task<List<RetroColumn>> GetRetroBoardDetails(int boardId)
@@ -135,7 +139,8 @@ namespace JustPointingApi.Services.Retro
 
         public async Task AddUserToBoard(string boardId, string userEmail)
         {
-            await _retroRepo.AddUserToBoard(boardId, userEmail);
+            var guid = await _retroRepo.AddUserToBoard(boardId, userEmail);
+            await _emailService.SendRetroBoardInvitationEmail(userEmail, boardId, guid);
             await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, Convert.ToInt32(boardId));
             await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardUserAdded, Convert.ToInt32(boardId));
         }

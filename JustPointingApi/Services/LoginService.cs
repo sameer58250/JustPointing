@@ -21,7 +21,7 @@ namespace JustPointingApi.Services.Retro
             return await _loginRepo.CreateUser(user);
         }
 
-        public async Task<RetroBoardUser> Login(User user)
+        public async Task<User> Login(User user)
         {
             return await _loginRepo.Login(user);
         }

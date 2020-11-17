@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JustPointingApi.Controllers.Retro
 {
-    [Authorize]
+    [Authorize(Roles = "RegisteredUser")]
     [ApiController]
     [Route("[Controller]")]
     public class RetroSettingsController : ControllerBase

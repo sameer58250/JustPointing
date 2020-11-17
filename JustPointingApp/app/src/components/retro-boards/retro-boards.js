@@ -32,35 +32,37 @@ const RetroBoards = (props) => {
     }, [props.retroBoards.length]);
 
     const getBoardName = () => {
-        return props.userDetails.name + ' ' +
-        new Date(Date.now()).toLocaleDateString() + ' : ' +
-        new Date(Date.now()).toLocaleTimeString()
-    }
+        return (
+            props.userDetails.name +
+            " " +
+            new Date(Date.now()).toLocaleDateString() +
+            " : " +
+            new Date(Date.now()).toLocaleTimeString()
+        );
+    };
 
     const createBoard = () => {
-            var board = {
-                boardTitle: getBoardName(),              
-                boardOwnerId: props.userDetails.userId,
-                creationDate: new Date().toDateString(),
-            };
-            RetroManager.AddRetroBoard(board).then(
-                (res) => {
-                    board.boardId = res.data;
-                    if (!props.retroBoards) {
-                        props.retroBoards = [];
-                    }
-                    props.retroBoards.push(board);
-                    props.getRetroBoards(props.retroBoards);
-                    setCreateBtnActive(false);
-                    props.setError("");
-                },
-                (err) => {
-                    console.log(err);
-                    props.setError(
-                        "Failed to add retro board. Please try later."
-                    );
+        var board = {
+            boardTitle: getBoardName(),
+            boardOwnerId: props.userDetails.userId,
+            creationDate: new Date().toDateString(),
+        };
+        RetroManager.AddRetroBoard(board).then(
+            (res) => {
+                board.boardId = res.data;
+                if (!props.retroBoards) {
+                    props.retroBoards = [];
                 }
-            );
+                props.retroBoards.push(board);
+                props.getRetroBoards(props.retroBoards);
+                setCreateBtnActive(false);
+                props.setError("");
+            },
+            (err) => {
+                console.log(err);
+                props.setError("Failed to add retro board. Please try later.");
+            }
+        );
     };
     const selectRetroBoard = (board) => {
         props.selectRetroBoard(board);
@@ -110,9 +112,8 @@ const RetroBoards = (props) => {
                             document.getElementById(
                                 "retro-board-container"
                             ).style.width = "26%";
-                            document.getElementById(
-                                "settings-icon"
-                            ).style.float = "right";
+                            var si = document.getElementById("settings-icon");
+                            if (si) si.style.float = "right";
                             setIsCollapsed(false);
                         }}></ExpandIcon>
                 ) : (
@@ -122,27 +123,30 @@ const RetroBoards = (props) => {
                             document.getElementById(
                                 "retro-board-container"
                             ).style.width = "auto";
-                            document.getElementById(
-                                "settings-icon"
-                            ).style.float = "none";
+                            var si = document.getElementById("settings-icon");
+                            if (si) si.style.float = "none";
                             setIsCollapsed(true);
                         }}></CollapseIcon>
                 )}
-                <NavLink
-                    to={"/retro/settings"}
-                    id="settings-icon"
-                    className="settings-icon">
-                    <div>
-                        <SettingsIcon></SettingsIcon>
-                    </div>
-                </NavLink>
+                {props.isUserLoggedIn && (
+                    <NavLink
+                        to={"/retro/settings"}
+                        id="settings-icon"
+                        className="settings-icon">
+                        <div>
+                            <SettingsIcon></SettingsIcon>
+                        </div>
+                    </NavLink>
+                )}
             </div>
             {!isCollapsed && (
                 <div className="retro-boards">
-                    <button onClick={() => {
-                        createBoard();
-                        setCreateBtnActive(true)
-                    }}>
+                    <button
+                        onClick={() => {
+                            createBoard();
+                            setCreateBtnActive(true);
+                        }}
+                        disabled={!props.isUserLoggedIn}>
                         Create board
                     </button>
                     <label className="retro-board-heading">My boards</label>
@@ -185,6 +189,7 @@ function mapStateToProps(state) {
     return {
         retroBoards: state.RetroReducer.retroBoards,
         userDetails: state.SessionReducer.userDetails,
+        isUserLoggedIn: state.SessionReducer.isUserLoggedIn,
         selectedBoard: state.RetroReducer.selectedBoard,
         selectedBoardIdFromURL: state.RetroReducer.selectedBoardId,
     };

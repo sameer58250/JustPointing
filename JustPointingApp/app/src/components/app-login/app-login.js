@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 const AppLogin = (props) => {
     return (
         <Modal isOpen = {props.openLoginPopup} ariaHideApp={false} overlayClassName="app-login-modal">
-            <LoginView showCancelButton={props.showCancelButton} loginCallback={props.loginCallback}/>
+            <LoginView showCancelButton={props.showCancelButton && window.location.href.indexOf("retro") === -1} loginCallback={props.loginCallback}/>
         </Modal>
     )
 }

@@ -1,25 +1,63 @@
 import "./retro.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as RetroManager from "../../containers/retro-manager/retro-manager";
 import { connect } from "react-redux";
 import * as actions from "../../store/retro/retro-actions";
 import * as sessionActions from "../../store/session/session-actions";
 import RetroBoards from "../retro-boards/retro-boards";
-import LoginView from "../app-login/app-login";
 import AppError from "../error/error";
 import { Route } from "react-router-dom";
 import BoardDetails from "../retro-topic-container/retro-board-details";
 import RetroSocketManager from "../../containers/web-socket-manager/retro-socket-manager";
 import RetroSettingView from "../retro-settings/retro-settings";
+import { LoginUser } from "../../containers/session-manager/account";
+import { Cookies } from "react-cookie";
 
 const Retro = (props) => {
+    var cookies = new Cookies();
+    const [isUserAuthenticated, setUserAuthenticated] = useState(false);
+
     useEffect(() => {
         props.openLoginPopup(false);
+        props.openLoginPopup(true);
         props.setError("");
         if (props.isUserLoggedIn) {
+            props.openLoginPopup(false);
             GetRetroBoardsOfUser(props.userDetails.userId);
         }
     }, [props.isUserLoggedIn]);
+
+    useEffect(() => {
+        loginViaUrl();
+    },[])
+
+    const loginViaUrl = () => {
+        var queryStrings = window.location.search?.substring(1).split("&");
+        var email, guid;
+        queryStrings.forEach(element => {
+            if(element){
+                var values = element.split("=");
+                if(values && values[0].toLocaleLowerCase()==="email"){
+                    email = values[1];
+                }
+                else if(values && values[0].toLocaleLowerCase()==="token"){
+                    guid = values[1];
+                }
+            }
+        });
+        if(email && guid){
+            LoginUser({ userEmail: email, UserGuid: guid }).then(
+                (res) => {
+                    props.openLoginPopup(false);
+                    GetRetroBoardsOfUser(res.data.userId);
+                    props.userDetails.userId = res.data.userId;
+                    var token = "Basic " + btoa(email + ":" + guid);
+                    cookies.set("token", token);
+                    setUserAuthenticated(true);
+                }
+            );
+        }
+    }
 
     const GetRetroBoardsOfUser = (userId) => {
         var boards = [];
@@ -38,7 +76,7 @@ const Retro = (props) => {
         });
     };
 
-    return props.isUserLoggedIn ? (
+    return (props.isUserLoggedIn || isUserAuthenticated) && (
         <div>
             <RetroSocketManager userId={props.userDetails.userId} />
             <div className="retro">
@@ -59,11 +97,7 @@ const Retro = (props) => {
                 <AppError errorText={props.error}></AppError>
             </div>
         </div>
-    ) : (
-        <LoginView
-            openLoginPopup={!props.isUserLoggedIn}
-            loginCallback={() => {}}></LoginView>
-    );
+    )
 };
 
 function mapStateToProps(state) {

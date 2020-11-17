@@ -9,7 +9,7 @@ namespace JustPointingApi.Services
 {
     public interface ILoginService
     {
-        Task<RetroBoardUser> Login(User user);
+        Task<User> Login(User user);
         Task<User> CreateUser(User user);
     }
 }

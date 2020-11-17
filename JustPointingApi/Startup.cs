@@ -54,7 +54,7 @@ namespace JustPointing
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.RegisterWebSocketManager();
-            services.RegisterDataObject();
+            services.RegisterDataObject(Configuration);
             services.RegisterService();
             services.RegisterRepositories();
         }

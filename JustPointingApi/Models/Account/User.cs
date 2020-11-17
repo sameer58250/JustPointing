@@ -12,6 +12,8 @@ namespace JustPointingApi.Models.Account
         public string Password { private get; set; }
         public DateTime CreationDate { get; set; }
         public string Phone { get; set; }
+        public string UserGuid { get; set; }
+        public bool IsRegistered { get; set; }
         public string SHA256Password
         {
             get

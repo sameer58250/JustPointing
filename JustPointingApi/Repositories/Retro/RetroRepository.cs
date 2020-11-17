@@ -169,15 +169,16 @@ namespace JustPointingApi.Repositories.Retro
             }
         }
 
-        public async Task AddUserToBoard(string boardId, string userEmail)
+        public async Task<string> AddUserToBoard(string boardId, string userEmail)
         {
-            await _db.QueryAsync("AddBoardPermission",
+            var res = await _db.QueryAsync<string>("AddBoardPermission",
                 new
                 {
                     @boardId = boardId,
                     @userEmail = userEmail
                 },
                 commandType: CommandType.StoredProcedure);
+            return res.FirstOrDefault();
         }
 
         public async Task<List<RetroBoardUser>> GetBoardUsers(int boardId)
