@@ -17,9 +17,7 @@ const AppHeader = (props) => {
     },[])
 
     const openLoginPopup = () => {
-        if (typeof window !== 'undefined' && window.location.href.indexOf("retro") === -1) {
-            props.openLoginPopup(true);
-        }
+        props.openLoginPopup(true);
     };
     const logout = () => {
         cookies.remove('userdetails');

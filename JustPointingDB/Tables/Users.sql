@@ -5,6 +5,8 @@
 	CreationDate DATETIME, 
     [UserPassword] VARCHAR(256) NULL, 
     [Name] VARCHAR(200) NULL, 
-    [Phone] VARCHAR(13) NULL,
+    [Phone] VARCHAR(13) NULL, 
+    [IsRegistered] BIT NULL, 
+    [UserGuid] VARCHAR(100) NULL,
 	INDEX user_validate_credentials NONCLUSTERED(UserEmail, UserPassword)
 )

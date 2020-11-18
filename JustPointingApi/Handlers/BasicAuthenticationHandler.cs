@@ -34,7 +34,7 @@ namespace JustPointingApi.Handlers
                 return AuthenticateResult.NoResult();
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
-            RetroBoardUser user = null;
+            User user = null;
             try
             {
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
@@ -45,6 +45,7 @@ namespace JustPointingApi.Handlers
                 User userCredentials = new User();
                 userCredentials.UserEmail = userEmail;
                 userCredentials.Password = password;
+                userCredentials.UserGuid = password;
                 user = await _loginService.Login(userCredentials);
             }
             catch
@@ -59,6 +60,7 @@ namespace JustPointingApi.Handlers
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name, user.UserEmail),
+                new Claim(ClaimTypes.Role, user.IsRegistered? UserRoles.RegisteredUser.ToString():UserRoles.InvitedUser.ToString()),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);

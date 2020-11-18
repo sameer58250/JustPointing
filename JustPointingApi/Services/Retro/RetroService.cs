@@ -2,6 +2,7 @@
 using JustPointingApi.Handlers;
 using JustPointingApi.Models.Retro;
 using JustPointingApi.Repositories.Retro;
+using JustPointingApi.Services.Email;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,17 @@ namespace JustPointingApi.Services.Retro
     {
         private readonly IRetroRepository _retroRepo;
         private readonly SocketHandler _socketHandler;
+        private readonly IEmailMessageService _emailService;
+        private readonly IRetroSettingsService _retroSettingsService;
         public RetroService(IRetroRepository retroRepo,
-            RetroSocketHandler socketHandler)
+            RetroSocketHandler socketHandler,
+            IEmailMessageService emailService,
+            IRetroSettingsService retroSettingsService)
         {
             _retroRepo = retroRepo;
             _socketHandler = socketHandler;
+            _emailService = emailService;
+            _retroSettingsService = retroSettingsService;
         }
         public async Task<List<RetroColumn>> GetRetroBoardDetails(int boardId)
         {
@@ -49,8 +56,50 @@ namespace JustPointingApi.Services.Retro
             return retroId;
         }
 
+        private async Task AddDefaultRetroTemplate(int boardOwnerId)
+        {
+            RetroBoardTemplate retroBoardTemplate = new RetroBoardTemplate
+            {
+                TemplateOwnerId = boardOwnerId,
+                TemplateName = "Default template",
+                CreationDate = DateTime.UtcNow,
+                IsDefault = true
+            };
+
+            var defaultRetroBoardTemplate =
+                await _retroSettingsService.AddRetroBoardTemplate(retroBoardTemplate);
+
+            RetroBoardTemplateColumn defaultColumn1 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "What went well?",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+            RetroBoardTemplateColumn defaultColumn2 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "What could be done better?",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+            RetroBoardTemplateColumn defaultColumn3 = new RetroBoardTemplateColumn
+            {
+                RetroTemplateColumnName = "Action items",
+                RetroBoardTemplateId = defaultRetroBoardTemplate.RetroBoardTemplateId
+            };
+
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn1);
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn2);
+            await _retroSettingsService.AddRetroBoardTemplateColumn(defaultColumn3);
+        }
+
         public async Task<int> AddRetroBoard(RetroBoard board)
         {
+            var retroBoardTemplatesForBoardOwner =
+                await _retroSettingsService.GetRetroBoardTemplates(board.BoardOwnerId);
+
+            if (!retroBoardTemplatesForBoardOwner.Any())
+            {
+                await AddDefaultRetroTemplate(board.BoardOwnerId);
+            }
+
             var boardId = await _retroRepo.AddRetroBoard(board);
             //await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, boardId);
             return boardId;
@@ -90,7 +139,8 @@ namespace JustPointingApi.Services.Retro
 
         public async Task AddUserToBoard(string boardId, string userEmail)
         {
-            await _retroRepo.AddUserToBoard(boardId, userEmail);
+            var guid = await _retroRepo.AddUserToBoard(boardId, userEmail);
+            await _emailService.SendRetroBoardInvitationEmail(userEmail, boardId, guid);
             await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardAdded, Convert.ToInt32(boardId));
             await _sendUpdateToActiveSocketConnections(RetroBoardActionTypes.BoardUserAdded, Convert.ToInt32(boardId));
         }

@@ -12,6 +12,7 @@ const Registration = (props) => {
     var cookies = new Cookies();
     const History = useHistory();
     useEffect(() => {
+        props.openLoginPopup(false);
         if (props.isUserLoggedIn) {
             History.replace("/");
         }
@@ -161,6 +162,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         loginUser: (user) => dispatch(SessionActions.login_user(user)),
+        openLoginPopup: (openLogin) =>
+            dispatch(SessionActions.open_login_popup(openLogin)),
     };
 }
 

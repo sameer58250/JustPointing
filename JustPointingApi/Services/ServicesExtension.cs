@@ -1,5 +1,6 @@
 ﻿using JustPointingApi.Services;
 using JustPointingApi.Services.Account;
+using JustPointingApi.Services.Email;
 using JustPointingApi.Services.Retro;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,6 +21,7 @@ namespace JustPointing.Services
             services.AddTransient<IRetroService, RetroService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IRetroSettingsService, RetroSettingsService>();
+            services.AddTransient<IEmailMessageService, EmailMessageService>();
             return services;
         }
     }

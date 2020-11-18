@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace JustPointingApi.Controllers.Retro
@@ -24,6 +25,10 @@ namespace JustPointingApi.Controllers.Retro
         [Route("GetRetroBoardsOfUser")]
         public async Task<ActionResult<List<RetroBoard>>> GetRetroBoardsOfUser(int userId)
         {
+            if(userId <= 0)
+            {
+                userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier.ToString()).Value);
+            }
             var boards = await _retroService.GetRetroBoardsOfUser(userId);
             return Ok(boards);
         }
@@ -38,9 +43,14 @@ namespace JustPointingApi.Controllers.Retro
         [Route("AddRetroPoint")]
         public async Task<ActionResult<int>> AddRetroPoint([FromBody]RetroPoint retroPoint)
         {
+            if(retroPoint.RetroPointUserId <= 0)
+            {
+                retroPoint.RetroPointUserId  = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier.ToString()).Value);
+            }
             var pointId = await _retroService.AddRetroPoint(retroPoint);
             return Ok(pointId);
         }
+        [Authorize(Roles = "RegisteredUser")]
         [HttpPost]
         [Route("AddRetroBoard")]
         public async Task<ActionResult<int>> AddRetroBoard([FromBody] RetroBoard board)
@@ -73,6 +83,7 @@ namespace JustPointingApi.Controllers.Retro
         {
             await _retroService.DeleteRetroPoint(point);
         }
+        [Authorize(Roles = "RegisteredUser")]
         [HttpDelete]
         [Route("DeleteRetroBoard")]
         public async Task DeleteRetroBoard(string boardId, [FromBody]int userId)
@@ -89,6 +100,10 @@ namespace JustPointingApi.Controllers.Retro
         [Route("GetShareBoards")]
         public async Task<ActionResult<List<RetroBoard>>> GetShareBoards(int userId)
         {
+            if (userId <= 0)
+            {
+                userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier.ToString()).Value);
+            }
             var res = await _retroService.GetSharedBoards(userId);
             return Ok(res);
         }
