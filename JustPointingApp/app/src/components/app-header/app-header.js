@@ -17,7 +17,7 @@ const AppHeader = (props) => {
     },[])
 
     const openLoginPopup = () => {
-        if (window.location.href.indexOf("retro") === -1) {
+        if (typeof window !== 'undefined' && window.location.href.indexOf("retro") === -1) {
             props.openLoginPopup(true);
         }
     };

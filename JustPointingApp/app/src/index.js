@@ -4,19 +4,24 @@ import App from "./components/App";
 import AppReducer from "./store/index";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from 'react-router-dom';
+// import * as serviceWorker from "./serviceWorker";
 import { CookiesProvider } from "react-cookie";
+
+const preloadedState = window.__PRELOADED_STATE__
 
 let store = createStore(
     AppReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    preloadedState
 );
 
-ReactDOM.render(
+ReactDOM.hydrate(
     <React.StrictMode>
         <Provider store={store}>
             <CookiesProvider>
+            <BrowserRouter>
                 <App />
+            </BrowserRouter>
             </CookiesProvider>
         </Provider>
     </React.StrictMode>,

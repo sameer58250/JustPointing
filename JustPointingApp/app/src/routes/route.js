@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 
 const JustRoute = props =>{
     return (
-        <BrowserRouter>
+        <>
             <Login openLoginPopup={props.openLoginPopup} showCancelButton={true}></Login>
             <AppHeader/>
             <Switch>
@@ -22,7 +22,7 @@ const JustRoute = props =>{
                 <Route path = "/register" component = { Registration }/>
                 <Route path = "/:id" component = { SizeItems }/>
             </Switch>
-        </BrowserRouter>
+        </>
     )
 }
 
